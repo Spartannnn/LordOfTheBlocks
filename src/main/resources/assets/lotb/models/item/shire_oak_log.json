@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "side": "lotb:block/shire_oak_log",
+        "end": "lotb:block/shire_oak_log_top"
+    }
+}

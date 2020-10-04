@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:magenta_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:magenta_bricks_slab",
+        "count": 6
+    }
+}

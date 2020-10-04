@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "side": "lotb:block/stick_bail",
+        "end": "lotb:block/stick_bail_top"
+    }
+}

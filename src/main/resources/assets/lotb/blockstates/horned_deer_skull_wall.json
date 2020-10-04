@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=east": { "model": "lotb:block/horned_deer_skull" },
+        "facing=south": { "model": "lotb:block/horned_deer_skull", "y": 90 },
+        "facing=west": { "model": "lotb:block/horned_deer_skull", "y": 180 },
+        "facing=north": { "model": "lotb:block/horned_deer_skull", "y": 270 }
+    }
+}

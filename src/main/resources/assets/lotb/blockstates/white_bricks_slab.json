@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "lotb:block/white_bricks_slab"
+        },
+        "type=double": {
+            "model": "lotb:block/white_bricks_slab_double"
+        },
+        "type=top": {
+            "model": "lotb:block/white_bricks_slab_top"
+        }
+    }
+}

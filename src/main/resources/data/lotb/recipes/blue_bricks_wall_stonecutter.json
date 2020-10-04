@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "lotb:blue_bricks"
+    },
+    "result": "lotb:blue_bricks_wall",
+    "count": 1
+}

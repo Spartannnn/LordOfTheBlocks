@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#X#",
+	"X#X",
+	"#X#"
+
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:dirt"
+        },
+        "X": {
+            "item": "minecraft:wheat"
+        }
+    },
+    "result": {
+        "item": "lotb:thatch",
+        "count": 6
+    }
+}

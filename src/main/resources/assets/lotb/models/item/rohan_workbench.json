@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/cube_bottom_top",
+    "textures": {
+        "side": "lotb:block/rohan_workbench_top",
+        "top": "lotb:block/rohan_workbench",
+        "bottom": "lotb:block/*oak_planks"
+    }
+}

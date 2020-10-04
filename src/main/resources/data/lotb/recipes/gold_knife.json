@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "W",
+        "W",
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "W": {
+            "item": "minecraft:gold_ingot"
+        }
+    },
+    "result": {
+        "item": "lotb:gold_knife",
+        "count": 1
+    }
+}

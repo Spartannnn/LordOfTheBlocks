@@ -1,0 +1,25 @@
+{
+    "variants": {
+        "bites=0": {
+            "model": "lotb:block/fish_pie"
+        },
+        "bites=1": {
+            "model": "lotb:block/fish_pie_slice1"
+        },
+        "bites=2": {
+            "model": "lotb:block/fish_pie_slice2"
+        },
+        "bites=3": {
+            "model": "lotb:block/fish_pie_slice3"
+        },
+        "bites=4": {
+            "model": "lotb:block/fish_pie_slice4"
+        },
+        "bites=5": {
+            "model": "lotb:block/fish_pie_slice5"
+        },
+        "bites=6": {
+            "model": "lotb:block/fish_pie_slice6"
+        }
+    }
+}

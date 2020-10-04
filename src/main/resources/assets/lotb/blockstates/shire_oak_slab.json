@@ -1,0 +1,13 @@
+{
+    "variants": {
+        "type=bottom": {
+            "model": "lotb:block/shire_oak_slab"
+        },
+        "type=double": {
+            "model": "lotb:block/shire_oak_slab_double"
+        },
+        "type=top": {
+            "model": "lotb:block/shire_oak_slab_top"
+        }
+    }
+}

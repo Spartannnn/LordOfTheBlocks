@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/cube_column",
+    "textures": {
+        "side": "lotb:block/blaze_bail",
+        "end": "lotb:block/blaze_bail_top"
+    }
+}

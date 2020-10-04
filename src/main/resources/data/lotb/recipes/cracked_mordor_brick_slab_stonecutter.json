@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "lotb:cracked_mordor_brick"
+    },
+    "result": "lotb:cracked_mordor_brick_slab",
+    "count": 2
+}

@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "group": "wooden_button",
+    "ingredients": [
+        {
+            "item": "lotb:shire_oak_planks"
+        }
+    ],
+    "result": {
+        "item": "lotb:shire_oak_button",
+        "count": 1
+    }
+}

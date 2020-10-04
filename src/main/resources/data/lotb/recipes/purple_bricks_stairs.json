@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:purple_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:purple_bricks_stairs",
+        "count": 4
+    }
+}

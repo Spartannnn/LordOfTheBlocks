@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:lime_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:lime_bricks_slab",
+        "count": 6
+    }
+}

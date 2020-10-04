@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "lotb:lime_bricks"
+    },
+    "result": "lotb:lime_bricks_stairs",
+    "count": 1
+}

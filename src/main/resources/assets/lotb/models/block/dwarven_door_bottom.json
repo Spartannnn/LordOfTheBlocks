@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/door_bottom",
+    "textures": {
+        "top": "lotb:block/dwarf_door_top",
+        "bottom": "lotb:block/dwarf_door_bottom"
+    }
+}

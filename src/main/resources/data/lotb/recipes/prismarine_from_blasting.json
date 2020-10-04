@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "lotb:prismarine_ore"
+  },
+  "result": "minecraft:prismarine_shard",
+  "experience": 0.1,
+  "cookingtime": 100
+}

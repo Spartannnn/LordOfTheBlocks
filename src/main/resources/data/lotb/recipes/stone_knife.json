@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "W",
+        "W",
+        "#"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "W": {
+            "item": "minecraft:cobblestone"
+        }
+    },
+    "result": {
+        "item": "lotb:stone_knife",
+        "count": 1
+    }
+}

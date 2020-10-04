@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cross",
+    "textures": {
+        "cross": "lotb:block/shire_oak_sapling"
+    }
+}

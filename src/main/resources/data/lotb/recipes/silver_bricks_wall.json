@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:silver_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:silver_bricks_wall",
+        "count": 6
+    }
+}

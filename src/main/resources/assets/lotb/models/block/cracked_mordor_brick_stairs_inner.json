@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/inner_stairs",
+    "textures": {
+        "bottom": "lotb:block/cracked_blackstone",
+        "top": "lotb:block/cracked_blackstone",
+        "side": "lotb:block/cracked_blackstone"
+    }
+}

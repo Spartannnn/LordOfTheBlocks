@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab_top",
+    "textures": {
+        "bottom": "lotb:block/brick_brown",
+        "top": "lotb:block/brick_brown",
+        "side": "lotb:block/brick_brown"
+    }
+}

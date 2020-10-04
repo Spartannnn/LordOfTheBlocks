@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "lotb:shire_oak_log",
+    "lotb:shire_oak_wood",
+    "lotb:stripped_shire_oak_log",
+    "lotb:stripped_shire_oak_wood"
+  ]
+}

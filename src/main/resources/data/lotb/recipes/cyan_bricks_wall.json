@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:cyan_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:cyan_bricks_wall",
+        "count": 6
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "UWU",
+        "###",
+        "XOX"
+    ],
+    "key": {
+        "#": {"item": "minecraft:cooked_rabbit"},
+        "W": {"item": "minecraft:water_bucket"},
+        "U": {"item": "minecraft:milk_bucket"},
+        "O": {"item": "minecraft:egg"},
+        "X": {"item": "minecraft:wheat"}
+    },
+    "result": {
+        "item": "lotb:rabbit_pie",
+        "count": 1
+    }
+}

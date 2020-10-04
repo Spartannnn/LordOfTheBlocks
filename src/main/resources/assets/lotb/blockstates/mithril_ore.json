@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "": {
+            "model": "lotb:block/mithril_ore"
+        }
+    }
+}

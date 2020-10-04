@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/inner_stairs",
+    "textures": {
+        "bottom": "lotb:block/mossy_blackstone",
+        "top": "lotb:block/mossy_blackstone",
+        "side": "lotb:block/mossy_blackstone"
+    }
+}

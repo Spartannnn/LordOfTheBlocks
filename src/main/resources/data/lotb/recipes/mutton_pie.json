@@ -1,0 +1,19 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "UWU",
+        "###",
+        "XOX"
+    ],
+    "key": {
+        "#": {"item": "minecraft:cooked_mutton"},
+        "W": {"item": "minecraft:water_bucket"},
+        "U": {"item": "minecraft:milk_bucket"},
+        "O": {"item": "minecraft:egg"},
+        "X": {"item": "minecraft:wheat"}
+    },
+    "result": {
+        "item": "lotb:mutton_pie",
+        "count": 1
+    }
+}

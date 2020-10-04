@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:white_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:white_bricks_stairs",
+        "count": 4
+    }
+}

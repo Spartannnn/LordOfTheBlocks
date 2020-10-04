@@ -1,0 +1,6 @@
+{
+    "parent": "lotb:block/shire_oak_pressure_plate",
+    "textures": {
+        "texture": "lotb:block/shire_oak_planks"
+    }
+}

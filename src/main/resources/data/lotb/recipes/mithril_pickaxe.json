@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "WWW",
+        " # ",
+        " # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:stick"
+        },
+        "W": {
+            "item": "lotb:mithril_ingot"
+        }
+    },
+    "result": {
+        "item": "lotb:mithril_pickaxe",
+        "count": 1
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "axis=x": {
+            "model": "lotb:block/blaze_block_horizontal",
+            "x": 90,
+            "y": 90
+        },
+        "axis=y": {
+            "model": "lotb:block/blaze_block"
+        },
+        "axis=z": {
+            "model": "lotb:block/blaze_block_horizontal",
+            "x": 90
+        }
+    }
+}

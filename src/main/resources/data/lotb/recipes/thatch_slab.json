@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:thatch"
+        }
+    },
+    "result": {
+        "item": "lotb:thatch_slab",
+        "count": 6
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:mordor_rock"
+        }
+    },
+    "result": {
+        "item": "lotb:mordor_rock_slab",
+        "count": 6
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:mordor_brick"
+        }
+    },
+    "result": {
+        "item": "lotb:mordor_brick_stairs",
+        "count": 4
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:red_bricks"
+        }
+    },
+    "result": {
+        "item": "lotb:red_bricks_stairs",
+        "count": 4
+    }
+}

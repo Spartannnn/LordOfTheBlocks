@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/inner_stairs",
+    "textures": {
+        "bottom": "lotb:block/brick_white",
+        "top": "lotb:block/brick_white",
+        "side": "lotb:block/brick_white"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#  ",
+        "## ",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:thatch"
+        }
+    },
+    "result": {
+        "item": "lotb:thatch_stairs",
+        "count": 4
+    }
+}

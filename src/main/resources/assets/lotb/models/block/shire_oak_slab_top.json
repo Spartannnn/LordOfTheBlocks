@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab_top",
+    "textures": {
+        "bottom": "lotb:block/shire_oak_planks",
+        "top": "lotb:block/shire_oak_planks",
+        "side": "lotb:block/shire_oak_planks"
+    }
+}

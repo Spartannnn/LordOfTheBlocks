@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "lotb:thatch_wall",
+    "lotb:mordor_rock_wall",
+    "lotb:mordor_brick_wall"
+  ]
+}

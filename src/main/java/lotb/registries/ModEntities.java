@@ -1,0 +1,64 @@
+package lotb.registries;
+
+import lotb.LotbMod;
+import lotb.entities.Badger;
+import lotb.entities.Deer;
+import lotb.entities.HedgeHog;
+import lotb.entities.Mouse;
+import lotb.entities.Squirrel;
+import lotb.entities.item.KnifeEntity;
+import lotb.entities.npc.Dwarf;
+import lotb.entities.npc.Elf;
+import lotb.entities.npc.Hobbit;
+import lotb.entities.npc.Human;
+import lotb.entities.npc.Orc;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+
+public class ModEntities {
+	public static final DeferredRegister<EntityType<?>> ENTITIES = new DeferredRegister<>(ForgeRegistries.ENTITIES,LotbMod.MODID);
+	
+	//animals passive
+	public static final EntityType<Badger> BADGER 		= reg("badger",EntityType.Builder.<Badger>create(Badger::new,EntityClassification.CREATURE).size(0.6f,0.7f)			,0xf3f2f1,0x0f0d0a);
+	public static final EntityType<Mouse> MOUSE 		= reg("mouse"	,EntityType.Builder.<Mouse>create(Mouse::new,EntityClassification.CREATURE).size(0.4f,0.4f)			,0x6f6865,0x7f7a7a);
+	public static final EntityType<HedgeHog> HEDGEHOG 	= reg("hedgehog",EntityType.Builder.<HedgeHog>create(HedgeHog::new,EntityClassification.CREATURE).size(0.4f,0.4f)	,0x361f07,0x4f3113);   
+	public static final EntityType<Squirrel> SQUIRREL 	= reg("squirrel",EntityType.Builder.<Squirrel>create(Squirrel::new,EntityClassification.CREATURE).size(0.4f,0.4f)	,0x44433a,0x685647);
+	public static final EntityType<Deer> DEER 			= reg("deer",EntityType.Builder.<Deer>create(Deer::new,EntityClassification.CREATURE).size(0.9f, 1.4f)			 	,0x2e130a,0x422b13);
+	//animals aggresive
+	//public static final EntityType<Eagle> GREAT_EAGLE= reg("great_eagle",EntityType.Builder<Eagle>create(Eagle::new,EntityClassification.CREATURE).size(0.9f,1.3f)		 ,0x44433a,0x44431);
+	//public static final EntityType<WildWolf> WILD_WOLF	= reg("wild_wolf",EntityType.Builder.<WildWolf>create(WildWolf::new,EntityClassification.MONSTER).size(0.9f,1.3f),0x44433a,0x4443a);
+	//public static final EntityType<Warg> WARG				= reg("warg",EntityType.Builder.<Warg>create(Warg::new,EntityClassification.MONSTER).size(0.9f,1.3f)			 ,0x44433a,0x4443a);
+	//public static final EntityType<Wight> WIGHT			= reg("wight",EntityType.Builder.<Wight>create(Wight::new,EntityClassification.MONSTER).size(0.9f,1.3f)			 ,0x44433a,0x4443a);
+	//charecters
+	public static final EntityType<Hobbit> HOBBIT 	= reg("hobbit",EntityType.Builder.<Hobbit>create(Hobbit::new,EntityClassification.MISC).size(0.6f, 1.95F)			,0x9fff38,0xdbad7d);
+	public static final EntityType<Dwarf> DWARF 	= reg("dwarf",EntityType.Builder.<Dwarf>create(Dwarf::new,EntityClassification.MISC).size(0.6f, 1.95F)				,0x504e57,0xdbad7d);
+	public static final EntityType<Human> HUMAN 	= reg("human",EntityType.Builder.<Human>create(Human::new,EntityClassification.MISC).size(0.6f, 1.95F)				,0x6a5030,0xdbad7d);
+	public static final EntityType<Elf> ELF 		= reg("elf",EntityType.Builder.<Elf>create(Elf::new,EntityClassification.MISC).size(0.6f, 1.95F)					,0xffed9c,0xdbad7d);
+	public static final EntityType<Orc> ORC 		= reg("orc",EntityType.Builder.<Orc>create(Orc::new,EntityClassification.MISC).size(0.6f, 1.95F)					,0x161909,0xdbad7d);
+	//projectiles            
+	public static final EntityType<KnifeEntity> KNIFE = reg("throwing_knife",EntityType.Builder.<KnifeEntity>create(KnifeEntity::new,EntityClassification.MISC).size(0.25F, 0.25F));
+	
+	
+	
+	/*=================================register commands=================================*/
+	//without spawn egg
+	public static <T extends Entity> EntityType<T> reg(String name,EntityType.Builder<T> entityBuilder) {
+		EntityType<T> entity = entityBuilder.build(new ResourceLocation(LotbMod.MODID,name).toString());
+		ENTITIES.register(name,() -> entity);
+		return entity;
+	}
+	//with spawn egg
+	public static <T extends Entity> EntityType<T> reg(String name,EntityType.Builder<T> entityBuilder,int baseColour, int spotColour) {
+		EntityType<T> entity = entityBuilder.build(new ResourceLocation(LotbMod.MODID,name).toString());
+		ModItems.ITEMS.register(name+"_spawn_egg",() -> new SpawnEggItem(entity,baseColour,spotColour,new Item.Properties().group(ItemGroup.MISC)));
+		ENTITIES.register(name,() -> entity);
+		return entity;
+	}
+}

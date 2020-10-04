@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab",
+    "textures": {
+        "bottom": "lotb:block/blackstone_top",
+        "top": "lotb:block/blackstone_top",
+        "side": "lotb:block/blackstone"
+    }
+}

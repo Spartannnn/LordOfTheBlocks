@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/slab_top",
+    "textures": {
+        "bottom": "lotb:block/brick_lime",
+        "top": "lotb:block/brick_lime",
+        "side": "lotb:block/brick_lime"
+    }
+}

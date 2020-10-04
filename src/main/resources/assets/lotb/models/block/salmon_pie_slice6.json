@@ -1,0 +1,10 @@
+{
+    "parent": "minecraft:block/cake_slice6",
+    "textures": {
+        "particle": "lotb:block/pie_side",
+        "bottom": "lotb:block/pie_bottom",
+        "top": "lotb:block/pie_top",
+        "side": "lotb:block/pie_side",
+        "inside": "lotb:block/salmon_pie_inner"
+    }
+}

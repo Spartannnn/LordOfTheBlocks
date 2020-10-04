@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/iron_bars_post",
+    "textures": {
+        "particle": "lotb:block/mithril_bars",
+        "bars": "lotb:block/mithril_bars"
+    }
+}
