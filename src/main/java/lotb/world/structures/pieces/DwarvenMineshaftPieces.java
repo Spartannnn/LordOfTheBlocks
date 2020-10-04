@@ -37,7 +37,7 @@ public class DwarvenMineshaftPieces {
 		@Override protected void readAdditional(CompoundNBT tagCompound) {} 
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			if (this.isLiquidInStructureBoundingBox(world, box))
 	            return false;
         	fillWithBlocks(world, box, boundingBox.minX, boundingBox.minY  , boundingBox.minZ, boundingBox.maxX, boundingBox.minY, boundingBox.maxZ, Blocks.DIRT.getDefaultState(), CAVE_AIR, true);
@@ -97,7 +97,7 @@ public class DwarvenMineshaftPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		/*-------------------------------------------generation----------------------------------------------*/
         @SuppressWarnings("incomplete-switch")
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	//if (this.isLiquidInStructureBoundingBox(world, box))
 	        //    return false;
         	BlockState bricks = Blocks.ACACIA_PLANKS.getDefaultState();; 

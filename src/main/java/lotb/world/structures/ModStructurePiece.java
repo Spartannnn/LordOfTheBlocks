@@ -106,7 +106,7 @@ public abstract class ModStructurePiece extends StructurePiece{
 		BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 		if (boundsIn.isVecInside(blockpos) && worldIn.getBlockState(blockpos).getBlock() != Blocks.CHEST) {
 			if (state == null) {
-				state = func_197528_a(worldIn, blockpos, Blocks.CHEST.getDefaultState());
+				state = correctFacing(worldIn, blockpos, Blocks.CHEST.getDefaultState());
 			}
 			worldIn.setBlockState(blockpos, state, 2);
 			TileEntity tileentity = worldIn.getTileEntity(blockpos);

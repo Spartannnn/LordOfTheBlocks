@@ -25,10 +25,11 @@ public abstract class AbstractModStructure extends Structure<NoFeatureConfig> {
 
 	/**should this structure spawn*/
 	@Override
-	public boolean func_225558_a_(BiomeManager manager, ChunkGenerator<?> generator, Random rand, int x, int z, Biome biome) {
-		ChunkPos pos = getStartPositionForPosition(generator,rand,x,z,0,0);
-		return pos.x==x && pos.z==z && generator.hasStructure(biome, this);
+	public boolean canBeGenerated(BiomeManager biomeManagerIn, ChunkGenerator<?> generatorIn, Random randIn, int chunkX, int chunkZ, Biome biomeIn) {
+		ChunkPos pos = getStartPositionForPosition(generatorIn,randIn,chunkX, chunkZ,0,0);
+		return pos.x==chunkX && pos.z==chunkZ && generatorIn.hasStructure(biomeIn, this);
 	}
+
 	@Override
 	protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
 		int k = x + distance * spacingOffsetsX;

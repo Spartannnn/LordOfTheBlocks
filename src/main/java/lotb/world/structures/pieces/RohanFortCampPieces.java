@@ -186,7 +186,7 @@ public class RohanFortCampPieces {
 		
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			for (int i=0;i<=7;i++) {
 				int depth = getDepthAt(_gen,i,0);
 				int dept1 = getDepthAt(_gen,i+11,0);
@@ -238,7 +238,7 @@ public class RohanFortCampPieces {
 		} 
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			for (int i=0;i<=walllength;i++) {
 				int depth = ( generator.func_222529_a(getXWithOffset(i,0), getZWithOffset(i,0), Heightmap.Type.OCEAN_FLOOR_WG)-1)-boundingBox.minY;
 				B_LOGW.selectBlocks(rand, i,depth,0, false);
@@ -299,7 +299,7 @@ public class RohanFortCampPieces {
 			}
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			BlockState log = ModBlocks.LEBETHRON_LOG.getDefaultState();
 			for (int i=0;i<7;i++) {
 				int depth = ( generator.func_222529_a(getXWithOffset(i,7-i), getZWithOffset(i,7-i), Heightmap.Type.OCEAN_FLOOR_WG)-1)-boundingBox.minY;
@@ -343,7 +343,7 @@ public class RohanFortCampPieces {
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			BlockState air = Blocks.AIR.getDefaultState();
 			for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= blockLength; z++) {
@@ -439,7 +439,7 @@ public class RohanFortCampPieces {
 		}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState air = Blocks.AIR.getDefaultState();
 			for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= 2; z++) {
@@ -533,7 +533,7 @@ public class RohanFortCampPieces {
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState air = Blocks.AIR.getDefaultState();
 			for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= 2; z++) {
@@ -694,7 +694,7 @@ public class RohanFortCampPieces {
 			super(TENT, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildTent(world,box,Blocks.GREEN_WOOL.getDefaultState(),rand);
         	//inside
         	BlockState bedFoot = Blocks.BROWN_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT);
@@ -716,7 +716,7 @@ public class RohanFortCampPieces {
 			super(CAPTAIN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildTent(world,box,Blocks.LIGHT_GRAY_WOOL.getDefaultState(),rand);
         	setBlockState(world, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT), 2, 1, 3, box);
         	setBlockState(world, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.HEAD), 2, 1, 4, box);
@@ -736,7 +736,7 @@ public class RohanFortCampPieces {
 			super(UTILITY, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildTent(world,box,Blocks.GRAY_WOOL.getDefaultState(),rand);
         	//inside
         	BlockState bedFoot = Blocks.BROWN_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT);
@@ -758,7 +758,7 @@ public class RohanFortCampPieces {
 			super(STORE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildUtilTent(world,box,Blocks.LIGHT_GRAY_WOOL.getDefaultState(),Blocks.LIGHT_GRAY_WOOL.getDefaultState(),rand);
         	return true;
         }
@@ -772,7 +772,7 @@ public class RohanFortCampPieces {
 			super(PLAN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildUtilTent(world,box,Blocks.RED_WOOL.getDefaultState(),Blocks.YELLOW_WOOL.getDefaultState(),rand);
         	setBlockState(world, Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP), 3, 1, 5, box);
         	setBlockState(world, Blocks.LANTERN.getDefaultState(), 3, 2, 5, box);
@@ -790,7 +790,7 @@ public class RohanFortCampPieces {
 			super(KITCHEN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState stairs = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.WEST);
         	buildUtilTent(world,box,Blocks.WHITE_WOOL.getDefaultState(),Blocks.WHITE_WOOL.getDefaultState(),rand);
         	setBlockState(world, stairs, 2, 1, 2, box);
@@ -815,7 +815,7 @@ public class RohanFortCampPieces {
 			super(MEDIC, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState stairs = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST);
         	buildUtilTent(world,box,Blocks.WHITE_WOOL.getDefaultState(),Blocks.RED_WOOL.getDefaultState(),rand);
         	setBlockState(world, Blocks.CRAFTING_TABLE.getDefaultState(), 2, 1, 2, box);
@@ -842,7 +842,7 @@ public class RohanFortCampPieces {
 			super(SMITHY, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState anvil =Blocks.ANVIL.getDefaultState().with(AnvilBlock.FACING, Direction.EAST);
         	for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
@@ -879,7 +879,7 @@ public class RohanFortCampPieces {
 			super(MELEE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
         	BlockState air = Blocks.AIR.getDefaultState();
@@ -927,7 +927,7 @@ public class RohanFortCampPieces {
     		}
     	}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState air = Blocks.AIR.getDefaultState();
         	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
         	setBlockState(world, Blocks.OAK_FENCE_GATE.getDefaultState(), 3, 1, 0, box);
@@ -969,7 +969,7 @@ public class RohanFortCampPieces {
 			super(STABLE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState air = Blocks.AIR.getDefaultState();
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState gate = Blocks.OAK_FENCE_GATE.getDefaultState();
@@ -1089,7 +1089,7 @@ public class RohanFortCampPieces {
 			super(FIRE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState path = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState log = Blocks.OAK_LOG.getDefaultState();
         	BlockState logside = log.with(LogBlock.AXIS, Direction.Axis.X);
@@ -1178,7 +1178,7 @@ public class RohanFortCampPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
         	for (int x=1;x<=5;x++) for (int z=14;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
@@ -1212,7 +1212,7 @@ public class RohanFortCampPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	//blocks
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
@@ -1303,7 +1303,7 @@ public class RohanFortCampPieces {
 	    	}
 	    	setBlockState(world, cake.getDefaultState().with(CakeBlock.BITES, rand.nextInt(6)),x, y, z, box);
         }
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState chair2 = Blocks.OAK_STAIRS.getDefaultState();
         	BlockState chair1 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.SOUTH);
@@ -1492,7 +1492,7 @@ public class RohanFortCampPieces {
 		}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	//blocks
         	BlockState path = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState log = Blocks.STRIPPED_OAK_LOG.getDefaultState();
@@ -1597,7 +1597,7 @@ public class RohanFortCampPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
         	BlockState cobl = Blocks.COBBLESTONE.getDefaultState();
         	BlockState slab = Blocks.COBBLESTONE_SLAB.getDefaultState();
@@ -1666,7 +1666,7 @@ public class RohanFortCampPieces {
 			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x,y-1,z, box).isAir())
 	        	setBlockState(world, bale,x, y, z, box);
         }
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			//layer 1
 			placeHayBaleBase(world, box, rand, 0, 1, 2);
 			placeHayBaleBase(world, box, rand, 1, 1, 2);
@@ -1738,7 +1738,7 @@ public class RohanFortCampPieces {
 			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x,y-1,z, box).isAir())
 	        	setBlockState(world, bale,x, y, z, box);
         }
-		@Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			//layer 1
 			//generate a bunch of chests and barrels
         	return true;
@@ -1759,7 +1759,7 @@ public class RohanFortCampPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState dirt = Blocks.FARMLAND.getDefaultState().with(FarmlandBlock.MOISTURE, 7);
         	B_CROP.selectBlocks(rand, 0, 0, 0, false);
         	BlockState crop = B_CROP.getBlockState().with(CropsBlock.AGE, 7);
@@ -1788,7 +1788,7 @@ public class RohanFortCampPieces {
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean func_225577_a_(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	B_LOGW.selectBlocks(rand, 0, 0, 0, false);;
         	BlockState log = B_LOGW.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
         	BlockState railt = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.EAST_WEST);
