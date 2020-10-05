@@ -15,11 +15,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 public enum ModArmourTiers implements IArmorMaterial{
-	FOX		("fox_fur"	, 5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT),
-	WOLF	("wolf_fur"	, 5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT),
-	BADGER	("badger_fur",5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT),
-	MITHRIL		("mithril"		,52,new int[] {4,7,9,4},25,SoundEvents.BLOCK_CHEST_LOCKED,3.0f,ModItems.MITHRIL_INGOT),
-	MITHRILCHAIN("mithril_chain",50,new int[] {4,7,8,3},29,SoundEvents.BLOCK_CHEST_LOCKED,1.0f,ModItems.MITHRIL_INGOT),
+	FOX		("fox_fur"	, 5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT.get()),
+	WOLF	("wolf_fur"	, 5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT.get()),
+	BADGER	("badger_fur",5,new int[] {1,2,3,1},15,SoundEvents.BLOCK_CHEST_LOCKED,0.5f,ModItems.MITHRIL_INGOT.get()),
+	MITHRIL		("mithril"		,52,new int[] {4,7,9,4},25,SoundEvents.BLOCK_CHEST_LOCKED,3.0f,ModItems.MITHRIL_INGOT.get()),
+	MITHRILCHAIN("mithril_chain",50,new int[] {4,7,8,3},29,SoundEvents.BLOCK_CHEST_LOCKED,1.0f,ModItems.MITHRIL_INGOT.get()),
 	//faction
 	GONDOR("gondor"	,18,new int[] {2,5,6,3},8,SoundEvents.BLOCK_CHEST_LOCKED,1f,Items.IRON_INGOT),
 	ROHAN("rohan"	,18,new int[] {2,5,6,3},8,SoundEvents.BLOCK_CHEST_LOCKED,1f,Items.IRON_INGOT),

@@ -8,185 +8,182 @@ import lotb.items.ModeledArmourItem;
 import lotb.registries.materials.ModArmourTiers;
 import lotb.registries.materials.ModFoods;
 import lotb.registries.materials.ModToolTiers;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.Block;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.BoatItem;
-import net.minecraft.item.HoeItem;
-import net.minecraft.item.HorseArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.Items;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.item.SkullItem;
-import net.minecraft.item.SwordItem;
-import net.minecraft.item.WallOrFloorItem;
+import net.minecraft.item.*;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nullable;
+import java.util.function.Supplier;
+
 @SuppressWarnings("unused")
 public class ModItems {
-	public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS,LotbMod.MODID);
-	
-	//mithril tools
-	public static final Item MITHRIL_INGOT 		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item MITHRIL_NUGGET 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item MITHRIL_SWORD 	= new SwordItem(  ModToolTiers.MITHRIL, 3	,-2.3f,	new Item.Properties().group(ItemGroup.COMBAT));
-	public static final Item MITHRIL_AXE 	= new AxeItem(	  ModToolTiers.MITHRIL, 1.5f,-2.8f, new Item.Properties().group(ItemGroup.TOOLS));
-	public static final Item MITHRIL_PICK	= new PickaxeItem(ModToolTiers.MITHRIL, 1	,-2.6f, new Item.Properties().group(ItemGroup.TOOLS));
-	public static final Item MITHRIL_SHOVEL	= new ShovelItem( ModToolTiers.MITHRIL, 5.0f,-3.0f, new Item.Properties().group(ItemGroup.TOOLS));
-	public static final Item MITHRIL_HOE	= new HoeItem(	  ModToolTiers.MITHRIL, 1.0f,		new Item.Properties().group(ItemGroup.TOOLS));
-	public static final Item MITHRIL_HELMET		= reg( new ArmorItem(ModArmourTiers.MITHRIL,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_helmet");
-	public static final Item MITHRIL_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.MITHRIL,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_chestplate");
-	public static final Item MITHRIL_LEGGINGS	= reg( new ArmorItem(ModArmourTiers.MITHRIL,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_leggings");
-	public static final Item MITHRIL_BOOTS		= reg( new ArmorItem(ModArmourTiers.MITHRIL,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_boots");
-	public static final Item MITHRIL_CHAIN_HELMET		= reg( new ArmorItem(ModArmourTiers.MITHRILCHAIN,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_helmet");
-	public static final Item MITHRIL_CHAIN_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.MITHRILCHAIN,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)),"mithril_chain_chestplate");
-	public static final Item MITHRIL_CHAIN_LEGGINGS		= reg( new ArmorItem(ModArmourTiers.MITHRILCHAIN,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_leggings");
-	public static final Item MITHRIL_CHAIN_BOOTS		= reg( new ArmorItem(ModArmourTiers.MITHRILCHAIN,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)), "mithril_chain_boots");
-	public static final Item MITHRIL_HORSE_ARMOR = reg(new HorseArmorItem(15, "mithril", (new Item.Properties()).maxStackSize(1).group(ItemGroup.MISC)),"mithril_horse_armor");
-	//furs
-	public static final Item FOX_HELMET		= reg( new ModeledArmourItem(ModArmourTiers.FOX,EquipmentSlotType.HEAD,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "fox_fur_helmet");
-	public static final Item FOX_CHESTPLATE = reg( new ModeledArmourItem(ModArmourTiers.FOX,EquipmentSlotType.CHEST,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)),"fox_fur_chestplate");
-	public static final Item FOX_LEGGINGS	= reg( new ModeledArmourItem(ModArmourTiers.FOX,EquipmentSlotType.LEGS,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "fox_fur_leggings");
-	public static final Item FOX_BOOTS		= reg( new ModeledArmourItem(ModArmourTiers.FOX,EquipmentSlotType.FEET,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "fox_fur_boots");
-	public static final Item WOLF_HELMET	= reg( new ModeledArmourItem(ModArmourTiers.WOLF,EquipmentSlotType.HEAD,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "wolf_fur_helmet");
-	public static final Item WOLF_CHESTPLATE= reg( new ModeledArmourItem(ModArmourTiers.WOLF,EquipmentSlotType.CHEST,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)),"wolf_fur_chestplate");
-	public static final Item WOLF_LEGGINGS	= reg( new ModeledArmourItem(ModArmourTiers.WOLF,EquipmentSlotType.LEGS,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "wolf_fur_leggings");
-	public static final Item WOLF_BOOTS		= reg( new ModeledArmourItem(ModArmourTiers.WOLF,EquipmentSlotType.FEET,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "wolf_fur_boots");
-	public static final Item BADGER_HELMET		= reg( new ModeledArmourItem(ModArmourTiers.BADGER,EquipmentSlotType.HEAD,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "badger_fur_helmet");
-	public static final Item BADGER_CHESTPLATE 	= reg( new ModeledArmourItem(ModArmourTiers.BADGER,EquipmentSlotType.CHEST,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)),"badger_fur_chestplate");
-	public static final Item BADGER_LEGGINGS	= reg( new ModeledArmourItem(ModArmourTiers.BADGER,EquipmentSlotType.LEGS,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "badger_fur_leggings");
-	public static final Item BADGER_BOOTS		= reg( new ModeledArmourItem(ModArmourTiers.BADGER,EquipmentSlotType.FEET,new AnimalArmour(),new Item.Properties().group(ItemGroup.COMBAT)), "badger_fur_boots");
-	//faction armour+weapons
-	public static final Item GONDOR_HELMET		= reg( new ArmorItem(ModArmourTiers.GONDOR,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)) ,"gondor_helmet");
-	public static final Item GONDOR_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.GONDOR,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)),"gondor_chestplate");
-	public static final Item GONDOR_LEGGINGS	= reg( new ArmorItem(ModArmourTiers.GONDOR,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)) ,"gondor_leggings");
-	public static final Item GONDOR_BOOTS		= reg( new ArmorItem(ModArmourTiers.GONDOR,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)) ,"gondor_boots");
-	public static final Item ROHAN_HELMET		= reg( new ArmorItem(ModArmourTiers.ROHAN,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)) ,"rohan_helmet");
-	public static final Item ROHAN_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.ROHAN,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)),"rohan_chestplate");
-	public static final Item ROHAN_LEGGINGS		= reg( new ArmorItem(ModArmourTiers.ROHAN,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)) ,"rohan_leggings");
-	public static final Item ROHAN_BOOTS		= reg( new ArmorItem(ModArmourTiers.ROHAN,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)) ,"rohan_boots");
-	public static final Item MORDOR_HELMET		= reg( new ArmorItem(ModArmourTiers.MORDOR,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)) ,"mordor_helmet");
-	public static final Item MORDOR_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.MORDOR,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)),"mordor_chestplate");
-	public static final Item MORDOR_LEGGINGS	= reg( new ArmorItem(ModArmourTiers.MORDOR,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)) ,"mordor_leggings");
-	public static final Item MORDOR_BOOTS		= reg( new ArmorItem(ModArmourTiers.MORDOR,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)) ,"mordor_boots");
-	public static final Item URUK_HELMET		= reg( new ArmorItem(ModArmourTiers.URUK,EquipmentSlotType.HEAD,new Item.Properties().group(ItemGroup.COMBAT)) ,"uruk_helmet");
-	public static final Item URUK_CHESTPLATE	= reg( new ArmorItem(ModArmourTiers.URUK,EquipmentSlotType.CHEST,new Item.Properties().group(ItemGroup.COMBAT)),"uruk_chestplate");
-	public static final Item URUK_LEGGINGS		= reg( new ArmorItem(ModArmourTiers.URUK,EquipmentSlotType.LEGS,new Item.Properties().group(ItemGroup.COMBAT)) ,"uruk_leggings");
-	public static final Item URUK_BOOTS			= reg( new ArmorItem(ModArmourTiers.URUK,EquipmentSlotType.FEET,new Item.Properties().group(ItemGroup.COMBAT)) ,"uruk_boots");
-	//misc materials
-	public static final Item FOX_PELT	= reg( new Item(new Item.Properties().group(ItemGroup.MISC)),"fox_pelt");
-	public static final Item WOLF_PELT	= reg( new Item(new Item.Properties().group(ItemGroup.MISC)),"wolf_pelt");
-	public static final Item BADGER_FUR	= reg( new Item(new Item.Properties().group(ItemGroup.MISC)),"badger_fur");
-	public static final Item COIN 		= reg( new Item(new Item.Properties().group(ItemGroup.MISC)),"gold_coin");
-	//clay and bricks
-	public static final Item CLAY_BALL_WHITE 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_ORANGE 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_MAGENTA 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_LIGHT_BLUE=new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_YELLOW 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_LIME  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_PINK  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_GREY  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_SILVER  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_CYAN  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_PURPLE  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_BLUE  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_BROWN  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_GREEN  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_RED  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item CLAY_BALL_BLACK  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_WHITE  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_ORANGE 	 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_MAGENTA  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_LIGHT_BLUE  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_YELLOW  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_LIME  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_PINK  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_GREY  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_SILVER  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_CYAN  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_PURPLE  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_BLUE 	 	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_BROWN	  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_GREEN	  	= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_RED  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	public static final Item BRICK_BLACK  		= new Item(new Item.Properties().group(ItemGroup.MISC));
-	//boats
-	public static final Item OAK_BOAT 			= reg(new BoatItem(BoatEntity.Type.OAK, (new Item.Properties()).maxStackSize(1).group(ItemGroup.TRANSPORTATION)),"shire_oak_boat");
-	//foods
-	public static final Item VENISON		= new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.VENISON));
-	public static final Item COOKED_VENISON	= new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.COOKED_VENISON));
-	public static final Item SILVER_APPLE	= new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.SILVER_APPLE));
-	public static final Item ENCHANTED_SILVER_APPLE = new EnchantedItem(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.ENCHANTED_SILVER_APPLE));
-	public static final Item HARD_TACK	= reg(new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.HARD_TACK)), "hard_tack");
-	public static final Item LEMBAS		= reg(new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.LEMBAS)), "lembas");
-	public static final Item CRAM		= reg(new Item(new Item.Properties().group(ItemGroup.FOOD).food(ModFoods.CRAM)), "cram");
-	//knifes
-	public static final Item WOODEN_KNIFE	= reg( new KnifeItem(ItemTier.WOOD,new Item.Properties().group(ItemGroup.COMBAT)),	"wooden_knife");
-	public static final Item STONE_KNIFE	= reg( new KnifeItem(ItemTier.STONE,new Item.Properties().group(ItemGroup.COMBAT)),	"stone_knife");
-	public static final Item IRON_KNIFE		= reg( new KnifeItem(ItemTier.IRON,new Item.Properties().group(ItemGroup.COMBAT)),	"iron_knife");
-	public static final Item GOLD_KNIFE		= reg( new KnifeItem(ItemTier.GOLD,new Item.Properties().group(ItemGroup.COMBAT)),	"gold_knife");
-	public static final Item DIAMOND_KNIFE	= reg( new KnifeItem(ItemTier.DIAMOND,new Item.Properties().group(ItemGroup.COMBAT)),	"diamond_knife");
-	public static final Item MITHRIL_KNIFE	= reg( new KnifeItem(ModToolTiers.MITHRIL,new Item.Properties().group(ItemGroup.COMBAT)),"mithril_knife" );
-	
-	public static final Item DEER_SKULL 		= reg(new WallOrFloorItem(ModBlocks.DEER_SKULL, ModBlocks.DEER_SKULL_WALL, (new Item.Properties()).group(ItemGroup.DECORATIONS)),"deer_skull");
-	public static final Item HORNED_DEER_SKULL  = reg(new WallOrFloorItem(ModBlocks.HORN_DEER_SKULL, ModBlocks.HORN_DEER_SKULL_WALL, (new Item.Properties()).group(ItemGroup.DECORATIONS)),"horned_deer_skull");
-	   
-	public static Item reg(Item item,String name) {
-		ITEMS.register(name,() -> item);
-		return item;
-	}
-	
-	public static void registerItems() {
-		ITEMS.register("mithril_ingot",	 	() -> MITHRIL_INGOT);
-		ITEMS.register("mithril_nugget", 	() -> MITHRIL_NUGGET);
-		ITEMS.register("mithril_sword",  	() -> MITHRIL_SWORD);
-		ITEMS.register("mithril_axe", 	 	() -> MITHRIL_AXE);
-		ITEMS.register("mithril_pickaxe",	() -> MITHRIL_PICK);
-		ITEMS.register("mithril_shovel", 	() -> MITHRIL_SHOVEL);
-		ITEMS.register("mithril_hoe", 	 	() -> MITHRIL_HOE);
-		ITEMS.register("white_clay_ball",	() -> CLAY_BALL_WHITE);
-		ITEMS.register("orange_clay_ball",	() -> CLAY_BALL_ORANGE);
-		ITEMS.register("magenta_clay_ball",	() -> CLAY_BALL_MAGENTA);
-		ITEMS.register("light_blue_clay_ball",()->CLAY_BALL_LIGHT_BLUE);
-		ITEMS.register("yellow_clay_ball",	() -> CLAY_BALL_YELLOW);
-		ITEMS.register("lime_clay_ball",	() -> CLAY_BALL_LIME);
-		ITEMS.register("pink_clay_ball",	() -> CLAY_BALL_PINK);
-		ITEMS.register("grey_clay_ball",	() -> CLAY_BALL_GREY);
-		ITEMS.register("silver_clay_ball",	() -> CLAY_BALL_SILVER);
-		ITEMS.register("cyan_clay_ball",	() -> CLAY_BALL_CYAN);
-		ITEMS.register("purple_clay_ball",	() -> CLAY_BALL_PURPLE);
-		ITEMS.register("blue_clay_ball",	() -> CLAY_BALL_BLUE);
-		ITEMS.register("brown_clay_ball",	() -> CLAY_BALL_BROWN);
-		ITEMS.register("green_clay_ball",	() -> CLAY_BALL_GREEN);
-		ITEMS.register("red_clay_ball",		() -> CLAY_BALL_RED);
-		ITEMS.register("black_clay_ball",	() -> CLAY_BALL_BLACK);
-		ITEMS.register("white_brick",		() -> BRICK_WHITE);
-		ITEMS.register("orange_brick",		() -> BRICK_ORANGE);
-		ITEMS.register("magenta_brick",		() -> BRICK_MAGENTA);
-		ITEMS.register("light_blue_brick",	() -> BRICK_LIGHT_BLUE);
-		ITEMS.register("yellow_brick",		() -> BRICK_YELLOW);
-		ITEMS.register("lime_brick",		() -> BRICK_LIME);
-		ITEMS.register("pink_brick",		() -> BRICK_PINK);
-		ITEMS.register("grey_brick",		() -> BRICK_GREY);
-		ITEMS.register("silver_brick",		() -> BRICK_SILVER);
-		ITEMS.register("cyan_brick",		() -> BRICK_CYAN);
-		ITEMS.register("purple_brick",		() -> BRICK_PURPLE);
-		ITEMS.register("blue_brick",		() -> BRICK_BLUE);
-		ITEMS.register("brown_brick",		() -> BRICK_BROWN);
-		ITEMS.register("green_brick",		() -> BRICK_GREEN);
-		ITEMS.register("red_brick",			() -> BRICK_RED);
-		ITEMS.register("black_brick",		() -> BRICK_BLACK);
-		ITEMS.register("venison",			() -> VENISON);
-		ITEMS.register("cooked_venison",	() -> COOKED_VENISON);
-		ITEMS.register("silver_apple",		() -> SILVER_APPLE);
-		ITEMS.register("enchanted_silver_apple",()->ENCHANTED_SILVER_APPLE);
-	}
+    public static final Item.Properties DEFAULT_PROP = new Item.Properties().group(LotbMod.LOTB_GROUP);
+
+    public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, LotbMod.MODID);
+
+    //mithril tools
+    public static final RegistryObject<Item> MITHRIL_INGOT = registerItem("mithril_ingot");
+    public static final RegistryObject<Item> MITHRIL_NUGGET = registerItem("mithril_nugget");
+    public static final RegistryObject<Item> MITHRIL_SWORD = registerSword("mithril_sword", ModToolTiers.MITHRIL, 3, -2.3F);
+    public static final RegistryObject<Item> MITHRIL_AXE = registerAxe("mithril_axe", ModToolTiers.MITHRIL, 1.5f, -2.8f);
+    public static final RegistryObject<Item> MITHRIL_PICK = registerPickaxe("mithril_pickaxe", ModToolTiers.MITHRIL, 1, -2.6f);
+    public static final RegistryObject<Item> MITHRIL_SHOVEL = registerShovel("mithril_shovel", ModToolTiers.MITHRIL, 5.0F, -3.0F);
+    public static final RegistryObject<Item> MITHRIL_HOE = registerHoe("mithril_hoe", ModToolTiers.MITHRIL, 1.0F);
+    public static final RegistryObject<Item> MITHRIL_HELMET = registerArmor("mithril_helmet", ModArmourTiers.MITHRIL, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> MITHRIL_CHESTPLATE = registerArmor("mithril_chestplate", ModArmourTiers.MITHRIL, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> MITHRIL_LEGGINGS = registerArmor("mithril_leggings", ModArmourTiers.MITHRIL, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> MITHRIL_BOOTS = registerArmor("mithril_boots", ModArmourTiers.MITHRIL, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> MITHRIL_CHAIN_HELMET = registerArmor("mithril_chain_helmet", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> MITHRIL_CHAIN_CHESTPLATE = registerArmor("mithril_chain_chestplate", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> MITHRIL_CHAIN_LEGGINGS = registerArmor("mithril_chain_leggings", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> MITHRIL_CHAIN_BOOTS = registerArmor("mithril_chain_boots", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> MITHRIL_HORSE_ARMOR = registerOther("mithril_horse_armor", () -> new HorseArmorItem(15, "mithril", new Item.Properties().group(LotbMod.LOTB_GROUP).maxStackSize(1)));
+    //furs
+    public static final RegistryObject<Item> FOX_HELMET = registerArmor("fox_fur_helmet", ModArmourTiers.FOX, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> FOX_CHESTPLATE =registerArmor("fox_fur_chestplate", ModArmourTiers.FOX, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> FOX_LEGGINGS =registerArmor("fox_fur_leggings", ModArmourTiers.FOX, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> FOX_BOOTS = registerArmor("fox_fur_boots", ModArmourTiers.FOX, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> WOLF_HELMET = registerArmor("wolf_fur_helmet", ModArmourTiers.WOLF, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> WOLF_CHESTPLATE =registerArmor("wolf_fur_chestplate", ModArmourTiers.WOLF, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> WOLF_LEGGINGS =registerArmor("wolf_fur_leggings", ModArmourTiers.WOLF, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> WOLF_BOOTS = registerArmor("wolf_fur_boots", ModArmourTiers.WOLF, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> BADGER_HELMET = registerArmor("badger_fur_helmet", ModArmourTiers.BADGER, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> BADGER_CHESTPLATE =registerArmor("badger_fur_chestplate", ModArmourTiers.BADGER, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> BADGER_LEGGINGS =registerArmor("badger_fur_leggings", ModArmourTiers.BADGER, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> BADGER_BOOTS = registerArmor("badger_fur_boots", ModArmourTiers.BADGER, EquipmentSlotType.FEET);
+
+    //faction armour+weapons
+    public static final RegistryObject<Item> GONDOR_HELMET = registerArmor("gondor_helmet", ModArmourTiers.GONDOR, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> GONDOR_CHESTPLATE =registerArmor("gondor_chestplate", ModArmourTiers.GONDOR, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> GONDOR_LEGGINGS =registerArmor("gondor_leggings", ModArmourTiers.GONDOR, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> GONDOR_BOOTS = registerArmor("gondor_boots", ModArmourTiers.GONDOR, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> ROHAN_HELMET = registerArmor("rohan_helmet", ModArmourTiers.ROHAN, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> ROHAN_CHESTPLATE =registerArmor("rohan_chestplate", ModArmourTiers.ROHAN, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> ROHAN_LEGGINGS =registerArmor("rohan_leggings", ModArmourTiers.ROHAN, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> ROHAN_BOOTS = registerArmor("rohan_boots", ModArmourTiers.ROHAN, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> MORDOR_HELMET = registerArmor("mordor_helmet", ModArmourTiers.MORDOR, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> MORDOR_CHESTPLATE =registerArmor("mordor_chestplate", ModArmourTiers.MORDOR, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> MORDOR_LEGGINGS =registerArmor("mordor_leggings", ModArmourTiers.MORDOR, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> MORDOR_BOOTS = registerArmor("mordor_boots", ModArmourTiers.MORDOR, EquipmentSlotType.FEET);
+    public static final RegistryObject<Item> URUK_HELMET = registerArmor("uruk_helmet", ModArmourTiers.URUK, EquipmentSlotType.HEAD);
+    public static final RegistryObject<Item> URUK_CHESTPLATE =registerArmor("uruk_chestplate", ModArmourTiers.URUK, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> URUK_LEGGINGS =registerArmor("uruk_leggings", ModArmourTiers.URUK, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> URUK_BOOTS = registerArmor("uruk_boots", ModArmourTiers.URUK, EquipmentSlotType.FEET);
+
+    //misc materials
+    public static final RegistryObject<Item> FOX_PELT = registerItem("fox_pelt");
+    public static final RegistryObject<Item> WOLF_PELT = registerItem("wolf_pelt");
+    public static final RegistryObject<Item> BADGER_FUR = registerItem("badger_fur");
+    public static final RegistryObject<Item> COIN = registerItem("coin");
+
+    //clay and bricks
+    public static final RegistryObject<Item> CLAY_BALL_WHITE = registerItem("white_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_ORANGE = registerItem("orange_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_MAGENTA = registerItem("magenta_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_LIGHT_BLUE = registerItem("light_blue_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_YELLOW = registerItem("yellow_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_LIME = registerItem("lime_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_PINK = registerItem("pink_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_GREY = registerItem("grey_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_SILVER = registerItem("silver_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_CYAN = registerItem("cyan_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_PURPLE = registerItem("purple_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_BLUE = registerItem("blue_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_BROWN = registerItem("brown_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_GREEN = registerItem("green_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_RED = registerItem("red_clay_ball");
+    public static final RegistryObject<Item> CLAY_BALL_BLACK = registerItem("black_clay_ball");
+    public static final RegistryObject<Item> BRICK_WHITE = registerItem("white_brick");
+    public static final RegistryObject<Item> BRICK_ORANGE = registerItem("orange_brick");
+    public static final RegistryObject<Item> BRICK_MAGENTA = registerItem("magenta_brick");
+    public static final RegistryObject<Item> BRICK_LIGHT_BLUE = registerItem("light_blue_brick");
+    public static final RegistryObject<Item> BRICK_YELLOW = registerItem("yellow_brick");
+    public static final RegistryObject<Item> BRICK_LIME = registerItem("lime_brick");
+    public static final RegistryObject<Item> BRICK_PINK = registerItem("pink_brick");
+    public static final RegistryObject<Item> BRICK_GREY = registerItem("grey_brick");
+    public static final RegistryObject<Item> BRICK_SILVER = registerItem("silver_brick");
+    public static final RegistryObject<Item> BRICK_CYAN = registerItem("cyan_brick");
+    public static final RegistryObject<Item> BRICK_PURPLE = registerItem("purple_brick");
+    public static final RegistryObject<Item> BRICK_BLUE = registerItem("blue_brick");
+    public static final RegistryObject<Item> BRICK_BROWN = registerItem("brown_brick");
+    public static final RegistryObject<Item> BRICK_GREEN = registerItem("green_brick");
+    public static final RegistryObject<Item> BRICK_RED = registerItem("red_brick");
+    public static final RegistryObject<Item> BRICK_BLACK = registerItem("black_brick");
+
+    //boats
+    public static final RegistryObject<Item> OAK_BOAT = registerOther("shire_oak_boat", () -> new BoatItem(BoatEntity.Type.OAK, new Item.Properties().maxStackSize(1).group(LotbMod.LOTB_GROUP)));
+
+    //foods
+    public static final RegistryObject<Item> VENISON = registerFood("venison", ModFoods.VENISON);
+    public static final RegistryObject<Item> COOKED_VENISON = registerFood("cooked_venison", ModFoods.COOKED_VENISON);
+    public static final RegistryObject<Item> SILVER_APPLE = registerFood("silver_apple", ModFoods.SILVER_APPLE);
+    public static final RegistryObject<Item> ENCHANTED_SILVER_APPLE = registerFood("enchanted_silver_apple", ModFoods.ENCHANTED_SILVER_APPLE);
+    public static final RegistryObject<Item> HARD_TACK = registerFood("hard_tack", ModFoods.HARD_TACK);
+    public static final RegistryObject<Item> LEMBAS = registerFood("lembas", ModFoods.LEMBAS);
+    public static final RegistryObject<Item> CRAM = registerFood("cram", ModFoods.CRAM);
+
+    //knifes
+    public static final RegistryObject<Item> WOODEN_KNIFE = registerKnife("wooden_knife", ItemTier.WOOD);
+    public static final RegistryObject<Item> STONE_KNIFE = registerKnife("stone_knife", ItemTier.STONE);
+    public static final RegistryObject<Item> IRON_KNIFE = registerKnife("iron_knife", ItemTier.IRON);
+    public static final RegistryObject<Item> GOLD_KNIFE = registerKnife("gold_knife", ItemTier.GOLD);
+    public static final RegistryObject<Item> DIAMOND_KNIFE = registerKnife("diamond_knife", ItemTier.DIAMOND);
+    public static final RegistryObject<Item> MITHRIL_KNIFE = registerKnife("mithril_knife", ModToolTiers.MITHRIL);
+
+    public static final RegistryObject<Item> DEER_SKULL = registerSkull("deer_skull", ModBlocks.DEER_SKULL, ModBlocks.DEER_SKULL_WALL);
+    public static final RegistryObject<Item> HORNED_DEER_SKULL = registerSkull("horned_deer_skull", ModBlocks.HORN_DEER_SKULL, ModBlocks.HORN_DEER_SKULL_WALL);
+
+
+    private static RegistryObject<Item> registerSkull(String name, RegistryObject<Block> skull, RegistryObject<Block> wand) {
+        return registerOther(name, () -> new WallOrFloorItem(skull.get(), wand.get(), DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerFood(String name, Food food) {
+        return registerOther(name, () -> new Item(new Item.Properties().group(LotbMod.LOTB_GROUP).food(food)));
+    }
+
+    private static RegistryObject<Item> registerOther(String name, Supplier<? extends Item> supplier) {
+        return ITEMS.register(name, supplier);
+    }
+
+    private static RegistryObject<Item> registerItem(String name, @Nullable Item.Properties properties) {
+        return ITEMS.register(name, () -> new Item(properties == null ? DEFAULT_PROP : properties));
+    }
+
+    private static RegistryObject<Item> registerItem(String name) {
+        return registerItem(name, null);
+    }
+
+    private static RegistryObject<Item> registerKnife(String name, IItemTier tier) {
+        return registerOther(name, () -> new KnifeItem(tier, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerSword(String name, IItemTier tier, int damage, float attackSpeed) {
+        return ITEMS.register(name, () -> new SwordItem(tier, damage, attackSpeed, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerAxe(String name, IItemTier tier, float damage, float speed) {
+        return ITEMS.register(name, () -> new AxeItem(tier, damage, speed, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerPickaxe(String name, IItemTier tier, int damage, float speed) {
+        return ITEMS.register(name, () -> new PickaxeItem(tier, damage, speed, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerShovel(String name, IItemTier tier, float damage, float speed) {
+        return ITEMS.register(name, () -> new ShovelItem(tier, damage, speed, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerHoe(String name, IItemTier tier, float speed) {
+        return ITEMS.register(name, () -> new HoeItem(tier, speed, DEFAULT_PROP));
+    }
+
+    private static RegistryObject<Item> registerArmor(String name, IArmorMaterial armor, EquipmentSlotType slot) {
+        return ITEMS.register(name, () -> new ArmorItem(armor, slot, DEFAULT_PROP));
+    }
+
 }

@@ -35,7 +35,7 @@ public class EatCakeGoal extends Goal {
 	}
 	
 	public boolean isCake(Block block) {
-		return(block == Blocks.CAKE || block == ModBlocks.BEEF_PIE || block == ModBlocks.PORK_PIE || block == ModBlocks.CHICKEN_PIE || block == ModBlocks.MUTTON_PIE || block == ModBlocks.RABBIT_PIE || block == ModBlocks.VENISON_PIE || block == ModBlocks.SALMON_PIE || block == ModBlocks.FISH_PIE);     
+		return(block == Blocks.CAKE || block == ModBlocks.BEEF_PIE.get() || block == ModBlocks.PORK_PIE.get() || block == ModBlocks.CHICKEN_PIE.get() || block == ModBlocks.MUTTON_PIE.get() || block == ModBlocks.RABBIT_PIE.get() || block == ModBlocks.VENISON_PIE.get() || block == ModBlocks.SALMON_PIE.get() || block == ModBlocks.FISH_PIE.get());
 	}
 	
 	public boolean findCake() {

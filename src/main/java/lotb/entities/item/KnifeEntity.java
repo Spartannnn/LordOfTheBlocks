@@ -23,7 +23,7 @@ public class KnifeEntity extends AbstractArrowEntity implements IRendersAsItem{
 	}
 	public KnifeEntity(EntityType<KnifeEntity> _type,World worldIn) {
 		super(_type,worldIn);
-		representedKnife = ModItems.IRON_KNIFE;
+		representedKnife = ModItems.IRON_KNIFE.get();
 	}
 
 

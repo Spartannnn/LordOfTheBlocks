@@ -67,7 +67,7 @@ public class RohanFortCampPieces {
 			Pair.of(6, Blocks.OAK_LOG.getDefaultState()),
 			Pair.of(5, Blocks.DARK_OAK_LOG.getDefaultState()),
 			Pair.of(4, Blocks.SPRUCE_LOG.getDefaultState()),
-			Pair.of(3, ModBlocks.LEBETHRON_LOG.getDefaultState()),
+			Pair.of(3, ModBlocks.LEBETHRON_LOG.get().getDefaultState()),
 			Pair.of(2, Blocks.ACACIA_LOG.getDefaultState()),
 			Pair.of(1, Blocks.BIRCH_LOG.getDefaultState()));
 	public static final ModStructurePiece.RandomSelector B_CROP = new ModStructurePiece.RandomSelector( 
@@ -300,7 +300,7 @@ public class RohanFortCampPieces {
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
 		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-			BlockState log = ModBlocks.LEBETHRON_LOG.getDefaultState();
+			BlockState log = ModBlocks.LEBETHRON_LOG.get().getDefaultState();
 			for (int i=0;i<7;i++) {
 				int depth = ( generator.func_222529_a(getXWithOffset(i,7-i), getZWithOffset(i,7-i), Heightmap.Type.OCEAN_FLOOR_WG)-1)-boundingBox.minY;
 				B_LOGW.selectBlocks(rand, i,depth,0, false);
@@ -802,7 +802,7 @@ public class RohanFortCampPieces {
         	setBlockState(world, Blocks.CRAFTING_TABLE.getDefaultState(), 3, 1, 5, box);
         	setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(2)), 4, 1, 4, box);
         	generateChest(world, box, rand, 4, 1, 3, LootTables.CHESTS_SHIPWRECK_SUPPLY);
-        	generateItemFrame(world, 4, 2, 3, Direction.WEST, ModItems.IRON_KNIFE);
+        	generateItemFrame(world, 4, 2, 3, Direction.WEST, ModItems.IRON_KNIFE.get());
         	return true;
         }
 	}
@@ -863,7 +863,7 @@ public class RohanFortCampPieces {
         	//table
         	setBlockState(world, Blocks.SMITHING_TABLE.getDefaultState(), 2, 1, 6, box);
         	setBlockState(world, Blocks.CRAFTING_TABLE.getDefaultState(), 3, 1, 6, box);
-        	setBlockState(world, ModBlocks.ROHAN_WORKBENCH.getDefaultState(), 4, 1, 6, box);
+        	setBlockState(world, ModBlocks.ROHAN_WORKBENCH.get().getDefaultState(), 4, 1, 6, box);
         	setBlockState(world, Blocks.BRICKS.getDefaultState(), 5, 1, 6, box);
         	setBlockState(world, Blocks.LANTERN.getDefaultState(), 5, 2, 6, box);
         	setBlockState(world, Blocks.GRINDSTONE.getDefaultState().with(GrindstoneBlock.HORIZONTAL_FACING, Direction.SOUTH).with(GrindstoneBlock.FACE, AttachFace.WALL), 5, 1, 5, box);
@@ -1097,7 +1097,7 @@ public class RohanFortCampPieces {
         	BlockState cobble = Blocks.COBBLESTONE_SLAB.getDefaultState();
         	BlockState iron = Blocks.IRON_BARS.getDefaultState();
         	BlockState fire = Blocks.CAMPFIRE.getDefaultState();
-        	BlockState sticks = ModBlocks.STICK_BLOCK.getDefaultState();
+        	BlockState sticks = ModBlocks.STICK_BLOCK.get().getDefaultState();
         	
         	if(rand.nextBoolean()) {
         		for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, path, x, 0, z, box);
@@ -1283,21 +1283,21 @@ public class RohanFortCampPieces {
 	    	Block cake;
 	    	switch (rand.nextInt(7)) {
 	    	case 0:
-	    		cake = ModBlocks.BEEF_PIE; break;
+	    		cake = ModBlocks.BEEF_PIE.get(); break;
 	    	case 1:
-	    		cake = ModBlocks.PORK_PIE; break;
+	    		cake = ModBlocks.PORK_PIE.get(); break;
 	    	case 2:
-	    		cake = ModBlocks.MUTTON_PIE; break;
+	    		cake = ModBlocks.MUTTON_PIE.get(); break;
 	    	case 3:
-	    		cake = ModBlocks.RABBIT_PIE; break;
+	    		cake = ModBlocks.RABBIT_PIE.get(); break;
 	    	case 4:
-	    		cake = ModBlocks.FISH_PIE; break;
+	    		cake = ModBlocks.FISH_PIE.get(); break;
 	    	case 5:
-	    		cake = ModBlocks.SALMON_PIE; break;
+	    		cake = ModBlocks.SALMON_PIE.get(); break;
 	    	case 6:
-	    		cake = ModBlocks.CHICKEN_PIE; break;
+	    		cake = ModBlocks.CHICKEN_PIE.get(); break;
 	    	case 7:
-	    		cake = ModBlocks.VENISON_PIE; break;
+	    		cake = ModBlocks.VENISON_PIE.get(); break;
 	    	default:
 	    		cake = Blocks.CAKE;
 	    	}
@@ -1656,13 +1656,13 @@ public class RohanFortCampPieces {
 		
 		/*-------------------------------------------generation----------------------------------------------*/
 		public void placeHayBaleBase(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z) {
-			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
+			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK.get()).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
 			if (rand.nextInt(4)!=0)
         	setBlockState(world, bale,x, y, z, box);
         }
 		@SuppressWarnings("deprecation")
 		public void placeHayBale(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z, int chance) {
-			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
+			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK.get()).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
 			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x,y-1,z, box).isAir())
 	        	setBlockState(world, bale,x, y, z, box);
         }
@@ -1728,13 +1728,13 @@ public class RohanFortCampPieces {
 		
 		/*-------------------------------------------generation----------------------------------------------*/
 		public void placeHayBaleBase(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z) {
-			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
+			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK.get()).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
 			if (rand.nextInt(4)!=0)
         	setBlockState(world, bale,x, y, z, box);
         }
 		@SuppressWarnings("deprecation")
 		public void placeHayBale(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z, int chance) {
-			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
+			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK.get()).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
 			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x,y-1,z, box).isAir())
 	        	setBlockState(world, bale,x, y, z, box);
         }

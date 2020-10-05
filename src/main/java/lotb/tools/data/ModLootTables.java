@@ -1,74 +1,105 @@
 package lotb.tools.data;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import lotb.LotbMod;
-import net.minecraft.util.ResourceLocation;
+import lotb.registries.ModBlocks;
+import net.minecraft.block.Block;
+import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DirectoryCache;
+import net.minecraft.data.IDataProvider;
+import net.minecraft.data.LootTableProvider;
+import net.minecraft.world.storage.loot.*;
+import net.minecraft.world.storage.loot.conditions.ILootCondition;
+import net.minecraft.world.storage.loot.conditions.SurvivesExplosion;
+import net.minecraft.world.storage.loot.functions.ILootFunction;
+import net.minecraftforge.fml.RegistryObject;
 
-public class ModLootTables {
-	private static final Set<ResourceLocation> MOD_LOOT_TABLES = Sets.newHashSet();
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-	//MISC & BARRELS
-	public static final ResourceLocation MISC_COALSHED = register("chests/misc_coalshed");
-	public static final ResourceLocation MISC_CARAVAN = register("chests/misc_caravan");
-	public static final ResourceLocation BARREL_APPLE = register("chests/barrel_apple");
-	public static final ResourceLocation BARREL_WHEAT = register("chests/barrel_wheat");
-	public static final ResourceLocation BARREL_CARROT = register("chests/barrel_carrot");
-	public static final ResourceLocation BARREL_POTATO = register("chests/barrel_potato");
-	public static final ResourceLocation BARREL_BEET = register("chests/barrel_beetruit");
-	public static final ResourceLocation BARREL_GUNPOWDER = register("chests/barrel_gunpowder");
-	public static final ResourceLocation BARREL_ARROW = register("chests/barrel_arrow");
-	//DWARF
-	public static final ResourceLocation DWARF_MINESHAFT_HALL 	 = register("chests/dwarf_mineshaft_hall");
-	public static final ResourceLocation DWARF_MINESHAFT_ROOM 	 = register("chests/dwarf_mineshaft_room");
-	public static final ResourceLocation DWARF_MINESHAFT_TRESURE = register("chests/dwarf_mineshaft_tresure");
-	public static final ResourceLocation DWARF_TOMB_HALL 	= register("chests/dwarf_tomb_hall");
-	public static final ResourceLocation DWARF_TOMB_GRAVE 	= register("chests/dwarf_tomb_grave");
-	public static final ResourceLocation DWARF_TOMB_TRESURE = register("chests/dwarf_tomb_tresure");
-	public static final ResourceLocation DWARF_TOMB_LIBRARY = register("chests/dwarf_tomb_library");
-	//HOBBIT
-	public static final ResourceLocation HOBBIT_HOLE_KITCHEN = register("chests/hobbit_hole_kitchen");
-	public static final ResourceLocation HOBBIT_HOLE_STUDY 	 = register("chests/hobbit_hole_study");
-	//ELF
-	public static final ResourceLocation ELF_PARTY_FOOD 	= register("chests/elf_party_food");
-	public static final ResourceLocation ELF_PARTY_ITEMS 	= register("chests/elf_party_items");
-	public static final ResourceLocation ELF_RUIN_HALL 	  	= register("chests/elf_ruin_hall");
-	public static final ResourceLocation ELF_RUIN_LIBRARY 	= register("chests/elf_ruin_library");
-	public static final ResourceLocation ELF_RUIN_TRESURE 	= register("chests/elf_ruin_tresure");
-	//ROHAN
-	public static final ResourceLocation ROHAN_CAMP_TENT 	= register("chests/rohan_camp_tent");
-	public static final ResourceLocation ROHAN_CAMP_FOOD 	= register("chests/rohan_camp_food");
-	public static final ResourceLocation ROHAN_CAMP_SMITHY 	= register("chests/rohan_camp_smithy");
-	public static final ResourceLocation ROHAN_VILLAGE_SMITHY 	= register("chests/rohan_village_smithy");
-	public static final ResourceLocation ROHAN_VILLAGE_STABLES 	= register("chests/rohan_village_stables");
-	public static final ResourceLocation ROHAN_MEADHALL_FOOD 	= register("chests/rohan_meadhall_food");
-	public static final ResourceLocation ROHAN_MEADHALL_ARMOURY = register("chests/rohan_meadhall_armoury");
-	public static final ResourceLocation ROHAN_OUTPOST_ARMOURY 	= register("chests/rohan_outpost_armoury");
-	//GONDOR
-	public static final ResourceLocation GONDOR_OUTPOST_ARMOURY = register("chests/gondor_outpost_armoury");
-	public static final ResourceLocation GONDOR_RUIN_HALL 		= register("chests/gondor_ruin_hall");
-	public static final ResourceLocation GONDOR_RUIN_TRESURE 	= register("chests/gondor_ruin_tresure");
-	//MORDOR
-	public static final ResourceLocation MORDOR_OUTPOST_ARMOURY = register("chests/mordor_outpost_armoury");
-	public static final ResourceLocation MORDOR_OUTPOST_FOOD 	= register("chests/mordor_outpost_food");
-	public static final ResourceLocation MORDOR_OUTPOST_ITEMS 	= register("chests/mordor_outpost_items");
-	public static final ResourceLocation MORDOR_RUIN_HALL 	 = register("chests/mordor_ruin_hall");
-	public static final ResourceLocation MORDOR_RUIN_TRESURE = register("chests/mordor_ruin_tresure");
-	//GOBLIN
-	public static final ResourceLocation GOBLIN_OUTPOST_ARMOURY = register("chests/mordor_outpost_armoury");
-	public static final ResourceLocation GOBLIN_OUTPOST_FOOD 	= register("chests/mordor_outpost_food");
-	public static final ResourceLocation GOBLIN_OUTPOST_ITEMS 	= register("chests/mordor_outpost_items");
-	//URUK
-	public static final ResourceLocation URUK_CAMP_CHESTS = register("chests/uruk_camp_chests");
-	
-	
-	private static ResourceLocation register(String id) {
-		ResourceLocation table = new ResourceLocation(LotbMod.MODID,id);
-		if (MOD_LOOT_TABLES.add(table)) {
-			return table;
-		}
-		throw new IllegalArgumentException(id + " is already a registered built-in loot table");
-	}
+public class ModLootTables extends LootTableProvider {
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    private final DataGenerator generator;
+    private final Map<Block, LootTable.Builder> tablemap = new HashMap<>();
+
+    public ModLootTables(DataGenerator dataGeneratorIn) {
+        super(dataGeneratorIn);
+        this.generator = dataGeneratorIn;
+    }
+
+    @Override
+    public void act(DirectoryCache cache) {
+        LotbMod.LOGGER.debug("Generate block loot tables");
+        this.registerBlocks(cache);
+    }
+
+
+    private void registerBlocks(DirectoryCache cache) {
+        ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(b -> {
+            System.out.println("BLOCK: " + b);
+            LootTable.Builder table;
+            if (b instanceof ILootTableGeneratorData) {
+                table = tablemap.getOrDefault(b, multipleDrops(b));
+            } else {
+                table = tablemap.getOrDefault(b, selfDrop(b));
+            }
+            tablemap.put(b, table);
+        });
+
+        Path output = this.generator.getOutputFolder();
+        for (Map.Entry<Block, LootTable.Builder> e : this.tablemap.entrySet()) {
+            Path path = output.resolve("data/" + LotbMod.MODID + "/loot_tables/blocks/" + e.getKey().getRegistryName().getPath() + ".json");
+            LotbMod.LOGGER.debug("Generated loot table for block: {}", e.getKey().getRegistryName().getPath());
+            try {
+                IDataProvider.save(GSON, cache, LootTableManager.toJson(e.getValue().setParameterSet(LootParameterSets.BLOCK).build()), path);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        }
+    }
+
+    private Path getPath(Path root, Block block) {
+        return root.resolve("data/" + LotbMod.MODID + "/loot_tables/blocks/" + block.getRegistryName().getPath() + ".json");
+    }
+
+    public LootTable.Builder selfDrop(Block b) {
+        LootEntry.Builder<?> entry = ItemLootEntry.builder(b);
+        LootPool.Builder pool = LootPool.builder().name("selfdrop").rolls(ConstantRange.of(1)).addEntry(entry)
+                .acceptCondition(SurvivesExplosion.builder());
+        return LootTable.builder().addLootPool(pool);
+    }
+
+    public LootTable.Builder multipleDrops(Block dataBlock) {
+        ILootTableGeneratorData data = (ILootTableGeneratorData) dataBlock;
+        List<LootEntry.Builder<?>> entries = Lists.newArrayList();
+        if (data.getDrops() == null)
+            return this.selfDrop(dataBlock);
+        data.getDrops().forEach(item -> entries.add(ItemLootEntry.builder(item)));
+        if (entries.isEmpty())
+            return this.selfDrop(dataBlock);
+
+        List<LootPool.Builder> pools = Lists.newArrayList();
+        int i = 0;
+        for (LootEntry.Builder<?> entry : entries) {
+            LootPool.Builder pool = LootPool.builder().name(dataBlock.getRegistryName().getPath() + i++).rolls(ConstantRange.of(i++));
+            pool.addEntry(entry);
+            if (data.getLootConditions() != null && !data.getLootConditions().isEmpty())
+                for (ILootCondition.IBuilder condition : data.getLootConditions())
+                    pool.acceptCondition(condition);
+            if (data.getLootFunctions() != null && !data.getLootFunctions().isEmpty())
+                for (ILootFunction.IBuilder func : data.getLootFunctions())
+                    pool.acceptFunction(func);
+            pools.add(pool);
+        }
+        LootTable.Builder table = LootTable.builder();
+        pools.forEach(table::addLootPool);//
+        return table;
+    }
+
+
 }

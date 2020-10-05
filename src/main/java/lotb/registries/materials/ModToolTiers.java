@@ -8,8 +8,8 @@ import net.minecraft.util.LazyValue;
 
 public enum ModToolTiers implements IItemTier{
 	
-	MITHRIL(4 ,3028 ,11.0f ,5.0f ,25 , ModItems.MITHRIL_INGOT)
-	;
+	MITHRIL(4 ,3028 ,11.0f ,5.0f ,25 , ModItems.MITHRIL_INGOT.get());
+
 	private final int harvestLevel;
 	private final int durability;
 	private final float efficiency;

@@ -29,7 +29,7 @@ public class FoilageColorizer {
 			}
 			return FoliageColors.get(0.5D, 0.5D);
 		};
-		BLOCKCOLOURS.register(grassColourHandler, ModBlocks.LEBETHRON_LEAVES);
+		BLOCKCOLOURS.register(grassColourHandler, ModBlocks.LEBETHRON_LEAVES.get());
 	}
 	
 	private static void registerItemColours() {
@@ -37,6 +37,6 @@ public class FoilageColorizer {
 			final BlockState state = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
 			return BLOCKCOLOURS.getColor(state, null, null, tintIndex);
 		};
-		ITEMCOLOURS.register(itemBlockColourHandler,ModBlocks.LEBETHRON_LEAVES);
+		ITEMCOLOURS.register(itemBlockColourHandler,ModBlocks.LEBETHRON_LEAVES.get());
 	}
 }

@@ -112,7 +112,7 @@ public class RohanWorkBenchContainer extends Container {
 	 */
 	@Override
 	public boolean canInteractWith(PlayerEntity playerIn) {
-		return isWithinUsableDistance(this.worldPosCallable, playerIn, ModBlocks.ROHAN_WORKBENCH);
+		return isWithinUsableDistance(this.worldPosCallable, playerIn, ModBlocks.ROHAN_WORKBENCH.get());
 	}
 
 	/**

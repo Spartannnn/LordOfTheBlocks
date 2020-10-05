@@ -81,21 +81,21 @@ public abstract class ModStructurePiece extends StructurePiece{
     	Block cake;
     	switch (rand.nextInt(7)) {
     	case 0:
-    		cake = ModBlocks.BEEF_PIE; break;
+    		cake = ModBlocks.BEEF_PIE.get(); break;
     	case 1:
-    		cake = ModBlocks.PORK_PIE; break;
+    		cake = ModBlocks.PORK_PIE.get(); break;
     	case 2:
-    		cake = ModBlocks.MUTTON_PIE; break;
+    		cake = ModBlocks.MUTTON_PIE.get(); break;
     	case 3:
-    		cake = ModBlocks.RABBIT_PIE; break;
+    		cake = ModBlocks.RABBIT_PIE.get(); break;
     	case 4:
-    		cake = ModBlocks.FISH_PIE; break;
+    		cake = ModBlocks.FISH_PIE.get(); break;
     	case 5:
-    		cake = ModBlocks.SALMON_PIE; break;
+    		cake = ModBlocks.SALMON_PIE.get(); break;
     	case 6:
-    		cake = ModBlocks.CHICKEN_PIE; break;
+    		cake = ModBlocks.CHICKEN_PIE.get(); break;
     	case 7:
-    		cake = ModBlocks.VENISON_PIE; break;
+    		cake = ModBlocks.VENISON_PIE.get(); break;
     	default:
     		cake = Blocks.CAKE;
     	}

@@ -13,9 +13,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class MordorBiome extends Biome {
 
-	static final SurfaceBuilderConfig surface = new SurfaceBuilderConfig(ModBlocks.MORDOR_ROCK.getDefaultState(),
-																		 ModBlocks.MORDOR_ROCK.getDefaultState(),
-																		 ModBlocks.MORDOR_ROCK.getDefaultState());
+	static final SurfaceBuilderConfig surface = new SurfaceBuilderConfig(ModBlocks.MORDOR_ROCK.get().getDefaultState(),
+																		 ModBlocks.MORDOR_ROCK.get().getDefaultState(),
+																		 ModBlocks.MORDOR_ROCK.get().getDefaultState());
 	public MordorBiome() {
 		super(new Builder()
 				.surfaceBuilder(new ConfiguredSurfaceBuilder<SurfaceBuilderConfig>(SurfaceBuilder.DEFAULT, surface))

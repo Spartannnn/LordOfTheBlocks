@@ -54,17 +54,17 @@ public class RenderSetupManager {
 	}
 	
 	public static void initBlockTransparancy() {
-        RenderTypeLookup.setRenderLayer(ModBlocks.LEBETHRON_LEAVES,	RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.MITHRIL_BARS,		RenderType.getCutoutMipped());
-        RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BAR_DOOR,		RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.LEBETHRON_LEAVES.get(),	RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.MITHRIL_BARS.get(),		RenderType.getCutoutMipped());
+        RenderTypeLookup.setRenderLayer(ModBlocks.IRON_BAR_DOOR.get(),		RenderType.getCutoutMipped());
         
-        RenderTypeLookup.setRenderLayer(ModBlocks.OAK_SAPLING, 		RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.BIRCH_SAPLING,	RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.SPRUCE_SAPLING, 	RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.JUNGLE_SAPLING, 	RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.ACACIA_SAPLING, 	RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.DARK_OAK_SAPLING, RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ModBlocks.LEBETHRON_SAPLING,RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.OAK_SAPLING.get(), 		RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.BIRCH_SAPLING.get(),	RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.SPRUCE_SAPLING.get(), 	RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.JUNGLE_SAPLING.get(), 	RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.ACACIA_SAPLING.get(), 	RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.DARK_OAK_SAPLING.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ModBlocks.LEBETHRON_SAPLING.get(),RenderType.getCutout());
 	}
 
 	public static void initGuis() {

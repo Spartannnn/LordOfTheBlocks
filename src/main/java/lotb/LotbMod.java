@@ -1,5 +1,8 @@
 package lotb;
 
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -55,7 +58,6 @@ public class LotbMod
     	ModSchedules.init();
     	ModSensors.init();
     	
-    	ModItems.registerItems();
     	ModBiomes.RegisterBiomes();
     	ModItems.ITEMS.register(modEventBus);
     	ModBlocks.BLOCKS.register(modEventBus);
@@ -89,6 +91,13 @@ public class LotbMod
 
     private void enqueueIMC(final InterModEnqueueEvent event){}
     private void processIMC(final InterModProcessEvent event) {}
+
+    public static final ItemGroup LOTB_GROUP = new ItemGroup(ItemGroup.GROUPS.length, "lotb") {
+		@Override
+		public ItemStack createIcon() {
+			return new ItemStack(Items.GOLD_INGOT);
+		}
+	};
     
     @SubscribeEvent
     public static void loadCompleteEvent(FMLLoadCompleteEvent event) {}
