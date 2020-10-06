@@ -5,10 +5,11 @@ import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
+import net.minecraftforge.common.util.LazyOptional;
 
 public enum ModToolTiers implements IItemTier{
 	
-	MITHRIL(4 ,3028 ,11.0f ,5.0f ,25 , ModItems.MITHRIL_INGOT.get());
+	MITHRIL(4 ,3028 ,11.0f ,5.0f ,25 , new LazyValue<>(() -> Ingredient.fromItems(ModItems.MITHRIL_INGOT.get())));
 
 	private final int harvestLevel;
 	private final int durability;
@@ -17,13 +18,14 @@ public enum ModToolTiers implements IItemTier{
 	private final int enchantability;
 	private final LazyValue<Ingredient> repairItem;
 	
-	private ModToolTiers(int _harvest,int _uses,float _eff,float _damage,int _enchant, Item _repair) {
+	private ModToolTiers(int _harvest,int _uses,float _eff,float _damage,int _enchant, LazyValue<Ingredient> _repair) {
 		harvestLevel=_harvest;
 		durability	=_uses;
 		efficiency	=_eff;
 		damage		=_damage;
 		enchantability=_enchant;
-		repairItem= new LazyValue<>(() -> { return Ingredient.fromItems(_repair); });
+
+		repairItem= _repair;
 		
 		
 	}

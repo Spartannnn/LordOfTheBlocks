@@ -42,7 +42,7 @@ public class RenderSetupManager {
     	RenderingRegistry.registerEntityRenderingHandler(ModEntities.ORC, OrcRenderer::new);
     	
     	//overriding
-    	RenderingRegistry.registerEntityRenderingHandler(EntityType.WOLF, WolfRenderer::new);
+    	//RenderingRegistry.registerEntityRenderingHandler(EntityType.WOLF, WolfRenderer::new);
     	//knife rendering
     	RenderingRegistry.registerEntityRenderingHandler(ModEntities.KNIFE, renderManager -> {
 			return new SpriteRenderer<KnifeEntity>(renderManager, Minecraft.getInstance().getItemRenderer());

@@ -21,13 +21,13 @@ public class MiddleEarth extends WorldType {
 	@Override
 	public ChunkGenerator<?> createChunkGenerator(World _world) {
 		OverworldGenSettings settings = new OverworldGenSettings();
-		Set<Biome> biomeList = ImmutableSet.of(	ModBiomes.SHIRE,
-												ModBiomes.ROHAN,
-												ModBiomes.MORDOR,
-												ModBiomes.GONDOR,
-												ModBiomes.HARGONDOR,
-												ModBiomes.MIRKWOOD,
-												ModBiomes.MISTY_MOUNTAINS,
+		Set<Biome> biomeList = ImmutableSet.of(	ModBiomes.SHIRE.get(),
+												ModBiomes.ROHAN.get(),
+												ModBiomes.MORDOR.get(),
+												ModBiomes.GONDOR.get(),
+												ModBiomes.HARGONDOR.get(),
+												ModBiomes.MIRKWOOD.get(),
+												ModBiomes.MISTY_MOUNTAINS.get(),
 												Biomes.RIVER);
 
 		//return new MiddleEarthChunkGenerator(_world, new SingleBiomeProvider(single), settings);

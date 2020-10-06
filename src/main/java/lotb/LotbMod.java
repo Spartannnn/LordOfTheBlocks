@@ -1,8 +1,10 @@
 package lotb;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
+import net.minecraft.world.biome.Biome;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,9 +37,12 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import java.util.Objects;
+
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("lotb")
+@Mod(LotbMod.MODID)
+@Mod.EventBusSubscriber(modid = LotbMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class LotbMod
 {
     public static final String MODID = "lotb";
@@ -57,16 +62,15 @@ public class LotbMod
     	
     	ModSchedules.init();
     	ModSensors.init();
-    	
-    	ModBiomes.RegisterBiomes();
-    	ModItems.ITEMS.register(modEventBus);
-    	ModBlocks.BLOCKS.register(modEventBus);
+
+		ModBlocks.BLOCKS.register(modEventBus);
+		ModItems.ITEMS.register(modEventBus);
     	ModEntities.ENTITIES.register(modEventBus);
     	ModContainers.CONTAINERS.register(modEventBus);
     	ModStructures.STRUCTURES.register(modEventBus);
-    	ModBiomes.BIOMES.register(modEventBus);
     	ModMemories.MEMORIES.register(modEventBus);
     	ModActivities.ACTIVITIES.register(modEventBus);
+    	ModBiomes.BIOMES.register(modEventBus);
     	
 
         MinecraftForge.EVENT_BUS.register(this);
@@ -98,6 +102,23 @@ public class LotbMod
 			return new ItemStack(Items.GOLD_INGOT);
 		}
 	};
+
+    @SubscribeEvent
+	public static void onBlockItemRegistry(RegistryEvent.Register<Item> items) {
+		IForgeRegistry<Item> registry = items.getRegistry();
+
+		ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+			Item.Properties properties = new Item.Properties().group(LOTB_GROUP);
+			BlockItem item = new BlockItem(block, properties);
+			item.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
+			registry.register(item);
+		});
+	}
+
+	@SubscribeEvent
+	public static void onBiomeRegistry(RegistryEvent.Register<Biome> event) {
+    	ModBiomes.registerBiomes();
+	}
     
     @SubscribeEvent
     public static void loadCompleteEvent(FMLLoadCompleteEvent event) {}

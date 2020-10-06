@@ -1,14 +1,10 @@
 package lotb.registries;
 
 import lotb.LotbMod;
-import lotb.client.armour.AnimalArmour;
-import lotb.items.EnchantedItem;
 import lotb.items.KnifeItem;
-import lotb.items.ModeledArmourItem;
 import lotb.registries.materials.ModArmourTiers;
 import lotb.registries.materials.ModFoods;
 import lotb.registries.materials.ModToolTiers;
-import net.minecraft.block.Block;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -44,34 +40,34 @@ public class ModItems {
     public static final RegistryObject<Item> MITHRIL_HORSE_ARMOR = registerOther("mithril_horse_armor", () -> new HorseArmorItem(15, "mithril", new Item.Properties().group(LotbMod.LOTB_GROUP).maxStackSize(1)));
     //furs
     public static final RegistryObject<Item> FOX_HELMET = registerArmor("fox_fur_helmet", ModArmourTiers.FOX, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> FOX_CHESTPLATE =registerArmor("fox_fur_chestplate", ModArmourTiers.FOX, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> FOX_LEGGINGS =registerArmor("fox_fur_leggings", ModArmourTiers.FOX, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> FOX_CHESTPLATE = registerArmor("fox_fur_chestplate", ModArmourTiers.FOX, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> FOX_LEGGINGS = registerArmor("fox_fur_leggings", ModArmourTiers.FOX, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> FOX_BOOTS = registerArmor("fox_fur_boots", ModArmourTiers.FOX, EquipmentSlotType.FEET);
     public static final RegistryObject<Item> WOLF_HELMET = registerArmor("wolf_fur_helmet", ModArmourTiers.WOLF, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> WOLF_CHESTPLATE =registerArmor("wolf_fur_chestplate", ModArmourTiers.WOLF, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> WOLF_LEGGINGS =registerArmor("wolf_fur_leggings", ModArmourTiers.WOLF, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> WOLF_CHESTPLATE = registerArmor("wolf_fur_chestplate", ModArmourTiers.WOLF, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> WOLF_LEGGINGS = registerArmor("wolf_fur_leggings", ModArmourTiers.WOLF, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> WOLF_BOOTS = registerArmor("wolf_fur_boots", ModArmourTiers.WOLF, EquipmentSlotType.FEET);
     public static final RegistryObject<Item> BADGER_HELMET = registerArmor("badger_fur_helmet", ModArmourTiers.BADGER, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> BADGER_CHESTPLATE =registerArmor("badger_fur_chestplate", ModArmourTiers.BADGER, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> BADGER_LEGGINGS =registerArmor("badger_fur_leggings", ModArmourTiers.BADGER, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> BADGER_CHESTPLATE = registerArmor("badger_fur_chestplate", ModArmourTiers.BADGER, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> BADGER_LEGGINGS = registerArmor("badger_fur_leggings", ModArmourTiers.BADGER, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> BADGER_BOOTS = registerArmor("badger_fur_boots", ModArmourTiers.BADGER, EquipmentSlotType.FEET);
 
     //faction armour+weapons
     public static final RegistryObject<Item> GONDOR_HELMET = registerArmor("gondor_helmet", ModArmourTiers.GONDOR, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> GONDOR_CHESTPLATE =registerArmor("gondor_chestplate", ModArmourTiers.GONDOR, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> GONDOR_LEGGINGS =registerArmor("gondor_leggings", ModArmourTiers.GONDOR, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> GONDOR_CHESTPLATE = registerArmor("gondor_chestplate", ModArmourTiers.GONDOR, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> GONDOR_LEGGINGS = registerArmor("gondor_leggings", ModArmourTiers.GONDOR, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> GONDOR_BOOTS = registerArmor("gondor_boots", ModArmourTiers.GONDOR, EquipmentSlotType.FEET);
     public static final RegistryObject<Item> ROHAN_HELMET = registerArmor("rohan_helmet", ModArmourTiers.ROHAN, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> ROHAN_CHESTPLATE =registerArmor("rohan_chestplate", ModArmourTiers.ROHAN, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> ROHAN_LEGGINGS =registerArmor("rohan_leggings", ModArmourTiers.ROHAN, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> ROHAN_CHESTPLATE = registerArmor("rohan_chestplate", ModArmourTiers.ROHAN, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> ROHAN_LEGGINGS = registerArmor("rohan_leggings", ModArmourTiers.ROHAN, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> ROHAN_BOOTS = registerArmor("rohan_boots", ModArmourTiers.ROHAN, EquipmentSlotType.FEET);
     public static final RegistryObject<Item> MORDOR_HELMET = registerArmor("mordor_helmet", ModArmourTiers.MORDOR, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> MORDOR_CHESTPLATE =registerArmor("mordor_chestplate", ModArmourTiers.MORDOR, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> MORDOR_LEGGINGS =registerArmor("mordor_leggings", ModArmourTiers.MORDOR, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> MORDOR_CHESTPLATE = registerArmor("mordor_chestplate", ModArmourTiers.MORDOR, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> MORDOR_LEGGINGS = registerArmor("mordor_leggings", ModArmourTiers.MORDOR, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> MORDOR_BOOTS = registerArmor("mordor_boots", ModArmourTiers.MORDOR, EquipmentSlotType.FEET);
     public static final RegistryObject<Item> URUK_HELMET = registerArmor("uruk_helmet", ModArmourTiers.URUK, EquipmentSlotType.HEAD);
-    public static final RegistryObject<Item> URUK_CHESTPLATE =registerArmor("uruk_chestplate", ModArmourTiers.URUK, EquipmentSlotType.CHEST);
-    public static final RegistryObject<Item> URUK_LEGGINGS =registerArmor("uruk_leggings", ModArmourTiers.URUK, EquipmentSlotType.LEGS);
+    public static final RegistryObject<Item> URUK_CHESTPLATE = registerArmor("uruk_chestplate", ModArmourTiers.URUK, EquipmentSlotType.CHEST);
+    public static final RegistryObject<Item> URUK_LEGGINGS = registerArmor("uruk_leggings", ModArmourTiers.URUK, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> URUK_BOOTS = registerArmor("uruk_boots", ModArmourTiers.URUK, EquipmentSlotType.FEET);
 
     //misc materials
@@ -133,14 +129,6 @@ public class ModItems {
     public static final RegistryObject<Item> GOLD_KNIFE = registerKnife("gold_knife", ItemTier.GOLD);
     public static final RegistryObject<Item> DIAMOND_KNIFE = registerKnife("diamond_knife", ItemTier.DIAMOND);
     public static final RegistryObject<Item> MITHRIL_KNIFE = registerKnife("mithril_knife", ModToolTiers.MITHRIL);
-
-    public static final RegistryObject<Item> DEER_SKULL = registerSkull("deer_skull", ModBlocks.DEER_SKULL, ModBlocks.DEER_SKULL_WALL);
-    public static final RegistryObject<Item> HORNED_DEER_SKULL = registerSkull("horned_deer_skull", ModBlocks.HORN_DEER_SKULL, ModBlocks.HORN_DEER_SKULL_WALL);
-
-
-    private static RegistryObject<Item> registerSkull(String name, RegistryObject<Block> skull, RegistryObject<Block> wand) {
-        return registerOther(name, () -> new WallOrFloorItem(skull.get(), wand.get(), DEFAULT_PROP));
-    }
 
     private static RegistryObject<Item> registerFood(String name, Food food) {
         return registerOther(name, () -> new Item(new Item.Properties().group(LotbMod.LOTB_GROUP).food(food)));
