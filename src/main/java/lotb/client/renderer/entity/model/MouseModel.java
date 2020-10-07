@@ -1,4 +1,4 @@
-package lotb.client.entity.model;
+package lotb.client.renderer.entity.model;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

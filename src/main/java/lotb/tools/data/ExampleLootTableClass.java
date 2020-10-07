@@ -1,5 +1,6 @@
 package lotb.tools.data;
 
+import lotb.data.ILootTableGeneratorData;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;

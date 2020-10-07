@@ -1,7 +1,7 @@
-package lotb.client.entity.render;
+package lotb.client.renderer.entity.render;
 
 import lotb.LotbMod;
-import lotb.client.entity.model.BadgerModel;
+import lotb.client.renderer.entity.model.BadgerModel;
 import lotb.entities.Squirrel;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;

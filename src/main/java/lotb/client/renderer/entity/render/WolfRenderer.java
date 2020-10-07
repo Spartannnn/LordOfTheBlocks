@@ -1,4 +1,4 @@
-package lotb.client.entity.render;
+package lotb.client.renderer.entity.render;
 
 import lotb.LotbMod;
 import net.minecraft.client.renderer.entity.EntityRendererManager;

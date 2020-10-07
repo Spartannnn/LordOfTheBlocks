@@ -1,96 +1,71 @@
 package lotb.items;
 
-import com.google.common.collect.Multimap;
-
+import lotb.LotbMod;
 import lotb.entities.item.KnifeEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
+import lotb.registries.materials.ModToolTiers;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BowItem;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
 import net.minecraft.item.TieredItem;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 public class KnifeItem extends TieredItem {
 
-	public KnifeItem(IItemTier _tier,Properties properties) {
-		super(_tier, properties);
-	}
-	
-	//shooty shooty
-	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		boolean flag = !playerIn.findAmmo(itemstack).isEmpty();
+    public KnifeItem(IItemTier _tier, Properties properties) {
+        super(_tier, properties);
+    }
 
-		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
-		if (ret != null) return ret;
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        return this.getTier().getMaxUses();
+    }
 
-		if (!playerIn.abilities.isCreativeMode && !flag)
-			return ActionResult.resultFail(itemstack);
-		
-		playerIn.setActiveHand(handIn);
-		return ActionResult.resultConsume(itemstack);
-	}
-	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
-		if (entityLiving instanceof PlayerEntity) {
-	        PlayerEntity playerentity = (PlayerEntity)entityLiving;
+    @Override
+    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+        KnifeTier tier = null;
+        IItemTier itemTier = this.getTier();
+        if (itemTier instanceof ItemTier) {
+            ItemTier it0 = (ItemTier) itemTier;
+            switch (it0) {
+                case WOOD:
+                    tier = KnifeTier.WOOD;
+                    break;
+                case STONE:
+                    tier = KnifeTier.STONE;
+                    break;
+                case GOLD:
+                    tier = KnifeTier.GOLD;
+                    break;
+                case IRON:
+                    tier = KnifeTier.IRON;
+                    break;
+                case DIAMOND:
+                    tier = KnifeTier.DIAMOND;
+                    break;
+            }
+        } else if (itemTier instanceof ModToolTiers) {
+            tier = KnifeTier.MITHRIL;
+        }
 
-	        int i = getUseDuration(stack) - timeLeft;
-	        i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i, true);
-	        if (i < 0) return;
+        if (tier == null) {
+            LotbMod.LOGGER.error("Knife tier is null, can not find a knife tier for this item tier: {}", itemTier.toString());
+            return ActionResult.resultFail(itemstack);
+        }
 
-	        float f = BowItem.getArrowVelocity(i);
-	        if (!(f < 0.1f)) {
-	        	if (!worldIn.isRemote) {
-	        		stack.damageItem(1, playerentity, (p_220009_1_) -> {
-	        			p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
-	        		});
-	        		KnifeEntity thrownKnife = new KnifeEntity(entityLiving,worldIn,stack.getItem());
-	        		thrownKnife.shoot(playerentity, playerentity.rotationPitch, playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
-	        		if (f == 1.0F) 
-	        			thrownKnife.setIsCritical(true);
-	        		/*int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-	        		if (j > 0) {
-	        			thrownKnife.setDamage(thrownKnife.getDamage() + (double)j * 0.5D + 0.5D);
-	        		}
-	        		int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
-	        		if (k > 0) {
-	        			thrownKnife.setKnockbackStrength(k);
-	        		}if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-	        			thrownKnife.setFire(100);
-	        		}*/
-	        		worldIn.addEntity(thrownKnife);
-	        	
-	        	}
-	        	worldIn.playSound((PlayerEntity)null, playerentity.getPosX(), playerentity.getPosY(), playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-	        	playerentity.addStat(Stats.ITEM_USED.get(this));
-			}
-		}
-	}
-	//stats
-	@Override
-	public int getUseDuration(ItemStack stack) {
-		return 72000;
-	}
-	@Override @SuppressWarnings("deprecation")
-	public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot) {
-		Multimap<String, AttributeModifier> multimap = super.getAttributeModifiers(slot);
-		if (slot == EquipmentSlotType.MAINHAND) {
-			multimap.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
-					new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "ranged_item_damage", (double) 4, AttributeModifier.Operation.ADDITION));
-			multimap.put(SharedMonsterAttributes.ATTACK_SPEED.getName(),
-					new AttributeModifier(ATTACK_SPEED_MODIFIER, "ranged_item_attack_speed", -2.4, AttributeModifier.Operation.ADDITION));
-		}
-		return multimap;
-	}
+        KnifeEntity knife = new KnifeEntity(worldIn, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), tier);
+        knife.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
+        worldIn.addEntity(knife);
+
+        return ActionResult.resultSuccess(itemstack);
+    }
+
+    public enum KnifeTier {
+
+        WOOD, STONE, IRON, GOLD, DIAMOND, MITHRIL
+
+    }
 }

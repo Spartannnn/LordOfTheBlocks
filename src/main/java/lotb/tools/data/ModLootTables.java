@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import lotb.LotbMod;
+import lotb.data.ILootTableGeneratorData;
 import lotb.registries.ModBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;

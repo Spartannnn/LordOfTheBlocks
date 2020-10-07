@@ -1,4 +1,4 @@
-package lotb.client.armour;
+package lotb.client.renderer.armour;
 
 
 // Made with Blockbench 3.5.3

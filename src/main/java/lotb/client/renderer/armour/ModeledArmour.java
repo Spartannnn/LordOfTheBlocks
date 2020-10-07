@@ -1,4 +1,4 @@
-package lotb.client.armour;
+package lotb.client.renderer.armour;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

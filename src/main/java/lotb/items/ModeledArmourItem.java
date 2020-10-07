@@ -1,6 +1,6 @@
 package lotb.items;
 
-import lotb.client.armour.ModeledArmour;
+import lotb.client.renderer.armour.ModeledArmour;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;

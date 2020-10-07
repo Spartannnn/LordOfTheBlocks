@@ -1,4 +1,4 @@
-package lotb.client.entity.render;
+package lotb.client.renderer.entity.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
