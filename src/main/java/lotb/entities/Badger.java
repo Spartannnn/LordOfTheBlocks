@@ -3,6 +3,7 @@ package lotb.entities;
 import javax.annotation.Nullable;
 
 import lotb.registries.ModEntities;
+import lotb.registries.ModSounds;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -22,6 +23,8 @@ import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -32,10 +35,12 @@ public class Badger extends AnimalEntity {
 	}
 
 	@Override
-	public AgeableEntity createChild(AgeableEntity ageable) {
-		Badger child = new Badger(ModEntities.BADGER,this.world);
-		child.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(child)), SpawnReason.BREEDING, null, null);
-		return child;
+	protected void registerAttributes() {
+		super.registerAttributes();
+		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
+		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28d);
+		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.1d);
+		//this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).setBaseValue(0.28d);
 	}
 	@Override
 	protected void registerGoals() {
@@ -60,11 +65,8 @@ public class Badger extends AnimalEntity {
 		LivingEntity candidate = super.getAttackTarget();
 	    if (candidate != null)
 	    		return candidate;
-	    else {
-	    	FoxEntity child = new FoxEntity(EntityType.FOX,this.world);
-	    	child.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(child)), SpawnReason.BREEDING, null, null);
-			return child;
-	    	}
+	    else
+	    	return null;
 	   }
 	/*@Override
 	protected void updateAITasks() {
@@ -77,12 +79,16 @@ public class Badger extends AnimalEntity {
 		super.livingTick();
 	}*/
 	@Override
-	protected void registerAttributes() {
-		super.registerAttributes();
-		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10);
-		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.28d);
-		this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.1d);
-		//this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).setBaseValue(0.28d);
+	public AgeableEntity createChild(AgeableEntity ageable) {
+		Badger child = new Badger(ModEntities.BADGER,this.world);
+		child.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(child)), SpawnReason.BREEDING, null, null);
+		return child;
 	}
+	/*@Override protected SoundEvent getAmbientSound() { return ModSounds.BADGER_AMBIENT.get(); }
+	@Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+		return ModSounds.BADGER_HURT.get();
+	}
+	@Override protected SoundEvent getDeathSound() { return ModSounds.BADGER_DEATH.get(); }*/
+
 
 }

@@ -3,6 +3,7 @@ package lotb.entities;
 import lotb.entities.ai.goals.EatCakeGoal;
 import lotb.registries.ModBlocks;
 import lotb.registries.ModEntities;
+import lotb.registries.ModSounds;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -18,6 +19,8 @@ import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
@@ -28,14 +31,6 @@ public class Mouse extends AnimalEntity {
     public Mouse(EntityType<? extends AnimalEntity> type, World worldIn) {
         super(type, worldIn);
     }
-
-    @Override
-    public AgeableEntity createChild(AgeableEntity ageable) {
-        Mouse child = new Mouse(ModEntities.MOUSE, this.world);
-        child.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(child)), SpawnReason.BREEDING, null, null);
-        return child;
-    }
-
     @Override
     protected void registerAttributes() {
         super.registerAttributes();
@@ -58,6 +53,17 @@ public class Mouse extends AnimalEntity {
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 10.0F));
     }
+    @Override
+    public AgeableEntity createChild(AgeableEntity ageable) {
+        Mouse child = new Mouse(ModEntities.MOUSE, this.world);
+        child.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(child)), SpawnReason.BREEDING, null, null);
+        return child;
+    }
+    /*@Override protected SoundEvent getAmbientSound() { return ModSounds.MOUSE_AMBIENT.get(); }
+    @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.MOUSE_HURT.get();
+    }
+    @Override protected SoundEvent getDeathSound() { return ModSounds.MOUSE_DEATH.get(); }*/
 
 
 }

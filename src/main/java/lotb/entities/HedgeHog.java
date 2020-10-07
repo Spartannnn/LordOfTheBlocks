@@ -52,5 +52,10 @@ public class HedgeHog extends AnimalEntity {
 	    this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
 	    this.goalSelector.addGoal(11, new LookAtGoal(this, PlayerEntity.class, 10.0F));
 	}
+    /*@Override protected SoundEvent getAmbientSound() { return ModSounds.HEDGEHOG_AMBIENT.get(); }
+    @Override protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return ModSounds.HEDGEHOG_HURT.get();
+    }
+    @Override protected SoundEvent getDeathSound() { return ModSounds.HEDGEHOG_DEATH.get(); }*/
 
 }
