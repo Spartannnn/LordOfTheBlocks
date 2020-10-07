@@ -1,5 +1,6 @@
 package lotb.entities;
 
+import lotb.registries.ModEntities;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -13,7 +14,6 @@ public class Squirrel extends AnimalEntity {
 
 	@Override
 	public AgeableEntity createChild(AgeableEntity ageable) {
-		return null;
+		return ModEntities.SQUIRREL.create(this.world);
 	}
-
 }
