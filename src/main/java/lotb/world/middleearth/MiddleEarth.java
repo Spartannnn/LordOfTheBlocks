@@ -36,8 +36,7 @@ public class MiddleEarth extends WorldType {
 												ModBiomes.GONDOR.get(),
 												ModBiomes.HARGONDOR.get(),
 												ModBiomes.MIRKWOOD.get(),
-												ModBiomes.MISTY_MOUNTAINS.get(),
-												Biomes.RIVER);
+												ModBiomes.MISTY_MOUNTAINS.get());
 
 		//return new MiddleEarthChunkGenerator(_world, new SingleBiomeProvider(single), settings);
 		return new MiddleEarthChunkGenerator(_world, new MiddleEarthBiomeProvider(biomeList,_world.getWorldInfo(),settings), settings);

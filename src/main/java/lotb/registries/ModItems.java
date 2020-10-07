@@ -37,7 +37,7 @@ public class ModItems {
     public static final RegistryObject<Item> MITHRIL_CHAIN_CHESTPLATE = registerArmor("mithril_chain_chestplate", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.CHEST);
     public static final RegistryObject<Item> MITHRIL_CHAIN_LEGGINGS = registerArmor("mithril_chain_leggings", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> MITHRIL_CHAIN_BOOTS = registerArmor("mithril_chain_boots", ModArmourTiers.MITHRILCHAIN, EquipmentSlotType.FEET);
-    public static final RegistryObject<Item> MITHRIL_HORSE_ARMOR = registerOther("mithril_horse_armor", () -> new HorseArmorItem(15, "mithril", new Item.Properties().group(LotbMod.LOTB_GROUP).maxStackSize(1)));
+    public static final RegistryObject<Item> MITHRIL_HORSE_ARMOR = registerOther("mithril_horse_armour", () -> new HorseArmorItem(15, "mithril", new Item.Properties().group(LotbMod.LOTB_GROUP).maxStackSize(1)));
     //furs
     public static final RegistryObject<Item> FOX_HELMET = registerArmor("fox_fur_helmet", ModArmourTiers.FOX, EquipmentSlotType.HEAD);
     public static final RegistryObject<Item> FOX_CHESTPLATE = registerArmor("fox_fur_chestplate", ModArmourTiers.FOX, EquipmentSlotType.CHEST);
@@ -74,7 +74,7 @@ public class ModItems {
     public static final RegistryObject<Item> FOX_PELT = registerItem("fox_pelt");
     public static final RegistryObject<Item> WOLF_PELT = registerItem("wolf_pelt");
     public static final RegistryObject<Item> BADGER_FUR = registerItem("badger_fur");
-    public static final RegistryObject<Item> COIN = registerItem("coin");
+    public static final RegistryObject<Item> COIN = registerItem("gold_coin");
 
     //clay and bricks
     public static final RegistryObject<Item> CLAY_BALL_WHITE = registerItem("white_clay_ball");

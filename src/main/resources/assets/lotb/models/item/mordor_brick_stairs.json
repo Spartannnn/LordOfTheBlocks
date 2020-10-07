@@ -1,8 +1,3 @@
 {
-    "parent": "minecraft:block/stairs",
-    "textures": {
-        "bottom": "lotb:block/polished_blackstone_bricks",
-        "top": "lotb:block/polished_blackstone_bricks",
-        "side": "lotb:block/polished_blackstone_bricks"
-    }
+    "parent": "lotb:block/mordor_brick_stairs"
 }

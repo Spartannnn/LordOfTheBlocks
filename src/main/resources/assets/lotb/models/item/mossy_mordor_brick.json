@@ -1,6 +1,3 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "lotb:block/mossy_blackstone"
-    }
+    "parent": "lotb:block/mossy_mordor_brick"
 }

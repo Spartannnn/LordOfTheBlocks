@@ -1,6 +1,6 @@
 {
     "variants": {
-        "rotation=0": { "model": "lotb:block/deer_skull" },
+        "rotation=0": { "model": "lotb:block/deer_skull", "y": 0 },
         "rotation=1": { "model": "lotb:block/deer_skull", "y": 0 },
         "rotation=2": { "model": "lotb:block/deer_skull", "y": 45 },
         "rotation=3": { "model": "lotb:block/deer_skull", "y": 45 },

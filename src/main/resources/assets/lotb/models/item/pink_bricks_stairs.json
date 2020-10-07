@@ -1,8 +1,3 @@
 {
-    "parent": "minecraft:block/stairs",
-    "textures": {
-        "bottom": "lotb:block/brick_pink",
-        "top": "lotb:block/brick_pink",
-        "side": "lotb:block/brick_pink"
-    }
+    "parent": "lotb:block/pink_bricks_stairs"
 }

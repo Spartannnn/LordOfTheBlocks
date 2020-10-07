@@ -1,6 +1,3 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "lotb:block/brick_purple"
-    }
+    "parent": "lotb:block/purple_bricks"
 }

@@ -1,6 +1,6 @@
 {
     "parent": "minecraft:item/generated",
     "textures": {
-        "layer0": "lotb:item/seed_lebethron"
+        "layer0": "lotb:item/seed_shire_oak"
     }
 }

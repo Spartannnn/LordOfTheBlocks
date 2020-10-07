@@ -18,10 +18,10 @@ public class ModBlocks {
     private static final Block.Properties DEFAULT_PROP = Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F);
 
     //ores
-    public static final RegistryObject<Block> PRISMARINE_ORE = _registerBlock("prismarine_ore", Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F));
-    public static final RegistryObject<Block> QUARTZ_ORE = _registerBlock("quartz_ore", Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F));
+    public static final RegistryObject<Block> PRISMARINE_ORE = registerBlock("prismarine_ore");
+    public static final RegistryObject<Block> QUARTZ_ORE = registerBlock("quartz_ore");
     public static final RegistryObject<Block> GLOWSTONE_ORE = _registerBlock("glowstone_ore", Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).lightValue(6));
-    public static final RegistryObject<Block> MITHRIL_ORE = _registerBlock("mithril_ore", Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F));
+    public static final RegistryObject<Block> MITHRIL_ORE = registerBlock("mithril_ore");
     public static final RegistryObject<Block> MITHRIL_BLOCK = _registerBlock("mithril_block", Block.Properties.create(Material.IRON).hardnessAndResistance(10.0F, 25.0F));
     public static final RegistryObject<Block> MITHRIL_BARS = registerOther("mithril_bars", () -> new BarsBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(10.0F, 25.0F)));
 
@@ -29,34 +29,34 @@ public class ModBlocks {
     public static final RegistryObject<Block> STICK_BLOCK = registerOther("stick_block", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.5F).sound(SoundType.BAMBOO_SAPLING)));
     public static final RegistryObject<Block> BLAZE_BLOCK = registerOther("blaze_block", () -> new RotatedPillarBlock(Block.Properties.create(Material.WOOD).hardnessAndResistance(0.5F).sound(SoundType.BAMBOO_SAPLING)));
     public static final RegistryObject<Block> THATCH_BLOCK = _registerBlock("thatch", Block.Properties.create(Material.ORGANIC).hardnessAndResistance(0.5F).sound(SoundType.GROUND));
-    public static final RegistryObject<Block> THATCH_STAIRS = registerOther("thatch_stairs", () -> new StairsBlock(() -> THATCH_BLOCK.get().getDefaultState(), Block.Properties.from(THATCH_BLOCK.get())));
-    public static final RegistryObject<Block> THATCH_SLAB = registerOther("thatch_slab", () -> new SlabBlock(Block.Properties.from(THATCH_BLOCK.get())));
-    public static final RegistryObject<Block> THATCH_WALL = registerOther("thatch_wall", () -> new WallBlock(Block.Properties.from(THATCH_BLOCK.get())));
-    public static final RegistryObject<Block> CRACKED_STONE_BRICK_STAIR = registerOther("cracked_brick_stairs", () -> new StairsBlock(Blocks.CRACKED_STONE_BRICKS::getDefaultState, Block.Properties.from(Blocks.CRACKED_STONE_BRICKS)));
-    public static final RegistryObject<Block> CRACKED_STONE_BRICK_SLAB = registerOther("cracked_brick_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F)));
-    public static final RegistryObject<Block> CRACKED_STONE_BRICK_WALL = registerOther("cracked_brick_wall", () -> new WallBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5F, 6.0F)));
+    public static final RegistryObject<Block> THATCH_STAIRS = registerStairs("thatch", () -> Block.Properties.from(THATCH_BLOCK.get()), () -> THATCH_BLOCK.get());
+    public static final RegistryObject<Block> THATCH_SLAB = registerSlab("thatch", () -> Block.Properties.from(THATCH_BLOCK.get()));
+    public static final RegistryObject<Block> THATCH_WALL = registerWall("thatch", () -> Block.Properties.from(THATCH_BLOCK.get()));
+    public static final RegistryObject<Block> CRACKED_STONE_BRICK_STAIR = registerStairs("cracked_brick", () -> Block.Properties.from(Blocks.CRACKED_STONE_BRICKS), ()->Blocks.CRACKED_STONE_BRICKS);
+    public static final RegistryObject<Block> CRACKED_STONE_BRICK_SLAB = registerSlab("cracked_brick", () -> Block.Properties.from(Blocks.CRACKED_STONE_BRICKS));
+    public static final RegistryObject<Block> CRACKED_STONE_BRICK_WALL = registerWall("cracked_brick", () -> Block.Properties.from(Blocks.CRACKED_STONE_BRICKS));
     public static final RegistryObject<Block> STONE_BRICK_PILLAR = registerOther("stone_brick_pillar", () -> new RotatedPillarBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.5F, 6.0F)));
 
     //temp mordor rock
     public static final RegistryObject<Block> MORDOR_ROCK = _registerBlock("mordor_rock", Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_ROCK_POLISHED = _registerBlock("polished_mordor_rock", Block.Properties.create(Material.ROCK).hardnessAndResistance(2.5F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_STAIR = registerOther("mordor_rock_stairs", () -> new StairsBlock(() -> MORDOR_ROCK.get().getDefaultState(), Block.Properties.from(MORDOR_ROCK.get())));
-    public static final RegistryObject<Block> MORDOR_SLAB = registerOther("mordor_rock_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_WALL = registerOther("mordor_rock_wall", () -> new WallBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK = _registerBlock("mordor_brick", Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_BRICK_STAIR = registerOther("mordor_brick_stairs", () -> new StairsBlock(() -> MORDOR_BRICK.get().getDefaultState(), Block.Properties.from(MORDOR_BRICK.get())));
-    public static final RegistryObject<Block> MORDOR_BRICK_SLAB = registerOther("mordor_brick_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK_WALL = registerOther("mordor_brick_wall", () -> new WallBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY = _registerBlock("mossy_mordor_brick", Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_STAIR = registerOther("mossy_mordor_brick_stairs", () -> new StairsBlock(() -> MORDOR_BRICK_MOSSY.get().getDefaultState(), Block.Properties.from(MORDOR_BRICK.get())));
-    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_SLAB = registerOther("mossy_mordor_brick_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_WALL = registerOther("mossy_mordor_brick_wall", () -> new WallBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED = _registerBlock("cracked_mordor_brick", Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_STAIR = registerOther("cracked_mordor_brick_stairs", () -> new StairsBlock(() -> MORDOR_BRICK_CRACKED.get().getDefaultState(), Block.Properties.from(MORDOR_BRICK.get())));
-    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_SLAB = registerOther("cracked_mordor_brick_slab", () -> new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F)));
-    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_WALL = registerOther("cracked_mordor_brick_wall", () -> new WallBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F)));
-    public static final RegistryObject<Block> CHISELED_MORDOR_BRICK = _registerBlock("chiseled_mordor_brick", Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F));
-    public static final RegistryObject<Block> MORDOR_PILLAR = registerOther("mordor_pillar", () -> new RotatedPillarBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(1.75F, 6.0F)));
+    public static final RegistryObject<Block> MORDOR_STAIR = registerStairs("mordor_rock", () -> Block.Properties.from(MORDOR_ROCK.get()), () -> MORDOR_ROCK.get());
+    public static final RegistryObject<Block> MORDOR_SLAB = registerSlab("mordor_rock", () -> Block.Properties.create(Material.ROCK).hardnessAndResistance(2F, 6.0F));
+    public static final RegistryObject<Block> MORDOR_WALL = registerWall("mordor_rock", () -> Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_ROCK_POLISHED = _registerBlock("polished_mordor_rock", Block.Properties.from(MORDOR_SLAB.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK = _registerBlock("mordor_brick", Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_STAIR = registerStairs("mordor_brick", () -> Block.Properties.from(MORDOR_ROCK.get()), () -> MORDOR_BRICK.get());
+    public static final RegistryObject<Block> MORDOR_BRICK_SLAB = registerSlab("mordor_brick", () -> Block.Properties.from(MORDOR_SLAB.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_WALL = registerWall("mordor_brick", () -> Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY = _registerBlock("mossy_mordor_brick", Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_STAIR = registerStairs("mossy_mordor_brick", () -> Block.Properties.from(MORDOR_BRICK.get()), () -> MORDOR_BRICK_MOSSY.get());
+    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_SLAB = registerSlab("mossy_mordor_brick", () -> Block.Properties.from(MORDOR_SLAB.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_MOSSY_WALL = registerWall("mossy_mordor_brick", () -> Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED = _registerBlock("cracked_mordor_brick", Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_STAIR = registerStairs("cracked_mordor_brick", () -> Block.Properties.from(MORDOR_BRICK.get()), () ->  MORDOR_BRICK_CRACKED.get());
+    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_SLAB = registerSlab("cracked_mordor_brick", () -> Block.Properties.from(MORDOR_SLAB.get()));
+    public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_WALL = registerWall("cracked_mordor_brick", () -> Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> CHISELED_MORDOR_BRICK = _registerBlock("chiseled_mordor_brick", Block.Properties.from(MORDOR_ROCK.get()));
+    public static final RegistryObject<Block> MORDOR_PILLAR = registerOther("mordor_pillar", () -> new RotatedPillarBlock(Block.Properties.from(MORDOR_ROCK.get())));
 
     //bricks
     public static final RegistryObject<Block> CLAY_WHITE = registerBlock("white_clay", Blocks.CLAY);
@@ -153,7 +153,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> LEBETHRON_LOG = registerOther("shire_oak_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.OAK_LOG)));
     public static final RegistryObject<Block> LEBETHRON_LOG_STRIPPED = registerOther("stripped_shire_oak_log", () -> new LogBlock(MaterialColor.WOOD, Block.Properties.from(Blocks.STRIPPED_OAK_LOG)));
     public static final RegistryObject<Block> LEBETHRON_WOOD = registerOther("shire_oak_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.OAK_WOOD)));
-    public static final RegistryObject<Block> LEBETHRON_WOOD_STRIPPED = registerOther("stripped_hire_oak_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.STRIPPED_OAK_WOOD)));
+    public static final RegistryObject<Block> LEBETHRON_WOOD_STRIPPED = registerOther("stripped_shire_oak_wood", () -> new RotatedPillarBlock(Block.Properties.from(Blocks.STRIPPED_OAK_WOOD)));
     public static final RegistryObject<Block> LEBETHRON_LEAVES = registerOther("shire_oak_leaves", () -> new LeavesBlock(Block.Properties.from(Blocks.OAK_PLANKS)));
     public static final RegistryObject<Block> LEBETHRON_PLANKS = registerBlock("shire_oak_planks", Blocks.OAK_PLANKS);
     public static final RegistryObject<Block> LEBETHRON_SLAB = registerOther("shire_oak_slab", () -> new SlabBlock(Block.Properties.from(Blocks.OAK_SLAB)));
@@ -182,7 +182,7 @@ public class ModBlocks {
     public static final RegistryObject<Block> HORN_DEER_SKULL_WALL = registerOther("horned_deer_skull_wall", () -> new DeerSkullWallBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1.0F)));
 
     //pies
-    public static final RegistryObject<Block> PORK_PIE = registerCake("prok_pie");
+    public static final RegistryObject<Block> PORK_PIE = registerCake("pork_pie");
     public static final RegistryObject<Block> BEEF_PIE = registerCake("beef_pie");
     public static final RegistryObject<Block> MUTTON_PIE = registerCake("mutton_pie");
     public static final RegistryObject<Block> CHICKEN_PIE = registerCake("chicken_pie");
@@ -192,42 +192,46 @@ public class ModBlocks {
     public static final RegistryObject<Block> VENISON_PIE = registerCake("venison_pie");
 
 
+    /*=========================================================BLOCKS===================================================================*/
     private static RegistryObject<Block> _registerBlock(String name, @Nullable Block.Properties properties) {
         return registerOther(name, () -> new Block(properties == null ? DEFAULT_PROP : properties));
     }
-
     private static RegistryObject<Block> registerBlock(String name) {
         return registerBlock(name, null);
     }
-
     private static RegistryObject<Block> registerBlock(String name, Block other) {
         return _registerBlock(name, Block.Properties.from(other));
     }
 
-
+    /*========================================================MISC====================================================================*/
     private static RegistryObject<Block> registerOther(String name, Supplier<? extends Block> block) {
         return BLOCKS.register(name, block);
     }
-
     private static RegistryObject<Block> registerCake(String name) {
         return registerOther(name, PieBlock::new);
     }
-
     private static RegistryObject<Block> registerSeed(String name) {
         return registerOther(name, ModSeedBlock::new);
     }
 
+    /*========================================================BUILDING====================================================================*/
+    private static RegistryObject<Block> registerWall(String name, Supplier<Block.Properties> properties) {
+        return registerOther(name + "_wall", () -> new WallBlock(properties.get()));
+    }
+    private static RegistryObject<Block> registerSlab(String name, Supplier<Block.Properties> properties) {
+        return registerOther(name + "_slab", () -> new SlabBlock(properties.get()));
+    }
+    private static RegistryObject<Block> registerStairs(String name, Supplier<Block.Properties> properties, Supplier<Block> block) {
+        return registerOther(name + "_stairs", () -> new StairsBlock(() -> block.get().getDefaultState(), properties.get()));
+    }
     private static RegistryObject<Block> registerBrickWall(String color) {
-        return registerOther(color + "_bricks_wall", () -> new WallBlock(Block.Properties.from(Blocks.BRICKS)));
+        return registerWall(color + "_bricks", () -> Block.Properties.from(Blocks.BRICKS));
     }
-
     private static RegistryObject<Block> registerBrickSlab(String color) {
-        return registerOther(color + "_bricks_slab", () -> new SlabBlock(Block.Properties.from(Blocks.BRICKS)));
+        return registerSlab(color + "_bricks", () -> Block.Properties.from(Blocks.BRICKS));
     }
-
-
     private static RegistryObject<Block> registerBrickStairs(String color, Supplier<Block> block) {
-        return registerOther(color + "_bricks_stairs", () -> new StairsBlock(() -> block.get().getDefaultState(), Block.Properties.from(Blocks.BRICKS)));
+        return registerStairs(color + "_bricks", () -> Block.Properties.from(Blocks.BRICKS),block);
     }
 
 }

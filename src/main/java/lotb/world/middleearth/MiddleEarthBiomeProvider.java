@@ -41,7 +41,6 @@ public class MiddleEarthBiomeProvider extends BiomeProvider{
 	public Layer createGenerationLayers(WorldType worldType, OverworldGenSettings _settings, LongFunction<IExtendedNoiseRandom<LazyArea>> areaFactory) {
 		//generating parent and biome layers
 		IAreaFactory<LazyArea> parentLayer = IslandLayer.INSTANCE.apply(areaFactory.apply(1));
-		//parentLayer = RiverLayer.INSTANCE.apply(areaFactory.apply(1L), parentLayer);
 		IAreaFactory<LazyArea> biomeLayer = new MiddleEarthBiomeLayer().apply(areaFactory.apply(200), parentLayer);
 		biomeLayer = ZoomLayer.NORMAL.apply(areaFactory.apply(2001L), biomeLayer);
 		biomeLayer = ZoomLayer.NORMAL.apply(areaFactory.apply(2002L), biomeLayer);

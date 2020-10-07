@@ -1,8 +1,3 @@
 {
-    "parent": "minecraft:block/stairs",
-    "textures": {
-        "bottom": "lotb:block/shire_oak_planks",
-        "top": "lotb:block/shire_oak_planks",
-        "side": "lotb:block/shire_oak_planks"
-    }
+    "parent": "lotb:block/shire_oak_stairs"
 }

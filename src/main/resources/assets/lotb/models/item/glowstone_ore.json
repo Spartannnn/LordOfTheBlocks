@@ -1,6 +1,3 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "lotb:block/glowstone_ore"
-    }
+    "parent": "lotb:block/glowstone_ore"
 }

@@ -1,6 +1,3 @@
 {
-    "parent": "minecraft:block/cube_all",
-    "textures": {
-        "all": "lotb:block/clay_black"
-    }
+    "parent": "lotb:block/black_clay"
 }
