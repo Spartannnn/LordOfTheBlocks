@@ -7,4 +7,9 @@ public class Valid {
             throw new NullPointerException(message);
     }
 
+    public static void checkTrue(boolean condition, String message) {
+        if(condition)
+            throw new IllegalStateException(message);
+    }
+
 }

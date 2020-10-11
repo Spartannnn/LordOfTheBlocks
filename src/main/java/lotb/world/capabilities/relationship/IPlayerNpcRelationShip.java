@@ -2,9 +2,9 @@ package lotb.world.capabilities.relationship;
 
 import com.google.common.collect.Maps;
 import lotb.LotbMod;
+import lotb.entities.npc.AbstractNPCEntity;
 import lotb.entities.npc.IDataNPC;
 import lotb.entities.npc.relationship.RelationShip;
-import lotb.entities.npc.AbstractNPCEntity;
 import lotb.util.Valid;
 import lotb.world.capabilities.ICapabilityData;
 import net.minecraft.client.Minecraft;
@@ -62,16 +62,11 @@ public interface IPlayerNpcRelationShip extends ICapabilityData<IDataNPC, Relati
         Map<AbstractNPCEntity, RelationShip> relationShips = Maps.newHashMap();
         ClientWorld world = Minecraft.getInstance().world;
         Valid.notNull(world, "Can not load player data, world is null. Class: PlayerNpcRelationShipSerializer");
-        list.forEach(entry -> {
-            if (!(entry instanceof CompoundNBT)) {
-                LotbMod.LOGGER.error("Illegal entry in player data list, can not read entity data");
-                throw new IllegalArgumentException();
-            }
-            CompoundNBT tag = (CompoundNBT) entry;
-            int npcId = tag.getInt("NpcID");
-            int relationShipOrdinal = tag.getInt("RelationShipOrdinal");
-            relationShips.put((AbstractNPCEntity) world.getEntityByID(npcId), RelationShip.VALUES[relationShipOrdinal]);
-        });
+        Map<IDataNPC, RelationShip> data = readData(list);
+        Valid.checkTrue(data.isEmpty(), "Can not load player data, data map is empty");
+        for (Map.Entry<IDataNPC, RelationShip> entry : data.entrySet()) {
+            relationShips.put(entry.getKey().getNPCEntity(world), entry.getValue());
+        }
         return relationShips;
     }
 
