@@ -1,41 +1,31 @@
 package lotb;
 
+import lotb.client.RenderSetupManager;
+import lotb.entities.ai.VanillaAddGoals;
+import lotb.entities.ai.ModActivities;
+import lotb.entities.ai.ModMemories;
+import lotb.entities.ai.ModSchedules;
+import lotb.entities.ai.ModSensors;
+import lotb.registries.*;
+import lotb.util.FoilageColorizer;
+import lotb.util.data.DataManager;
+import lotb.world.capabilities.CapabilityRegistering;
+import lotb.world.middleearth.MiddleEarth;
 import net.minecraft.item.*;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.*;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.IForgeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import lotb.lore.CharacterData;
-import lotb.client.RenderSetupManager;
-import lotb.entities.ai.VanillaAddGoals;
-import lotb.entities.ai.brain.ModActivities;
-import lotb.entities.ai.brain.ModMemories;
-import lotb.entities.ai.brain.ModSchedules;
-import lotb.entities.ai.brain.ModSensors;
-import lotb.registries.ModBiomes;
-import lotb.registries.ModBlocks;
-import lotb.registries.ModContainers;
-import lotb.registries.ModEntities;
-import lotb.registries.ModItems;
-import lotb.registries.ModStructures;
-import lotb.tools.FoilageColorizer;
-import lotb.tools.data.DataManager;
-import lotb.world.middleearth.MiddleEarth;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.WorldType;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import java.util.Objects;
 
@@ -43,85 +33,90 @@ import java.util.Objects;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(LotbMod.MODID)
 @Mod.EventBusSubscriber(modid = LotbMod.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class LotbMod
-{
+public class LotbMod {
     public static final String MODID = "lotb";
     public static final WorldType MiddleEarthWorld = new MiddleEarth();
-    
-    
+
+
     //@SuppressWarnings("unused")
-	public static final Logger LOGGER = LogManager.getLogger(MODID);
+    public static final Logger LOGGER = LogManager.getLogger(MODID);
 
     public LotbMod() {
         // Register the setup method for modloading
-    	final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-    	modEventBus.addListener(this::setup);
-    	modEventBus.addListener(this::enqueueIMC);
-    	modEventBus.addListener(this::processIMC);
-    	modEventBus.addListener(this::doClientStuff);
-    	
-    	ModSchedules.init();
-    	ModSensors.init();
+        final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modEventBus.addListener(this::setup);
+        modEventBus.addListener(this::enqueueIMC);
+        modEventBus.addListener(this::processIMC);
+        modEventBus.addListener(this::doClientStuff);
 
-		ModBlocks.BLOCKS.register(modEventBus);
-		ModItems.ITEMS.register(modEventBus);
-    	ModEntities.ENTITIES.register(modEventBus);
-    	ModContainers.CONTAINERS.register(modEventBus);
-    	ModStructures.STRUCTURES.register(modEventBus);
-    	ModMemories.MEMORIES.register(modEventBus);
-    	ModActivities.ACTIVITIES.register(modEventBus);
-    	ModBiomes.BIOMES.register(modEventBus);
-    	
+        ModSchedules.init();
+        ModSensors.init();
+
+        ModBlocks.BLOCKS.register(modEventBus);
+        ModItems.ITEMS.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
+        ModContainers.CONTAINERS.register(modEventBus);
+        ModStructures.STRUCTURES.register(modEventBus);
+        ModMemories.MEMORIES.register(modEventBus);
+        ModActivities.ACTIVITIES.register(modEventBus);
+        ModBiomes.BIOMES.register(modEventBus);
+
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(VanillaAddGoals.class);
         MinecraftForge.EVENT_BUS.register(DataManager.class);
-        MinecraftForge.EVENT_BUS.register(CharacterData.class);
     }
+
     public static ResourceLocation newLocation(String name) {
-    	return new ResourceLocation(MODID,name);
+        return new ResourceLocation(MODID, name);
     }
 //========================================================================================================================
 
 
-    private void setup(final FMLCommonSetupEvent event){}
-
-    private void doClientStuff(final FMLClientSetupEvent event) {
-    	FoilageColorizer.register();
-    	RenderSetupManager.initMobRenderers();
-    	RenderSetupManager.initBlockTransparancy();
-    	RenderSetupManager.initGuis();
+    private void setup(final FMLCommonSetupEvent event) {
+        CapabilityRegistering.register();
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event){}
-    private void processIMC(final InterModProcessEvent event) {}
+    private void doClientStuff(final FMLClientSetupEvent event) {
+        FoilageColorizer.register();
+        RenderSetupManager.initMobRenderers();
+        RenderSetupManager.initBlockTransparancy();
+        RenderSetupManager.initGuis();
+    }
+
+    private void enqueueIMC(final InterModEnqueueEvent event) {
+    }
+
+    private void processIMC(final InterModProcessEvent event) {
+    }
 
     public static final ItemGroup LOTB_GROUP = new ItemGroup(ItemGroup.GROUPS.length, "lotb") {
-		@Override
-		public ItemStack createIcon() {
-			return new ItemStack(Items.GOLD_INGOT);
-		}
-	};
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(Items.GOLD_INGOT);
+        }
+    };
 
     @SubscribeEvent
-	public static void onBlockItemRegistry(RegistryEvent.Register<Item> items) {
-		IForgeRegistry<Item> registry = items.getRegistry();
+    public static void onBlockItemRegistry(RegistryEvent.Register<Item> items) {
+        IForgeRegistry<Item> registry = items.getRegistry();
 
-		ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
-			Item.Properties properties = new Item.Properties().group(LOTB_GROUP);
-			BlockItem item = new BlockItem(block, properties);
-			item.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
-			registry.register(item);
-		});
-	}
+        ModBlocks.BLOCKS.getEntries().stream().map(RegistryObject::get).forEach(block -> {
+            Item.Properties properties = new Item.Properties().group(LOTB_GROUP);
+            BlockItem item = new BlockItem(block, properties);
+            item.setRegistryName(Objects.requireNonNull(block.getRegistryName()));
+            registry.register(item);
+        });
+    }
 
-	@SubscribeEvent
-	public static void onBiomeRegistry(RegistryEvent.Register<Biome> event) {
-    	ModBiomes.registerBiomes();
-	}
-    
     @SubscribeEvent
-    public static void loadCompleteEvent(FMLLoadCompleteEvent event) {}
+    public static void onBiomeRegistry(RegistryEvent.Register<Biome> event) {
+        ModBiomes.registerBiomes();
+    }
+
+    @SubscribeEvent
+    public static void loadCompleteEvent(FMLLoadCompleteEvent event) {
+    }
     //ROHAN		- green, yellow per fess, red inverted chevron, black indented base, white thing, white roundel
     //MORDOR	- black, yellow roundel, red flower charge
     //GONDOR	- black, white saltire, black base, blue base indented, white cross, black bordure indented

@@ -6,8 +6,10 @@ import lotb.registries.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -21,13 +23,17 @@ public class KnifeEntity extends ProjectileItemEntity {
 
     private KnifeItem.KnifeTier tier = KnifeItem.KnifeTier.DIAMOND; //Default diamond
 
+    private ItemStack knifeStack;
+
     public KnifeEntity(EntityType<? extends ProjectileItemEntity> p_i50173_1_, World p_i50173_2_) {
         super(p_i50173_1_, p_i50173_2_);
+        this.knifeStack = ItemStack.EMPTY;
     }
 
-    public KnifeEntity(World world, double x, double y, double z, KnifeItem.KnifeTier tier) {
+    public KnifeEntity(World world, double x, double y, double z, KnifeItem.KnifeTier tier, ItemStack knifeStack) {
         super(ModEntities.KNIFE.get(), x, y, z, world);
         this.tier = tier;
+        this.knifeStack = knifeStack;
     }
 
     @Override
@@ -59,6 +65,10 @@ public class KnifeEntity extends ProjectileItemEntity {
             if (entity instanceof LivingEntity) {
                 entity.attackEntityFrom(DamageSource.GENERIC, DAMAGE);
             }
+            if(knifeStack.isEmpty())
+                return;
+            ItemEntity itemEntity = new ItemEntity(entity.world, result.getHitVec().x, result.getHitVec().y, result.getHitVec().z, knifeStack);
+            entity.world.addEntity(itemEntity);
         }
     }
 

@@ -4,10 +4,7 @@ import lotb.LotbMod;
 import lotb.entities.item.KnifeEntity;
 import lotb.registries.materials.ModToolTiers;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.IItemTier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.item.TieredItem;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -55,10 +52,11 @@ public class KnifeItem extends TieredItem {
             LotbMod.LOGGER.error("Knife tier is null, can not find a knife tier for this item tier: {}", itemTier.toString());
             return ActionResult.resultFail(itemstack);
         }
-
-        KnifeEntity knife = new KnifeEntity(worldIn, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), tier);
+        itemstack.damageItem(1, playerIn, (player) -> player.sendBreakAnimation(handIn));
+        KnifeEntity knife = new KnifeEntity(worldIn, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), tier, itemstack);
         knife.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
         worldIn.addEntity(knife);
+        playerIn.setHeldItem(handIn, ItemStack.EMPTY);
 
         return ActionResult.resultSuccess(itemstack);
     }
