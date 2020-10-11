@@ -40,7 +40,7 @@ public abstract class SoldierProfession implements IProfession {
         brain.registerActivity(ModActivities.GUARD, guard(npcWalkSpeed));
         brain.registerActivity(ModActivities.PATROL, guard(npcWalkSpeed));
 
-        return null;
+        return brain;
     }
 
     protected ImmutableList<Pair<Integer, ? extends Task<? super AbstractNPCEntity>>> core(float walkingSpeed) {

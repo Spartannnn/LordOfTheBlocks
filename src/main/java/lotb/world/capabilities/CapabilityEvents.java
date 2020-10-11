@@ -14,8 +14,7 @@ public class CapabilityEvents {
     @SubscribeEvent
     public static void onAttach(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof PlayerEntity) {
-            PlayerNpcRelationShipSerializer serializer = new PlayerNpcRelationShipSerializer();
-            serializer.loadData(event.getObject().world);
+            PlayerNpcRelationShipSerializer serializer = new PlayerNpcRelationShipSerializer(event.getObject().world);
             event.addCapability(LotbMod.newLocation("player_npc_relationships"), serializer);
         }
     }

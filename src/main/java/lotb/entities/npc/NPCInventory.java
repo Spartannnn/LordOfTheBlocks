@@ -18,4 +18,21 @@ public class NPCInventory extends ItemStackHandler {
         return -1;
     }
 
+    public boolean addItem(ItemStack stack) {
+        for(int i = 0; i < this.getSlots(); i++) {
+            ItemStack invStack = this.getStackInSlot(i);
+            if(invStack.isEmpty()) {
+                this.setStackInSlot(i, stack);
+                return true;
+            }
+            if(stack.isItemEqual(invStack)) {
+                if(invStack.getCount() < invStack.getMaxStackSize()) {
+                    this.insertItem(i, stack, false);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }

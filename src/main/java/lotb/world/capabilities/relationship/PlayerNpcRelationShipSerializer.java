@@ -11,8 +11,10 @@ import net.minecraftforge.common.util.LazyOptional;
 public class PlayerNpcRelationShipSerializer implements ICapabilitySerializable<ListNBT> {
 
     private IPlayerNpcRelationShip playerNpcRelationShip;
+    private World world;
 
-    public PlayerNpcRelationShipSerializer() {
+    public PlayerNpcRelationShipSerializer(World world) {
+        this.world = world;
         this.playerNpcRelationShip = new PlayerNpcRelationShipImpl();
     }
 
@@ -26,13 +28,12 @@ public class PlayerNpcRelationShipSerializer implements ICapabilitySerializable<
         return this.playerNpcRelationShip.write();
     }
 
-    public void loadData(World world) {
-        this.playerNpcRelationShip.loadData(world);
-    }
+
 
     @Override
     public void deserializeNBT(ListNBT nbt) {
         this.playerNpcRelationShip.setData(IPlayerNpcRelationShip.readData(nbt));
+        this.playerNpcRelationShip.loadData(this.world);
         LotbMod.LOGGER.debug("Loaded player data: Player-NPC relationship");
     }
 

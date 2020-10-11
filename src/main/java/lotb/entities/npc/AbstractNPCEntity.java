@@ -75,7 +75,7 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         gpn.setCanSwim(true);
         setCanPickUpLoot(true);
         this.profession = profession;
-        initBrain();
+        resetBrain((ServerWorld) worldIn);
         this.faction = Faction.GONDOR;
         Arrays.fill(this.inventoryArmorDropChances, this.equipmentDropChance / 2);
         Arrays.fill(this.inventoryHandsDropChances, this.equipmentDropChance);
@@ -84,6 +84,10 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         this.realName = realName;
         if (!worldIn.isRemote)
             this.resetBrain((ServerWorld) worldIn);
+        //TODO removing later
+        boolean b = this.npcInventory.addItem(new ItemStack(Items.WHITE_BED));
+        LotbMod.LOGGER.debug("Bed added? {}", b);
+        this.setCustomNameVisible(true);
     }
 
     @Override
@@ -141,9 +145,11 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
 
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
-        profession.onRightClick(this, player.getHeldItem(hand), player, world);
-        brain.setMemory(MemoryModuleType.INTERACTION_TARGET, player);
-        return true;
+        if(profession.onRightClick(this, player.getHeldItem(hand), player, world) || super.processInteract(player, hand)) {
+            brain.setMemory(MemoryModuleType.INTERACTION_TARGET, player);
+            return true;
+        }
+        return false;
     }
 
     @Override

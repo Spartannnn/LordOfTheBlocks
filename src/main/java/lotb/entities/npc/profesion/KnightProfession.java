@@ -1,6 +1,7 @@
 package lotb.entities.npc.profesion;
 
 import com.google.common.collect.Sets;
+import lotb.LotbMod;
 import lotb.entities.npc.AbstractNPCEntity;
 import lotb.entities.npc.NPCFoodManager;
 import lotb.entities.npc.NPCInventory;
@@ -44,9 +45,10 @@ public class KnightProfession extends SoldierProfession {
     }
 
     @Override
-    public void onRightClick(AbstractNPCEntity npc, ItemStack stack, PlayerEntity player, World world) {
+    public boolean onRightClick(AbstractNPCEntity npc, ItemStack stack, PlayerEntity player, World world) {
         if (currentState != ProffesionActivity.SLEEPING)
             player.sendMessage(TCHelper.string("DEBUG: Not sleeping"));
+        return true;
     }
 
     @Override
@@ -134,8 +136,10 @@ public class KnightProfession extends SoldierProfession {
                             bedPos = pos;
                     }
                 });
-                if (bedPos != null)
+                if (bedPos != null) {
                     world.setBlockState(bedPos, Blocks.WHITE_BED.getDefaultState(), 1);
+                    LotbMod.LOGGER.info("bed placed");
+                }
             }
         }
     }

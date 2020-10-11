@@ -2,9 +2,6 @@ package lotb.entities;
 
 import lotb.entities.ai.goals.AvoidNotSneakingEntityGoal;
 import lotb.entities.ai.goals.HerdPanicGoal;
-import lotb.entities.npc.Dwarf;
-import lotb.entities.npc.Human;
-import lotb.entities.npc.Orc;
 import lotb.registries.ModBlocks;
 import lotb.registries.ModEntities;
 import lotb.registries.ModSounds;
@@ -38,9 +35,9 @@ public class Deer extends AnimalEntity {
 		this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromItems(Items.SWEET_BERRIES, Items.WHEAT), true));
 		this.goalSelector.addGoal(3, new FollowParentGoal(this, 1.25D));
 		this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.7d, 2.2D));
-		this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Orc.class, 8.0F, 1.7d, 2.2D));
-		this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Dwarf.class, 8.0F, 1.7d, 2.2D));
-		this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Human.class, 8.0F, 1.7d, 2.2D));
+		//this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Orc.class, 8.0F, 1.7d, 2.2D));
+		//this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Dwarf.class, 8.0F, 1.7d, 2.2D));
+		//this.goalSelector.addGoal(4, new AvoidNotSneakingEntityGoal<>(this, Human.class, 8.0F, 1.7d, 2.2D));
 		this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(7, new LookRandomlyGoal(this));

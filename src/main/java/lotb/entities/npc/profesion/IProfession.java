@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 
 public interface IProfession {
 
-    void onRightClick(AbstractNPCEntity npc, ItemStack stack, PlayerEntity player, World world);
+    boolean onRightClick(AbstractNPCEntity npc, ItemStack stack, PlayerEntity player, World world);
 
     void onAttacked(AbstractNPCEntity npc, PlayerEntity player, World world);
 
