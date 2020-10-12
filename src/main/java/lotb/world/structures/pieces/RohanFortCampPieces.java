@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.mojang.datafixers.util.Pair;
 
+import lotb.lore.Faction;
 import lotb.registries.ModBlocks;
 import lotb.registries.ModItems;
 import lotb.tools.ModMathFunctions;
@@ -777,7 +778,7 @@ public class RohanFortCampPieces {
         	setBlockState(world, Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP), 3, 1, 5, box);
         	setBlockState(world, Blocks.LANTERN.getDefaultState(), 3, 2, 5, box);
         	setBlockState(world, Blocks.CARTOGRAPHY_TABLE.getDefaultState(), 3, 1, 3, box);
-        	setBlockState(world, Blocks.GREEN_WALL_BANNER.getDefaultState().with(WallBannerBlock.HORIZONTAL_FACING, Direction.WEST), 4, 3, 3, box);
+        	placeWallFactionBanner(world,box,4, 3, 3, Direction.WEST, Faction.ROHAN);
         	return true;
         }
 	}

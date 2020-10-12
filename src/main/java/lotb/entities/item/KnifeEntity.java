@@ -1,71 +1,58 @@
 package lotb.entities.item;
 
+import com.google.common.collect.Multimap;
 import lotb.items.KnifeItem;
 import lotb.registries.ModEntities;
 import lotb.registries.ModItems;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.IPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
-public class KnifeEntity extends ProjectileItemEntity {
-
-    public static final float DAMAGE = 3.0F; //Change the damage here
-
-    private KnifeItem.KnifeTier tier = KnifeItem.KnifeTier.DIAMOND; //Default diamond
-
-    public KnifeEntity(EntityType<? extends ProjectileItemEntity> p_i50173_1_, World p_i50173_2_) {
-        super(p_i50173_1_, p_i50173_2_);
+public class KnifeEntity extends ThrowableToolEntity {
+    public KnifeEntity(EntityType<? extends ThrowableToolEntity> _type, World _world) {
+        super(_type, _world);
     }
 
-    public KnifeEntity(World world, double x, double y, double z, KnifeItem.KnifeTier tier) {
-        super(ModEntities.KNIFE.get(), x, y, z, world);
-        this.tier = tier;
+    public KnifeEntity(World _world, double x, double y, double z, ItemStack item) {
+        super(ModEntities.KNIFE.get(), x, y, z, _world);
+        if (item.getItem() instanceof KnifeItem)
+            this.setItem(item);
+        else
+            LOGGER.error("tried to use an invalid item");
     }
 
-    @Override
-    protected Item getDefaultItem() {
-        switch (tier) {
-            case WOOD:
-                return ModItems.WOODEN_KNIFE.get();
-            case STONE:
-                return ModItems.STONE_KNIFE.get();
-            case GOLD:
-                return ModItems.GOLD_KNIFE.get();
-            case IRON:
-                return ModItems.IRON_KNIFE.get();
-            case DIAMOND:
-                return ModItems.DIAMOND_KNIFE.get();
-            case MITHRIL:
-                return ModItems.MITHRIL_KNIFE.get();
-            default:
-                throw new IllegalStateException("Knife tier not found");
-        }
-    }
-
-
-    @Override
-    protected void onImpact(RayTraceResult result) {
-        if (result.getType() == RayTraceResult.Type.ENTITY) {
-            EntityRayTraceResult entityRayTraceResult = (EntityRayTraceResult) result;
-            Entity entity = entityRayTraceResult.getEntity();
-            if (entity instanceof LivingEntity) {
-                entity.attackEntityFrom(DamageSource.GENERIC, DAMAGE);
+    public void onCollideWithPlayer(PlayerEntity entityIn) {
+        if (!this.world.isRemote && (this.inGround) ){
+            if( entityIn.inventory.addItemStackToInventory(this.getItemStack())) {
+                entityIn.onItemPickup(this, 1);
+                this.remove();
             }
         }
     }
 
-    @Override
-    public IPacket<?> createSpawnPacket() {
+    @Override protected float getAttackDamage() {
+        return ((KnifeItem)this.getItemStack().getItem()).getAttackDamage();
+    }
+    @Override protected Item getDefaultItem() {
+        return ModItems.IRON_KNIFE.get();
+    }
+    @Override public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
-
-
 }

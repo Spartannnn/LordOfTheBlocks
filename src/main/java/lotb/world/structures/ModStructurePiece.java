@@ -8,12 +8,10 @@ import java.util.Random;
 import com.mojang.datafixers.util.Pair;
 
 import lotb.entities.npc.AbstractNpcEntity;
+import lotb.lore.Faction;
 import lotb.registries.ModBlocks;
 import lotb.world.structures.pieces.RohanFortCampPieces.Path;
-import net.minecraft.block.BarrelBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -101,7 +99,14 @@ public abstract class ModStructurePiece extends StructurePiece{
     	}
     	setBlockState(world, cake.getDefaultState(),x, y, z, box);
     }
-	
+
+    public void placeFactionBanner(IWorld world, MutableBoundingBox box, int x, int y, int z, int rot, Faction faction){
+		setBlockState(world, Blocks.GREEN_BANNER.getDefaultState().with(BannerBlock.ROTATION, rot), x,y,z, box);
+	}
+	public void placeWallFactionBanner(IWorld world, MutableBoundingBox box, int x, int y, int z, Direction dir, Faction faction){
+		setBlockState(world, Blocks.GREEN_WALL_BANNER.getDefaultState().with(WallBannerBlock.HORIZONTAL_FACING, Direction.WEST), x,y,z, box);
+	}
+
 	protected void generateChest(IWorld worldIn, MutableBoundingBox boundsIn, Random rand, int x, int y, int z, ResourceLocation resourceLocationIn, BlockState state) {
 		BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 		if (boundsIn.isVecInside(blockpos) && worldIn.getBlockState(blockpos).getBlock() != Blocks.CHEST) {

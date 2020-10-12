@@ -1,7 +1,27 @@
 {
   "replace": false,
   "values": [
-    "lotb:shire_oak_stairs",
-    "lotb:thatch_stairs"
+    "lotb:thatch_stairs",
+    "lotb:mordor_rock_stairs",
+    "lotb:mordor_brick_stairs",
+    "lotb:mossy_mordor_brick_stairs",
+    "lotb:cracked_mordor_brick_stairs",
+    "lotb:cracked_brick_stairs",
+    "lotb:white_bricks_stairs",
+    "lotb:orange_bricks_stairs",
+    "lotb:magenta_bricks_stairs",
+    "lotb:light_blue_bricks_stairs",
+    "lotb:lime_bricks_stairs",
+    "lotb:yellow_bricks_stairs",
+    "lotb:lime_bricks_stairs",
+    "lotb:grey_bricks_stairs",
+    "lotb:silver_bricks_stairs",
+    "lotb:cyan_bricks_stairs",
+    "lotb:purple_bricks_stairs",
+    "lotb:blue_bricks_stairs",
+    "lotb:brown_bricks_stairs",
+    "lotb:green_bricks_stairs",
+    "lotb:red_bricks_stairs",
+    "lotb:black_bricks_stairs"
   ]
 }

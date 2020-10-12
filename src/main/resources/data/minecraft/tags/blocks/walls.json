@@ -3,6 +3,25 @@
   "values": [
     "lotb:thatch_wall",
     "lotb:mordor_rock_wall",
-    "lotb:mordor_brick_wall"
+    "lotb:mordor_brick_wall",
+    "lotb:mossy_mordor_brick_wall",
+    "lotb:cracked_mordor_brick_wall",
+    "lotb:cracked_brick_wall",
+    "lotb:white_bricks_wall",
+    "lotb:orange_bricks_wall",
+    "lotb:magenta_bricks_wall",
+    "lotb:light_blue_bricks_wall",
+    "lotb:lime_bricks_wall",
+    "lotb:yellow_bricks_wall",
+    "lotb:lime_bricks_wall",
+    "lotb:grey_bricks_wall",
+    "lotb:silver_bricks_wall",
+    "lotb:cyan_bricks_wall",
+    "lotb:purple_bricks_wall",
+    "lotb:blue_bricks_wall",
+    "lotb:brown_bricks_wall",
+    "lotb:green_bricks_wall",
+    "lotb:red_bricks_wall",
+    "lotb:black_bricks_wall"
   ]
 }

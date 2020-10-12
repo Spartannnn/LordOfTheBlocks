@@ -5,6 +5,7 @@ import lotb.blocks.*;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.Items;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -57,7 +58,6 @@ public class ModBlocks {
     public static final RegistryObject<Block> MORDOR_BRICK_CRACKED_WALL = registerWall("cracked_mordor_brick", () -> Block.Properties.from(MORDOR_ROCK.get()));
     public static final RegistryObject<Block> CHISELED_MORDOR_BRICK = registerBlock("chiseled_mordor_brick", MORDOR_ROCK);
     public static final RegistryObject<Block> MORDOR_PILLAR = registerOther("mordor_pillar", () -> new RotatedPillarBlock(Block.Properties.from(MORDOR_ROCK.get())));
-
     //bricks
     public static final RegistryObject<Block> CLAY_WHITE = registerBlock("white_clay", Blocks.CLAY);
     public static final RegistryObject<Block> CLAY_ORANGE = registerBlock("orange_clay", Blocks.CLAY);
@@ -173,7 +173,6 @@ public class ModBlocks {
     public static final RegistryObject<Block> IRON_BAR_DOOR = registerOther("iron_bar_door", () -> new ModDoorBlock(Block.Properties.from(Blocks.IRON_BARS)));
     public static final RegistryObject<Block> MITHRIL_BAR_DOOR = registerOther("mithril_bar_door", () -> new ModDoorBlock(Block.Properties.from(ModBlocks.MITHRIL_BARS.get())));
     public static final RegistryObject<Block> DWARVEN_DOOR = registerOther("dwarven_door", () -> new ModDoorBlock(Block.Properties.from(Blocks.STONE)));
-
     //decorations
     //public static final RegistryObject<Block> DWARVEN_GRAFFITI	= reg("dwarven_graffiti", new Block(Block.Properties.from(Blocks.STONE)),ItemGroup.DECORATIONS)
     public static final RegistryObject<Block> DEER_SKULL = registerOther("deer_skull", () -> new DeerSkullBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1.0F)));
@@ -238,6 +237,5 @@ public class ModBlocks {
     private static RegistryObject<Block> registerBrickStairs(String color, Supplier<Block> block) {
         return registerStairs(color + "_bricks", () -> Block.Properties.from(Blocks.BRICKS),block);
     }
-
 }
 

@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ModItems {
-    public static final Item.Properties DEFAULT_PROP = new Item.Properties().group(LotbMod.LOTB_GROUP);
+    public static final Item.Properties DEFAULT_PROP = new Item.Properties().group(LotbMod.LOTB_GROUP).maxStackSize(64);
 
     public static final DeferredRegister<Item> ITEMS = new DeferredRegister<>(ForgeRegistries.ITEMS, LotbMod.MODID);
 
@@ -51,7 +51,6 @@ public class ModItems {
     public static final RegistryObject<Item> BADGER_CHESTPLATE = registerArmor("badger_fur_chestplate", ModArmourTiers.BADGER, EquipmentSlotType.CHEST);
     public static final RegistryObject<Item> BADGER_LEGGINGS = registerArmor("badger_fur_leggings", ModArmourTiers.BADGER, EquipmentSlotType.LEGS);
     public static final RegistryObject<Item> BADGER_BOOTS = registerArmor("badger_fur_boots", ModArmourTiers.BADGER, EquipmentSlotType.FEET);
-
     //faction armour+weapons
     public static final RegistryObject<Item> GONDOR_HELMET = registerArmor("gondor_helmet", ModArmourTiers.GONDOR, EquipmentSlotType.HEAD);
     public static final RegistryObject<Item> GONDOR_CHESTPLATE = registerArmor("gondor_chestplate", ModArmourTiers.GONDOR, EquipmentSlotType.CHEST);
@@ -109,10 +108,8 @@ public class ModItems {
     public static final RegistryObject<Item> BRICK_GREEN = registerItem("green_brick");
     public static final RegistryObject<Item> BRICK_RED = registerItem("red_brick");
     public static final RegistryObject<Item> BRICK_BLACK = registerItem("black_brick");
-
     //boats
     public static final RegistryObject<Item> OAK_BOAT = registerOther("shire_oak_boat", () -> new BoatItem(BoatEntity.Type.OAK, new Item.Properties().maxStackSize(1).group(LotbMod.LOTB_GROUP)));
-
     //foods
     public static final RegistryObject<Item> VENISON = registerFood("venison", ModFoods.VENISON);
     public static final RegistryObject<Item> COOKED_VENISON = registerFood("cooked_venison", ModFoods.COOKED_VENISON);
@@ -121,7 +118,6 @@ public class ModItems {
     public static final RegistryObject<Item> HARD_TACK = registerFood("hard_tack", ModFoods.HARD_TACK);
     public static final RegistryObject<Item> LEMBAS = registerFood("lembas", ModFoods.LEMBAS);
     public static final RegistryObject<Item> CRAM = registerFood("cram", ModFoods.CRAM);
-
     //knifes
     public static final RegistryObject<Item> WOODEN_KNIFE = registerKnife("wooden_knife", ItemTier.WOOD);
     public static final RegistryObject<Item> STONE_KNIFE = registerKnife("stone_knife", ItemTier.STONE);
@@ -130,26 +126,23 @@ public class ModItems {
     public static final RegistryObject<Item> DIAMOND_KNIFE = registerKnife("diamond_knife", ItemTier.DIAMOND);
     public static final RegistryObject<Item> MITHRIL_KNIFE = registerKnife("mithril_knife", ModToolTiers.MITHRIL);
 
+
+    /*====================================REGISTERING============================================*/
     private static RegistryObject<Item> registerFood(String name, Food food) {
         return registerOther(name, () -> new Item(new Item.Properties().group(LotbMod.LOTB_GROUP).food(food)));
     }
-
     private static RegistryObject<Item> registerOther(String name, Supplier<? extends Item> supplier) {
         return ITEMS.register(name, supplier);
     }
-
     private static RegistryObject<Item> registerItem(String name, @Nullable Item.Properties properties) {
         return ITEMS.register(name, () -> new Item(properties == null ? DEFAULT_PROP : properties));
     }
-
     private static RegistryObject<Item> registerItem(String name) {
         return registerItem(name, null);
     }
-
     private static RegistryObject<Item> registerKnife(String name, IItemTier tier) {
         return registerOther(name, () -> new KnifeItem(tier, DEFAULT_PROP));
     }
-
     private static RegistryObject<Item> registerSword(String name, IItemTier tier, int damage, float attackSpeed) {
         return ITEMS.register(name, () -> new SwordItem(tier, damage, attackSpeed, DEFAULT_PROP));
     }
@@ -165,13 +158,10 @@ public class ModItems {
     private static RegistryObject<Item> registerShovel(String name, IItemTier tier, float damage, float speed) {
         return ITEMS.register(name, () -> new ShovelItem(tier, damage, speed, DEFAULT_PROP));
     }
-
     private static RegistryObject<Item> registerHoe(String name, IItemTier tier, float speed) {
         return ITEMS.register(name, () -> new HoeItem(tier, speed, DEFAULT_PROP));
     }
-
     private static RegistryObject<Item> registerArmor(String name, IArmorMaterial armor, EquipmentSlotType slot) {
         return ITEMS.register(name, () -> new ArmorItem(armor, slot, DEFAULT_PROP));
     }
-
 }
