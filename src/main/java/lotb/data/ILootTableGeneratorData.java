@@ -1,6 +1,6 @@
 package lotb.data;
 
-import lotb.tools.data.ModLootTables;
+import lotb.util.data.ModLootTables;
 import net.minecraft.advancements.criterion.EnchantmentPredicate;
 import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.advancements.criterion.MinMaxBounds;

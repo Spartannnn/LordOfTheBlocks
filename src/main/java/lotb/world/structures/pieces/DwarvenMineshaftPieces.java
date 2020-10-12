@@ -3,7 +3,7 @@ package lotb.world.structures.pieces;
 import java.util.List;
 import java.util.Random;
 
-import lotb.tools.ModMathFunctions;
+import lotb.util.ModMathFunctions;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;

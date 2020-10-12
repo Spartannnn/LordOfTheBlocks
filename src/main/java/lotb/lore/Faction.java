@@ -9,4 +9,7 @@ public enum Faction {
 	MISTY_MTS,
 	KHAZAD_DUM,
 	MIRKWOOD;
+
+	public static final Faction[] VALUES = values();
+
 }

@@ -8,7 +8,7 @@ import com.mojang.datafixers.util.Pair;
 import lotb.lore.Faction;
 import lotb.registries.ModBlocks;
 import lotb.registries.ModItems;
-import lotb.tools.ModMathFunctions;
+import lotb.util.ModMathFunctions;
 import lotb.world.structures.ModStructurePiece;
 import lotb.world.structures.gen.RohanFortCamp;
 import net.minecraft.block.AnvilBlock;

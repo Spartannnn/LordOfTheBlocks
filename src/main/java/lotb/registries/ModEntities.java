@@ -3,7 +3,7 @@ package lotb.registries;
 import lotb.LotbMod;
 import lotb.entities.*;
 import lotb.entities.item.KnifeEntity;
-import lotb.entities.npc.*;
+import lotb.entities.npc.DwarfNPCEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -30,11 +30,12 @@ public class ModEntities {
     //public static final EntityType<Warg> WARG				= reg("warg",EntityType.Builder.<Warg>create(Warg::new,EntityClassification.MONSTER).size(0.9f,1.3f)			 ,0x44433a,0x4443a);
     //public static final EntityType<Wight> WIGHT			= reg("wight",EntityType.Builder.<Wight>create(Wight::new,EntityClassification.MONSTER).size(0.9f,1.3f)			 ,0x44433a,0x4443a);
     //charecters
-    public static final EntityType<Hobbit> HOBBIT = reg("hobbit", EntityType.Builder.<Hobbit>create(Hobbit::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x9fff38, 0xdbad7d);
-    public static final EntityType<Dwarf> DWARF = reg("dwarf", EntityType.Builder.<Dwarf>create(Dwarf::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x504e57, 0xdbad7d);
-    public static final EntityType<Human> HUMAN = reg("human", EntityType.Builder.<Human>create(Human::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x6a5030, 0xdbad7d);
-    public static final EntityType<Elf> ELF = reg("elf", EntityType.Builder.<Elf>create(Elf::new, EntityClassification.MISC).size(0.6f, 1.95F), 0xffed9c, 0xdbad7d);
-    public static final EntityType<Orc> ORC = reg("orc", EntityType.Builder.<Orc>create(Orc::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x161909, 0xdbad7d);
+    public static final EntityType<DwarfNPCEntity> DWARF = reg("dwarf", EntityType.Builder.<DwarfNPCEntity>create(DwarfNPCEntity::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x504e57, 0xdbad7d);
+    /*public static final EntityType<HumanNpcEntity> HUMAN = reg("human", EntityType.Builder.<HumanNpcEntity>create(HumanNpcEntity::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x6a5030, 0xdbad7d);
+    public static final EntityType<ElfNpcEntity> ELF = reg("elf", EntityType.Builder.<ElfNpcEntity>create(ElfNpcEntity::new, EntityClassification.MISC).size(0.6f, 1.95F), 0xffed9c, 0xdbad7d);
+    public static final EntityType<OrcNpcEntity> ORC = reg("orc", EntityType.Builder.<OrcNpcEntity>create(OrcNpcEntity::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x161909, 0xdbad7d);
+    public static final EntityType<HobbitNpcEntity> HOBBIT = reg("hobbit", EntityType.Builder.<HobbitNpcEntity>create(HobbitNpcEntity::new, EntityClassification.MISC).size(0.6f, 1.95F), 0x9fff38, 0xdbad7d);
+*/
     //projectiles
     public static final RegistryObject<EntityType<KnifeEntity>> KNIFE = registerEntity("throwing_knife", KnifeEntity::new);
 

@@ -23,11 +23,11 @@ public class RenderSetupManager {
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.MOUSE, MouseRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.SQUIRREL, SquirrelRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.DWARF, DwarfRenderer::new);
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELF, ElfRenderer::new);
+        /*RenderingRegistry.registerEntityRenderingHandler(ModEntities.ELF, ElfRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.HOBBIT, HobbitRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.HUMAN, HumanRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.ORC, OrcRenderer::new);
-
+*/
         //overriding
         //RenderingRegistry.registerEntityRenderingHandler(EntityType.WOLF, WolfRenderer::new);
         //knife rendering
