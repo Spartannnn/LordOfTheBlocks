@@ -1,0 +1,121 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "block/texture",
+		"particle": "block/texture"
+	},
+	"elements": [
+		{
+			"name": "cubeL",
+			"from": [6, 1, 1],
+			"to": [7, 4, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 8, 14]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"east": {"uv":  [0, 0, 8, 1.5], "texture": "#skull"},
+				"south": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"west": {"uv":  [0, 0, 8, 1.5], "texture": "#skull"},
+				"up": {"uv":	[0, 0, 1, 4], "texture": "#skull"},
+				"down": {"uv":  [0, 0, 1, 4], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "cubeR",
+			"from": [11, 1, 1],
+			"to": [12, 4, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 8, 14]},
+			"faces": {
+				"north": {"uv":[2, 6, 3, 9], "texture": "#skull"},
+				"east": {"uv": [0, 0, 8, 3], "texture": "#skull"},
+				"south": {"uv":[3, 6, 4, 9], "texture": "#skull"},
+				"west": {"uv": [0, 3, 8, 6], "texture": "#skull"},
+				"up": {"uv":   [1, 14, 0, 6],"texture": "#skull"},
+				"down": {"uv": [2, 6, 1, 14],"texture": "#skull"}
+			}
+		},
+		{
+			"name": "jawL",
+			"from": [6, -1, 5],
+			"to": [7, 1, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 4, 18]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1], "texture": "#skull"},
+				"east": {"uv":	[0, 0, 8, 1], "texture": "#skull"},
+				"south": {"uv": [0, 0, 1, 1], "texture": "#skull"},
+				"west": {"uv":  [0, 0, 8, 1], "texture": "#skull"},
+				"up": {"uv":	[0, 0, 1, 4], "texture": "#skull"},
+				"down": {"uv":  [0, 0, 1, 4], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "jawR",
+			"from": [11, -1, 5],
+			"to": [12, 1, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [20, 4, 18]},
+			"faces": {
+				"north": {"uv":[0, 0, 1, 1], "texture": "#skull"},
+				"east": {"uv": [0, 0, 8, 1], "texture": "#skull"},
+				"south": {"uv":[0, 0, 1, 1], "texture": "#skull"},
+				"west": {"uv": [0, 0, 8, 1], "texture": "#skull"},
+				"up": {"uv":   [0, 0, 1, 4], "texture": "#skull"},
+				"down": {"uv": [0, 0, 1, 4], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "eyeL",
+			"from": [5, 1, 5],
+			"to": [6, 4, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 8, 13]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"east": {"uv": [0, 0, 3, 1.5], "texture": "#skull"},
+				"south": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"west": {"uv": [0, 0, 3, 1.5], "texture": "#skull"},
+				"up": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"down": {"uv": [0, 0, 1, 1.5], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "eyeR",
+			"from": [12, 1, 5],
+			"to": [13, 4, 8],
+			"rotation": {"angle": 0, "axis": "y", "origin": [21, 8, 13]},
+			"faces": {
+				"north": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"east": {"uv": [0, 0, 3, 1.5], "texture": "#skull"},
+				"south": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"west": {"uv": [0, 0, 3, 1.5], "texture": "#skull"},
+				"up": {"uv": [0, 0, 1, 1.5], "texture": "#skull"},
+				"down": {"uv": [0, 0, 1, 1.5], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "skull",
+			"from": [7, 0, 0],
+			"to": [11, 4, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [15, 8, 17]},
+			"faces": {
+				"north": {"uv":[4, 0, 2, 14], "texture": "#skull"},
+				"east": {"uv": [6, 2, 2, 12], "texture": "#skull"},
+				"south": {"uv":[2, 0, 2, 14], "texture": "#skull"},
+				"west": {"uv": [0, 2, 2, 10], "texture": "#skull"},
+				"up": {"uv":   [2, 2, 2, 7.5], "texture": "#skull"},
+				"down": {"uv": [4, 2, 2, 7.5], "texture": "#skull"}
+			}
+		},
+		{
+			"name": "nose",
+			"from": [7, 0, 15],
+			"to": [11, 0, 17],
+			"rotation": {"angle": 0, "axis": "y", "origin": [17, 8, 24]},
+			"faces": {
+				"north": {"uv": [0, 0, 4, 0], "texture": "#skull"},
+				"east": {"uv": [0, 0, 2, 0], "texture": "#skull"},
+				"south": {"uv": [0, 0, 4, 0], "texture": "#skull"},
+				"west": {"uv": [0, 0, 2, 0], "texture": "#skull"},
+				"up": {"uv": [6, 12, 8, 13], "texture": "#skull"},
+				"down": {"uv": [6, 13, 8, 14], "texture": "#skull"}
+			}
+		}
+	]
+}

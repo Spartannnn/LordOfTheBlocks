@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "lotb:venison"
+  },
+  "result": "lotb:cooked_venison",
+  "experience": 0.1,
+  "cookingtime": 100
+}

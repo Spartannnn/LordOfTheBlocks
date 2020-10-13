@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "boat",
+    "pattern": [
+        "W W",
+        "WWW"
+    ],
+    "key": {
+        "W": {
+            "item": "lotb:shire_oak_planks"
+        }
+    },
+    "result": {
+        "item": "lotb:shire_oak_boat"
+    }
+}

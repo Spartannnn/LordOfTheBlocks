@@ -1,0 +1,10 @@
+{
+    "type": "minecraft:smelting",
+    "group": "stained_brick",
+    "ingredient": {
+        "item": "lotb:brown_clay_ball"
+    },
+    "result": "lotb:brown_brick",
+    "experience": 0.1,
+    "cookingtime": 200
+}

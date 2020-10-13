@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "stained_clay_ball",
+    "pattern": [
+        "###",
+        "#X#",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:clay_ball"
+        },
+        "X": {
+            "item": "minecraft:red_dye"
+        }
+    },
+    "result": {
+        "item": "lotb:red_clay_ball",
+        "count": 8
+    }
+}

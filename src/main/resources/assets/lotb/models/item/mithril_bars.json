@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "all": "lotb:block/mithril_bars"
+    }
+}

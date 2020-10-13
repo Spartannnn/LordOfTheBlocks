@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "lotb:mordor_rock"
+    },
+    "result": "lotb:polished_mordor_rock",
+    "count": 1
+}

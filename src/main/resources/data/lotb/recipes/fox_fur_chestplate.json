@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:fox_pelt"
+        }
+    },
+    "result": {
+        "item": "lotb:fox_fur_chestplate",
+        "count": 1
+    }
+}

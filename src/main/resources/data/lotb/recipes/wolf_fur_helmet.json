@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "# #"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:wolf_pelt"
+        }
+    },
+    "result": {
+        "item": "lotb:wolf_fur_helmet",
+        "count": 1
+    }
+}

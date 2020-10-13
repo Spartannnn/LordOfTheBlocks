@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "stained_brick_block",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:white_brick"
+        }
+    },
+    "result": {
+        "item": "lotb:white_bricks",
+        "count": 4
+    }
+}

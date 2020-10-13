@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "###",
+        "###",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:mithril_nugget"
+        }
+    },
+    "result": {
+        "item": "lotb:mithril_ingot",
+        "count": 1
+    }
+}

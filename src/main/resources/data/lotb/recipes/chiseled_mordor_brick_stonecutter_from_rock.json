@@ -1,0 +1,8 @@
+{
+    "type": "minecraft:stonecutting",
+    "ingredient": {
+        "item": "lotb:mordor_rock"
+    },
+    "result": "lotb:chiseled_mordor_brick",
+    "count": 1
+}

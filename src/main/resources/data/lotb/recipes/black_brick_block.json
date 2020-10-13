@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "stained_brick_block",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:black_brick"
+        }
+    },
+    "result": {
+        "item": "lotb:black_bricks",
+        "count": 4
+    }
+}

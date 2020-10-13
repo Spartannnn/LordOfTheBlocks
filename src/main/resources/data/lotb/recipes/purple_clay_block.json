@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "group": "stained_clay_block",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "lotb:purple_clay_ball"
+        }
+    },
+    "result": {
+        "item": "lotb:purple_clay",
+        "count": 4
+    }
+}

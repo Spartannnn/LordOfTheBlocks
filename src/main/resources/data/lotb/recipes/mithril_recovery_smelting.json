@@ -1,0 +1,18 @@
+{
+    "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "lotb:mithril_axe",
+    "item": "lotb:mithril_pickaxe",
+    "item": "lotb:mithril_sword",
+    "item": "lotb:mithril_shovel",
+    "item": "lotb:mithril_hoe",
+    "item": "lotb:mithril_helmet",
+    "item": "lotb:mithril_chestplate",
+    "item": "lotb:mithril_leggings",
+    "item": "lotb:mithril_boots"
+
+  },
+  "result": "lotb:mithril_ingot",
+  "experience": 0.1,
+  "cookingtime": 200
+}

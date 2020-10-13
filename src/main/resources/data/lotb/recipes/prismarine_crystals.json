@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        " # ",
+	"XOX",
+	" # "
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:quartz"
+        },
+        "X": {
+            "item": "minecraft:prismarine_shard"
+        },
+        "O": {
+            "item": "minecraft:glowstone_dust"
+        }
+    },
+    "result": {
+        "item": "minecraft:prismarine_crystals",
+        "count": 5
+    }
+}
