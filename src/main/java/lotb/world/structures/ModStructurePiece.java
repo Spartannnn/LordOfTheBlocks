@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.mojang.datafixers.util.Pair;
 
-import lotb.entities.npc.AbstractNpcEntity;
+import lotb.entities.npc.AbstractNPCEntity;
 import lotb.lore.Faction;
 import lotb.registries.ModBlocks;
 import lotb.world.structures.pieces.RohanFortCampPieces.Path;
@@ -151,11 +151,11 @@ public abstract class ModStructurePiece extends StructurePiece{
 		entity.onInitialSpawn(_world, _world.getDifficultyForLocation(new BlockPos(entity)), SpawnReason.STRUCTURE, (ILivingEntityData)null, (CompoundNBT)null);
 		_world.addEntity(entity);
 	}
-	protected void spawnNPC(IWorld _world, MutableBoundingBox box, EntityType<? extends AbstractNpcEntity> entityType, int x1, int y1, int z1) {
+	protected void spawnNPC(IWorld _world, MutableBoundingBox box, EntityType<? extends AbstractNPCEntity> entityType, int x1, int y1, int z1) {
 		int x = this.getXWithOffset(x1, z1);
 		int y = this.getYWithOffset(y1);
 		int z = this.getZWithOffset(x1, z1);
-		AbstractNpcEntity entity = entityType.create(_world.getWorld());
+		AbstractNPCEntity entity = entityType.create(_world.getWorld());
 		entity.setLocationAndAngles(x + 0.5D, y, z + 0.5D, 0.0F, 0.0F);
 		entity.enablePersistence();
 		entity.onInitialSpawn(_world, _world.getDifficultyForLocation(new BlockPos(entity)), SpawnReason.STRUCTURE, (ILivingEntityData)null, (CompoundNBT)null);
