@@ -3,6 +3,7 @@ package lotb.client.renderer.entity.render;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import lotb.LotbMod;
 import lotb.entities.npc.DwarfNPCEntity;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.BipedRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
@@ -13,8 +14,11 @@ public class DwarfRenderer extends BipedRenderer<DwarfNPCEntity, BipedModel<Dwar
     protected static final ResourceLocation TEXTURE = new ResourceLocation(LotbMod.MODID, "textures/entity/dwarf.png");
 
     public DwarfRenderer(EntityRendererManager renderManagerIn) {
-        super(renderManagerIn, new BipedModel<DwarfNPCEntity>(0.0f), 1.0f);
-        this.addLayer(new BipedArmorLayer<>(this, new BipedModel<DwarfNPCEntity>(0.5f), new BipedModel<DwarfNPCEntity>(1.0f)));
+        super(renderManagerIn, newModel(0.0f), 1.0f);
+        this.addLayer(new BipedArmorLayer<>(this, newModel(0.5f), newModel(1f)));
+    }
+    private static BipedModel<DwarfNPCEntity> newModel(float size){
+        return new BipedModel<DwarfNPCEntity>(RenderType::getEntityCutoutNoCull, size, 0.0F, 64, 64);
     }
 
     @Override

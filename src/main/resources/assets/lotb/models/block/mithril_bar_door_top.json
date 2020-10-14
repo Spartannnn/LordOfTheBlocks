@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/door_top",
+    "textures": {
+        "top": "lotb:block/mithril_bar_door_top",
+        "bottom": "lotb:block/mithril_bar_door_bottom"
+    }
+}

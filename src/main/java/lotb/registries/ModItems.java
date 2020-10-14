@@ -1,6 +1,7 @@
 package lotb.registries;
 
 import lotb.LotbMod;
+import lotb.items.EnchantedItem;
 import lotb.items.KnifeItem;
 import lotb.registries.materials.ModArmourTiers;
 import lotb.registries.materials.ModFoods;
@@ -114,7 +115,7 @@ public class ModItems {
     public static final RegistryObject<Item> VENISON = registerFood("venison", ModFoods.VENISON);
     public static final RegistryObject<Item> COOKED_VENISON = registerFood("cooked_venison", ModFoods.COOKED_VENISON);
     public static final RegistryObject<Item> SILVER_APPLE = registerFood("silver_apple", ModFoods.SILVER_APPLE);
-    public static final RegistryObject<Item> ENCHANTED_SILVER_APPLE = registerFood("enchanted_silver_apple", ModFoods.ENCHANTED_SILVER_APPLE);
+    public static final RegistryObject<Item> ENCHANTED_SILVER_APPLE = registerFoodEnchanted("enchanted_silver_apple", ModFoods.ENCHANTED_SILVER_APPLE);
     public static final RegistryObject<Item> HARD_TACK = registerFood("hard_tack", ModFoods.HARD_TACK);
     public static final RegistryObject<Item> LEMBAS = registerFood("lembas", ModFoods.LEMBAS);
     public static final RegistryObject<Item> CRAM = registerFood("cram", ModFoods.CRAM);
@@ -130,6 +131,9 @@ public class ModItems {
     /*====================================REGISTERING============================================*/
     private static RegistryObject<Item> registerFood(String name, Food food) {
         return registerOther(name, () -> new Item(new Item.Properties().group(LotbMod.LOTB_GROUP).food(food)));
+    }
+    private static RegistryObject<Item> registerFoodEnchanted(String name, Food food) {
+        return registerOther(name, () -> new EnchantedItem(new Item.Properties().group(LotbMod.LOTB_GROUP).food(food)));
     }
     private static RegistryObject<Item> registerOther(String name, Supplier<? extends Item> supplier) {
         return ITEMS.register(name, supplier);

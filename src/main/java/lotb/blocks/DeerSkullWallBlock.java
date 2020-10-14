@@ -21,10 +21,10 @@ import net.minecraft.world.IBlockReader;
 public class DeerSkullWallBlock extends Block {
 	public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 	private static final Map<Direction, VoxelShape> SHAPES = Maps.newEnumMap(ImmutableMap.of(
-			Direction.NORTH, Block.makeCuboidShape(4.0D, 4.0D, 8.0D, 12.0D, 12.0D, 16.0D), 
-			Direction.SOUTH, Block.makeCuboidShape(4.0D, 4.0D, 0.0D, 12.0D, 12.0D, 8.0D), 
-			Direction.EAST, Block.makeCuboidShape(0.0D, 4.0D, 4.0D, 8.0D, 12.0D, 12.0D), 
-			Direction.WEST, Block.makeCuboidShape(8.0D, 4.0D, 4.0D, 16.0D, 12.0D, 12.0D)));
+			Direction.NORTH, Block.makeCuboidShape(6.0D, 1.0D, 12.0D, 10.0D, 16.0D, 16.0D),
+			Direction.SOUTH, Block.makeCuboidShape(6.0D, 1.0D, 0.0D, 10.0D, 16.0D, 4.0D),
+			Direction.EAST, Block.makeCuboidShape(0.0D, 1.0D, 6.0D, 4.0D, 16.0D, 10.0D),
+			Direction.WEST, Block.makeCuboidShape(12.0D, 1.0D, 6.0D, 16.0D, 16.0D, 10.0D)));
 	public DeerSkullWallBlock(Properties properties) {
 		super(properties);
 		this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));

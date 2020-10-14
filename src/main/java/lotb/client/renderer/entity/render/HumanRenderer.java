@@ -13,9 +13,12 @@ public class HumanRenderer extends BipedRenderer<HumanNpcEntity, BipedModel<Huma
 	protected static final ResourceLocation TEXTURE = new ResourceLocation(LotbMod.MODID,"textures/entity/human_gondor.png");
 	
 	public HumanRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new BipedModel<HumanNpcEntity>(0.0f), 1.0f);
-		this.addLayer(new BipedArmorLayer<>(this, new BipedModel<HumanNpcEntity>(0.5f), new BipedModel<HumanNpcEntity>(1.0f)));
+		super(renderManagerIn, newModel(0f), 1.0f);
+		this.addLayer(new BipedArmorLayer<>(this, newModel(0.5f), newModel(1f)));
 	}
+    private static BipedModel<HumanNpcEntity> newModel(float size){
+        return new BipedModel<HumanNpcEntity>(RenderType::getEntityCutoutNoCull, size, 0.0F, 64, 64);
+    }
 
 	@Override
 	public ResourceLocation getEntityTexture(HumanNpcEntity entity) {

@@ -13,9 +13,12 @@ public class OrcRenderer extends BipedRenderer<OrcNpcEntity, BipedModel<OrcNpcEn
 	protected static final ResourceLocation TEXTURE = new ResourceLocation(LotbMod.MODID,"textures/entity/decorated_uruk_hai.png");
 
 	public OrcRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new BipedModel<OrcNpcEntity>(0.0f), 1.0f);
-		this.addLayer(new BipedArmorLayer<>(this, new BipedModel<OrcNpcEntity>(0.5f), new BipedModel<OrcNpcEntity>(1.0f)));
+		super(renderManagerIn, newModel(0f), 1.0f);
+		this.addLayer(new BipedArmorLayer<>(this, newModel(0.5f), newModel(1f)));
 	}
+    private static BipedModel<OrcNpcEntity> newModel(float size){
+        return new BipedModel<OrcNpcEntity>(RenderType::getEntityCutoutNoCull, size, 0.0F, 64, 64);
+    }
 
 	@Override
 	public ResourceLocation getEntityTexture(OrcNpcEntity entity) {

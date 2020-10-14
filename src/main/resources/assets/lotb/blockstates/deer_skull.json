@@ -1,20 +1,8 @@
 {
     "variants": {
-        "rotation=0": { "model": "lotb:block/deer_skull", "y": 0 },
-        "rotation=1": { "model": "lotb:block/deer_skull", "y": 0 },
-        "rotation=2": { "model": "lotb:block/deer_skull", "y": 45 },
-        "rotation=3": { "model": "lotb:block/deer_skull", "y": 45 },
-        "rotation=4": { "model": "lotb:block/deer_skull", "y": 90 },
-        "rotation=5": { "model": "lotb:block/deer_skull", "y": 90 },
-        "rotation=6": { "model": "lotb:block/deer_skull", "y": 135 },
-        "rotation=7": { "model": "lotb:block/deer_skull", "y": 135 },
-        "rotation=8": { "model": "lotb:block/deer_skull", "y": 180 },
-        "rotation=9": { "model": "lotb:block/deer_skull", "y": 180 },
-        "rotation=10":{ "model": "lotb:block/deer_skull", "y": 225 },
-        "rotation=11":{ "model": "lotb:block/deer_skull", "y": 225 },
-        "rotation=12":{ "model": "lotb:block/deer_skull", "y": 270 },
-        "rotation=13":{ "model": "lotb:block/deer_skull", "y": 270 },
-        "rotation=14":{ "model": "lotb:block/deer_skull", "y": 315 },
-        "rotation=15":{ "model": "lotb:block/deer_skull", "y": 315 }
+        "facing=east": { "model": "lotb:block/deer_skull" },
+        "facing=south": { "model": "lotb:block/deer_skull", "y": 90 },
+        "facing=west": { "model": "lotb:block/deer_skull", "y": 180 },
+        "facing=north": { "model": "lotb:block/deer_skull", "y": 270 }
     }
 }

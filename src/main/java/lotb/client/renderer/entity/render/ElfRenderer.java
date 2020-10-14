@@ -13,11 +13,12 @@ public class ElfRenderer extends BipedRenderer<ElfNpcEntity, BipedModel<ElfNpcEn
 	protected static final ResourceLocation TEXTURE = new ResourceLocation(LotbMod.MODID,"textures/entity/elf.png");
 	
 	public ElfRenderer(EntityRendererManager renderManagerIn) {
-		super(renderManagerIn, new BipedModel<ElfNpcEntity>(0.0f), 1.0f);
-		this.addLayer(new BipedArmorLayer<>(this, new BipedModel<ElfNpcEntity>(0.5f), new BipedModel<ElfNpcEntity>(1.0f)));
-		//this.addLayer(new ArrowLayer<>(this));
-		//this.addLayer(new BeeStingerLayer<>(this));
+		super(renderManagerIn, newModel(0f), 1.0f);
+		this.addLayer(new BipedArmorLayer<>(this, newModel(0.5f), newModel(1f)));
 	}
+    private static BipedModel<ElfNpcEntity> newModel(float size){
+        return new BipedModel<ElfNpcEntity>(RenderType::getEntityCutoutNoCull, size, 0.0F, 64, 64);
+    }
 
 	@Override
 	public ResourceLocation getEntityTexture(ElfNpcEntity entity) {

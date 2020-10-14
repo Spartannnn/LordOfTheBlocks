@@ -164,6 +164,8 @@ public class ModBlocks {
     public static final RegistryObject<Block> LEBETHRON_BUTTON = registerOther("shire_oak_button", () -> new ModWoodButtonBlock(Block.Properties.from(Blocks.OAK_BUTTON)));
     public static final RegistryObject<Block> LEBETHRON_PRESSURE = registerOther("shire_oak_pressure_plate", () -> new ModPressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, Block.Properties.from(Blocks.OAK_PRESSURE_PLATE)));
     public static final RegistryObject<Block> LEBETHRON_SIGN = registerOther("shire_oak_sign", () -> new StandingSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), WoodType.OAK));
+    //public static final RegistryObject<Block> LEBETHRON_WALL_SIGN = registerOther("shire_oak_sign_wall", () -> new WallSignBlock(Block.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), WoodType.OAK));
+
 
     //utilities
     //public static final RegistryObject<Block> DWARVEN_CHEST	= reg("dwarven_chest",new ModChestBlock());
