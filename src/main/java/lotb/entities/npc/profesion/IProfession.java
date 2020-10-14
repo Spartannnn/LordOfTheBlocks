@@ -6,11 +6,11 @@ import lotb.entities.npc.AbstractNPCEntity;
 import lotb.registries.ModEntities;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.task.DummyTask;
 import net.minecraft.entity.ai.brain.task.FirstShuffledTask;
 import net.minecraft.entity.ai.brain.task.LookAtEntityTask;
 import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -25,7 +25,8 @@ public interface IProfession {
 
     void kill(AbstractNPCEntity npc, World world);
 
-    Brain<AbstractNPCEntity> registerActivitiesOntoBrain(AbstractNPCEntity npc, Brain<AbstractNPCEntity> brain);
+    void registerGoals(GoalSelector goalSelector, GoalSelector targetSelector);
+
 
     default Pair<Integer, Task<LivingEntity>> lookAtAnyNpcs() {
         return Pair.of(5, new FirstShuffledTask<>(

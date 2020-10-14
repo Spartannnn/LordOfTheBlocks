@@ -1,18 +1,6 @@
 package lotb.entities.npc.profesion;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
-import com.mojang.datafixers.util.Pair;
-import lotb.entities.ai.ModActivities;
-import lotb.entities.ai.ModSchedules;
-import lotb.entities.npc.AbstractNPCEntity;
-import lotb.entities.npc.ai.brain.tasks.StayNearPointTask;
-import lotb.entities.npc.ai.brain.tasks.*;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.schedule.Activity;
-import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 
@@ -29,7 +17,7 @@ public abstract class SoldierProfession implements IProfession {
         Collections.addAll(WEAPONS, Items.IRON_SWORD);
     }
 
-    @Override
+    /*@Override
     public Brain<AbstractNPCEntity> registerActivitiesOntoBrain(AbstractNPCEntity npc, Brain<AbstractNPCEntity> brain) {
         float npcWalkSpeed = (float) npc.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
         brain.setSchedule(ModSchedules.SOLDGIER);
@@ -110,5 +98,5 @@ public abstract class SoldierProfession implements IProfession {
                 //if weapon breaks, get a new one
                 //if interacted with stop what they're doing or talk to captain
         );
-    }
+    }*/
 }

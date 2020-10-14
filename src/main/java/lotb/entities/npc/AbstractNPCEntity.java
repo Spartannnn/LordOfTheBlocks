@@ -55,8 +55,8 @@ import java.util.Arrays;
 public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAttackMob, ICrossbowUser {
 
     private static final DataParameter<Boolean> DATA_CHARGING_STATE = EntityDataManager.createKey(AbstractNPCEntity.class, DataSerializers.BOOLEAN);
-    private static final ImmutableList<SensorType<? extends Sensor<? super AbstractNPCEntity>>> SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.INTERACTABLE_DOORS, ModSensors.NEARBY_HOSTILES);
-    private static final ImmutableList<MemoryModuleType<?>> MEMORIES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.JOB_SITE, MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.WALK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.INTERACTABLE_DOORS, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, ModMemories.ATTACK_TARGET, ModMemories.NEEDS_FOOD);
+    //private static final ImmutableList<SensorType<? extends Sensor<? super AbstractNPCEntity>>> SENSORS = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.HURT_BY, SensorType.INTERACTABLE_DOORS, ModSensors.NEARBY_HOSTILES);
+    //private static final ImmutableList<MemoryModuleType<?>> MEMORIES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.JOB_SITE, MemoryModuleType.PATH, MemoryModuleType.LOOK_TARGET, MemoryModuleType.WALK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.INTERACTABLE_DOORS, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, ModMemories.ATTACK_TARGET, ModMemories.NEEDS_FOOD);
 
     private float equipmentDropChance;
     private Faction faction;
@@ -75,16 +75,18 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         gpn.setCanSwim(true);
         setCanPickUpLoot(true);
         this.profession = profession;
-        resetBrain((ServerWorld) worldIn);
+        this.profession.registerGoals(this.goalSelector, this.targetSelector);
+        //resetBrain((ServerWorld) worldIn);
         this.faction = Faction.GONDOR;
         Arrays.fill(this.inventoryArmorDropChances, this.equipmentDropChance / 2);
         Arrays.fill(this.inventoryHandsDropChances, this.equipmentDropChance);
         this.foodManager = new NPCFoodManager();
         this.npcRelationShipManager = new NPCRelationShipManager();
         this.realName = realName;
-        if (!worldIn.isRemote)
-            this.resetBrain((ServerWorld) worldIn);
+        //if (!worldIn.isRemote)
+          //  this.resetBrain((ServerWorld) worldIn);
         //TODO removing later
+        this.npcInventory.clearInventory();
         boolean b = this.npcInventory.addItem(new ItemStack(Items.WHITE_BED));
         LotbMod.LOGGER.debug("Bed added? {}", b);
         this.setCustomNameVisible(true);
@@ -117,9 +119,13 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
     }
 
     @Override
-    protected Brain<?> createBrain(Dynamic<?> _past) {
-        return new Brain<AbstractNPCEntity>(MEMORIES, SENSORS, _past);
+    protected void registerGoals() {
     }
+
+    /*@Override
+    protected Brain<?> createBrain(Dynamic<?> _past) {
+        return new Brain<>(MEMORIES, SENSORS, _past);
+    }*/
 
     @Override
     public Brain<AbstractNPCEntity> getBrain() {
@@ -130,26 +136,22 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         return npcInventory;
     }
 
-    public void resetBrain(ServerWorld serverWorldIn) {
+    /*public void resetBrain(ServerWorld serverWorldIn) {
         Brain<AbstractNPCEntity> brain = getBrain();
         brain.stopAllTasks(serverWorldIn, this);
         this.brain = brain.copy();
         initBrain();
-    }
+    }*/
 
-    @SuppressWarnings("unchecked")
+    /*@SuppressWarnings("unchecked")
     public void initBrain() {
         brain = profession.registerActivitiesOntoBrain(this, (Brain<AbstractNPCEntity>) brain);
         brain.updateActivity(this.world.getDayTime(), this.world.getGameTime());
-    }
+    }*/
 
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
-        if(profession.onRightClick(this, player.getHeldItem(hand), player, world) || super.processInteract(player, hand)) {
-            brain.setMemory(MemoryModuleType.INTERACTION_TARGET, player);
-            return true;
-        }
-        return false;
+        return profession.onRightClick(this, player.getHeldItem(hand), player, world) || super.processInteract(player, hand);
     }
 
     @Override

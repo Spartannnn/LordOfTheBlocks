@@ -32,7 +32,7 @@ public class RenderSetupManager {
         //RenderingRegistry.registerEntityRenderingHandler(EntityType.WOLF, WolfRenderer::new);
         //knife rendering
 
-        RenderingRegistry.registerEntityRenderingHandler(ModEntities.KNIFE.get(), ProjectileItemRenderer::new);
+        //RenderingRegistry.registerEntityRenderingHandler(ModEntities.KNIFE.get(), ProjectileItemRenderer::new);
 
 
 
