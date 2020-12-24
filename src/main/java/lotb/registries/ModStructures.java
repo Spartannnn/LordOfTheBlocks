@@ -1,8 +1,7 @@
 package lotb.registries;
 
 import lotb.LotbMod;
-import lotb.world.structures.gen.DwarvenMineshaft;
-import lotb.world.structures.gen.RohanFortCamp;
+import lotb.world.structures.gen.*;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -22,6 +21,9 @@ public class ModStructures {
 	
 	public static final Structure<NoFeatureConfig> DWARVEN_MINESHAFT_STRUCTURE = register("dwarven_mineshaft", new DwarvenMineshaft(NoFeatureConfig::deserialize));
 	public static final Structure<NoFeatureConfig> ROHAN_FORT_CAMP	 = register("rohan_fort_camp", new RohanFortCamp(NoFeatureConfig::deserialize));
+	public static final Structure<NoFeatureConfig> ROHAN_VILLAGE	 = register("rohan_village", new RohanVillage(NoFeatureConfig::deserialize));
+	public static final Structure<NoFeatureConfig> ROHAN_BASTEON	 = register("rohan_basteon", new RohanBasteon(NoFeatureConfig::deserialize));
+	public static final Structure<NoFeatureConfig> HOBBIT_HOLE	 = register("hobbit_hole", new HobbitHole(NoFeatureConfig::deserialize));
 	
 	private static <C extends IFeatureConfig, F extends Feature<C>> F register(String key, F value) {
 		STRUCTURES.register(key,() -> value);

@@ -11,28 +11,7 @@ import lotb.registries.ModItems;
 import lotb.util.ModMathFunctions;
 import lotb.world.structures.ModStructurePiece;
 import lotb.world.structures.gen.RohanFortCamp;
-import net.minecraft.block.AnvilBlock;
-import net.minecraft.block.BedBlock;
-import net.minecraft.block.BlastFurnaceBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CakeBlock;
-import net.minecraft.block.CauldronBlock;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.block.FarmlandBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.GrindstoneBlock;
-import net.minecraft.block.HayBlock;
-import net.minecraft.block.LadderBlock;
-import net.minecraft.block.LanternBlock;
-import net.minecraft.block.LogBlock;
-import net.minecraft.block.RailBlock;
-import net.minecraft.block.RotatedPillarBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.TripWireHookBlock;
-import net.minecraft.block.WallBannerBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -43,6 +22,7 @@ import net.minecraft.state.properties.RailShape;
 import net.minecraft.state.properties.SlabType;
 import net.minecraft.state.properties.StairsShape;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -56,26 +36,40 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTables;
 
 public class RohanFortCampPieces {
-	public static final ModStructurePiece.RandomSelector B_PATH = new ModStructurePiece.RandomSelector( 
-			Pair.of(3, Blocks.COARSE_DIRT.getDefaultState()),
+	public static final BlockState AIR = Blocks.AIR.getDefaultState();
+	public static final BlockState DIRT = Blocks.COARSE_DIRT.getDefaultState();
+	public static final BlockState WATER = Blocks.WATER.getDefaultState();
+	public static final BlockState FENCE = Blocks.OAK_FENCE.getDefaultState();
+	public static final BlockState GATE = Blocks.OAK_FENCE_GATE.getDefaultState();
+	public static final BlockState LOG = Blocks.STRIPPED_OAK_LOG.getDefaultState();
+	public static final BlockState LOGX = LOG.with(LogBlock.AXIS, Direction.Axis.X);
+	public static final BlockState LOGZ = LOG.with(LogBlock.AXIS, Direction.Axis.Z);
+	public static final BlockState ROOF = Blocks.SPRUCE_PLANKS.getDefaultState();
+	public static final BlockState ROOF_SLAB = Blocks.SPRUCE_SLAB.getDefaultState();
+	public static final BlockState ROOF_STOP = ROOF_SLAB.with(SlabBlock.TYPE,SlabType.TOP);
+	public static final BlockState COBBLE_SLAB = Blocks.COBBLESTONE_SLAB.getDefaultState();
+	public static final BlockState LANTERN = Blocks.LANTERN.getDefaultState();
+
+	public static final StructurePiece.BlockSelector PATH = new ModStructurePiece.NoisySelector(3,
+			Pair.of(3, DIRT),
 			Pair.of(2, Blocks.GRAVEL.getDefaultState()),
 			Pair.of(4, Blocks.PODZOL.getDefaultState()),
 			Pair.of(4, Blocks.GRASS_BLOCK.getDefaultState()),
 			Pair.of(1, Blocks.COBBLESTONE.getDefaultState()),
 			Pair.of(1, Blocks.MOSSY_COBBLESTONE.getDefaultState()),
 			Pair.of(5, Blocks.GRASS_PATH.getDefaultState()));
-	public static final ModStructurePiece.RandomSelector B_LOGW = new ModStructurePiece.RandomSelector( 
+	public static final StructurePiece.BlockSelector WALL = new ModStructurePiece.RandomSelector(
 			Pair.of(6, Blocks.OAK_LOG.getDefaultState()),
 			Pair.of(5, Blocks.DARK_OAK_LOG.getDefaultState()),
 			Pair.of(4, Blocks.SPRUCE_LOG.getDefaultState()),
 			Pair.of(3, ModBlocks.LEBETHRON_LOG.get().getDefaultState()),
 			Pair.of(2, Blocks.ACACIA_LOG.getDefaultState()),
 			Pair.of(1, Blocks.BIRCH_LOG.getDefaultState()));
-	public static final ModStructurePiece.RandomSelector B_CROP = new ModStructurePiece.RandomSelector( 
-			Pair.of(5, Blocks.WHEAT.getDefaultState()),
-			Pair.of(2, Blocks.CARROTS.getDefaultState()),
-			Pair.of(4, Blocks.POTATOES.getDefaultState()),
-			Pair.of(1, Blocks.BEETROOTS.getDefaultState()));
+	public static final StructurePiece.BlockSelector CROP = new ModStructurePiece.RandomSelector(
+			Pair.of(5, Blocks.WHEAT.getDefaultState().with(CropsBlock.AGE, 7)),
+			Pair.of(2, Blocks.CARROTS.getDefaultState().with(CropsBlock.AGE, 7)),
+			Pair.of(4, Blocks.POTATOES.getDefaultState().with(CropsBlock.AGE, 7)),
+			Pair.of(1, Blocks.BEETROOTS.getDefaultState().with(BeetrootBlock.BEETROOT_AGE,3)));
 	/*---------------------------------------------functions-------------------------------------------------*/
 	public static StructurePiece getSingleNonTentPiece(BlockPos pos, Direction dir, Random rand, RohanFortCamp.Data data, ChunkGenerator<?> _gen, List<StructurePiece> components) {
 		while (true) {
@@ -169,11 +163,14 @@ public class RohanFortCampPieces {
 	/**=========================================================================================================================
 	|*--------------------------------------------------------WALL---------------------------------------------------------------
 	|*=========================================================================================================================*/
-	static final IStructurePieceType GATE 	= IStructurePieceType.register(Gate::new,"RoFCG");
+	static final IStructurePieceType PIECES_GATE = IStructurePieceType.register(Gate::new,"RoFCG");
+	static final IStructurePieceType PIECES_WALL = IStructurePieceType.register(Wall::new,"RoFCW");
+	static final IStructurePieceType PIECES_CORNER = IStructurePieceType.register(WallCorner::new,"RoFCC");
+
 	public static class Gate extends ModStructurePiece {
 		BlockPos origin;
 		public Gate(int id, Random rand, int x, int y, int z) {
-			super(GATE, id);
+			super(PIECES_GATE, id);
 			Direction dir = Direction.Plane.HORIZONTAL.random(rand);
 			setCoordBaseMode(dir);
 			origin = ModMathFunctions.getRelativePosInDir(new BlockPos(x,y,z), dir, 0, 0, 8);
@@ -181,7 +178,7 @@ public class RohanFortCampPieces {
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Gate(TemplateManager manager, CompoundNBT nbt) {
-			super(GATE, nbt);
+			super(PIECES_GATE, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT tagCompound) {} 
 		
@@ -191,11 +188,11 @@ public class RohanFortCampPieces {
 			for (int i=0;i<=7;i++) {
 				int depth = getDepthAt(_gen,i,0);
 				int dept1 = getDepthAt(_gen,i+11,0);
-				B_LOGW.selectBlocks(rand, i,depth,0, false);
+				WALL.selectBlocks(rand, i,depth,0, false);
 				for (int y =0;y<rand.nextInt(3)+3;y++)
-					setBlockState(world, B_LOGW.getBlockState(), i, depth+y, 0, box);
+					setBlockState(world, WALL.getBlockState(), i, depth+y, 0, box);
 				for (int y =0;y<rand.nextInt(3)+3;y++)
-					setBlockState(world,B_LOGW.getBlockState(),i+11,dept1+y,0, box);
+					setBlockState(world, WALL.getBlockState(),i+11,dept1+y,0, box);
 			}return true;
         }
         public void buildComponent (List<StructurePiece> components, Random rand, RohanFortCamp.Data data, ChunkGenerator<?> generator) {
@@ -219,19 +216,17 @@ public class RohanFortCampPieces {
 			path.buildComponent(components, rand, data, generator, (byte)0, (byte)0);
 		}
 	}
-	
-	static final IStructurePieceType WALL 	= IStructurePieceType.register(Wall::new,"RoFCW");
 	public static class Wall extends ModStructurePiece {
 		int walllength;
 		public Wall(BlockPos pos, Direction _dir,  int length) {
-			super(WALL, 0);
+			super(PIECES_WALL, 0);
 			setCoordBaseMode(_dir);
 			walllength=length;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), pos.getY(), pos.getZ(), _dir, length, 4, 0);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Wall(TemplateManager manager, CompoundNBT nbt) {
-			super(WALL, nbt);
+			super(PIECES_WALL, nbt);
 			walllength = nbt.getInt("len");
 		}
 		@Override protected void readAdditional(CompoundNBT nbt) {
@@ -242,23 +237,21 @@ public class RohanFortCampPieces {
 		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
 			for (int i=0;i<=walllength;i++) {
 				int depth = ( generator.func_222529_a(getXWithOffset(i,0), getZWithOffset(i,0), Heightmap.Type.OCEAN_FLOOR_WG)-1)-boundingBox.minY;
-				B_LOGW.selectBlocks(rand, i,depth,0, false);
+				WALL.selectBlocks(rand, i,depth,0, false);
 				for (int y =0;y<rand.nextInt(3)+3;y++)
-					setBlockState(world, B_LOGW.getBlockState(), i, depth+y, 0, box);
+					setBlockState(world, WALL.getBlockState(), i, depth+y, 0, box);
 			}return true;
         }
 	}
-	
-	static final IStructurePieceType CORNER = IStructurePieceType.register(WallCorner::new,"RoFCC");
 	public static class WallCorner extends ModStructurePiece {
 		public WallCorner(BlockPos pos, Direction _dir) {
-			super(CORNER, 0);
+			super(PIECES_CORNER, 0);
 			setCoordBaseMode(_dir);
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), pos.getY(), pos.getZ(), _dir, 7, 4, 7);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public WallCorner(TemplateManager manager, CompoundNBT nbt) {
-			super(CORNER, nbt);
+			super(PIECES_CORNER, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT tagCompound) {} 
 		
@@ -301,12 +294,11 @@ public class RohanFortCampPieces {
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
 		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-			BlockState log = ModBlocks.LEBETHRON_LOG.get().getDefaultState();
 			for (int i=0;i<7;i++) {
 				int depth = ( generator.func_222529_a(getXWithOffset(i,7-i), getZWithOffset(i,7-i), Heightmap.Type.OCEAN_FLOOR_WG)-1)-boundingBox.minY;
-				B_LOGW.selectBlocks(rand, i,depth,0, false);
+				WALL.selectBlocks(rand, i,depth,0, false);
 				for (int y =0;y<rand.nextInt(3)+3;y++)
-					setBlockState(world, B_LOGW.getBlockState(), i, depth+y, 7-i, box);
+					setBlockState(world, WALL.getBlockState(), i, depth+y, 7-i, box);
 			}
         	return true;
         }
@@ -315,14 +307,17 @@ public class RohanFortCampPieces {
 	/**==========================================================================================================================
 	|*-------------------------------------------------------PATH----------------------------------------------------------------
 	|*=========================================================================================================================*/
-	static final IStructurePieceType PATH 	= IStructurePieceType.register(Path::new,"RoFCP");
+	static final IStructurePieceType PIECES_PATH = IStructurePieceType.register(Path::new,"RoFCP");
+	static final IStructurePieceType PIECES_TURN = IStructurePieceType.register(PathTurn::new,"RoFCX");
+	static final IStructurePieceType PIECES_END = IStructurePieceType.register(PathEnd::new,"RoFCE");
+
 	public static class Path extends ModStructurePiece{
 		public final int length;
 		public final int blockLength;
 		public BlockPos origin;
     	
     	public Path(BlockPos pos, Direction _dir, Random rand) {
-			super(PATH, 0);
+			super(PIECES_PATH, 0);
 			origin = pos;
 			length = rand.nextInt(3)+3;
 			blockLength = length * 8;
@@ -331,7 +326,7 @@ public class RohanFortCampPieces {
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Path(TemplateManager manager, CompoundNBT nbt) {
-			super(PATH, nbt);
+			super(PIECES_PATH, nbt);
 			length = nbt.getInt("Len");
 			blockLength = length * 8;
 			origin = new BlockPos( nbt.getInt("Xop") , nbt.getInt("Yop") , nbt.getInt("Zop") );
@@ -345,14 +340,13 @@ public class RohanFortCampPieces {
 		/*-------------------------------------------generation----------------------------------------------*/
         
 		@Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-			BlockState air = Blocks.AIR.getDefaultState();
 			for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= blockLength; z++) {
 					int depth = getDepthAt(_gen,x,z) - 1;
-					B_PATH.selectBlocks(rand, x, depth, z, false);
-					setBlockState(world, B_PATH.getBlockState(), x, depth, z, box);
-					setBlockState(world, air, x, depth+1, z, box);
-					setBlockState(world, air, x, depth+2, z, box);
+					PATH.selectBlocks(rand, x, depth, z, false);
+					setBlockState(world, PATH.getBlockState(), x, depth, z, box);
+					setBlockState(world, AIR, x, depth+1, z, box);
+					setBlockState(world, AIR, x, depth+2, z, box);
 				}
 			return true;
         }	
@@ -406,8 +400,6 @@ public class RohanFortCampPieces {
         	}
 		}
 	}
-	
-	static final IStructurePieceType TURN 	= IStructurePieceType.register(PathTurn::new,"RoFCX");
 	public static class PathTurn extends ModStructurePiece{
 		ChunkGenerator<?> generator;
 		RohanFortCamp.Data structureData;
@@ -419,7 +411,7 @@ public class RohanFortCampPieces {
 		boolean rigIsMoreThan3;
     	
     	public PathTurn(BlockPos pos, Direction _dir, Random rand, RohanFortCamp.Data _structureData, ChunkGenerator<?> _gen, byte _tcr, byte _tcl) {
-			super(TURN, 0);
+			super(PIECES_TURN, 0);
 			origin = pos;
 			generator =_gen;
 			structureData = _structureData;
@@ -432,7 +424,7 @@ public class RohanFortCampPieces {
     	
 		/*---------------------------------------------data-------------------------------------------------*/
 		public PathTurn(TemplateManager manager, CompoundNBT nbt) {
-			super(TURN, nbt);
+			super(PIECES_TURN, nbt);
 			pathends = nbt.getByte("End");
 		}
 		@Override protected void readAdditional(CompoundNBT nbt) {
@@ -441,14 +433,13 @@ public class RohanFortCampPieces {
 		
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState air = Blocks.AIR.getDefaultState();
-			for (int x = 0; x <= 2; x++)
+        	for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= 2; z++) {
 					int depth = getDepthAt(_gen,x,z) - 1;
-					B_PATH.selectBlocks(rand, x, depth, z, false);
-					setBlockState(world, B_PATH.getBlockState(), x, depth, z, box);
-					setBlockState(world, air, x, depth+1, z, box);
-					setBlockState(world, air, x, depth+2, z, box);
+					PATH.selectBlocks(rand, x, depth, z, false);
+					setBlockState(world, PATH.getBlockState(), x, depth, z, box);
+					setBlockState(world, AIR, x, depth+1, z, box);
+					setBlockState(world, AIR, x, depth+2, z, box);
 				}
 			return true;
         }       
@@ -513,15 +504,13 @@ public class RohanFortCampPieces {
         	}
 		}
 	}
-	
-	static final IStructurePieceType END 	= IStructurePieceType.register(PathEnd::new,"RoFCE");
 	public static class PathEnd extends ModStructurePiece{
 		BlockPos origin;
 		RohanFortCamp.Data structureData;
 		ChunkGenerator<?> generator;
 		
     	public PathEnd(BlockPos pos, Direction _dir, RohanFortCamp.Data _data,ChunkGenerator<?> _gen) {
-			super(END, 0);
+			super(PIECES_END, 0);
 			origin = pos;
 			generator = _gen;
 			structureData = _data;
@@ -530,19 +519,18 @@ public class RohanFortCampPieces {
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public PathEnd(TemplateManager manager, CompoundNBT nbt) {
-			super(END, nbt);
+			super(PIECES_END, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState air = Blocks.AIR.getDefaultState();
-			for (int x = 0; x <= 2; x++)
+        	for (int x = 0; x <= 2; x++)
 				for (int z = 0; z <= 2; z++) {
 					int depth = getDepthAt(_gen,x,z)-1;
-					B_PATH.selectBlocks(rand, x, depth, z, false);
-					setBlockState(world, B_PATH.getBlockState(), x, depth, z, box);
-					setBlockState(world, air, x, depth+1, z, box);
-					setBlockState(world, air, x, depth+2, z, box);
+					PATH.selectBlocks(rand, x, depth, z, false);
+					setBlockState(world, PATH.getBlockState(), x, depth, z, box);
+					setBlockState(world, AIR, x, depth+1, z, box);
+					setBlockState(world, AIR, x, depth+2, z, box);
 				}
         	return true;
         }
@@ -567,132 +555,138 @@ public class RohanFortCampPieces {
 	/**==========================================================================================================================
 	|*--------------------------------------------------------PIECES--------------------------------------------------------------
 	|*=========================================================================================================================*/
+	static final IStructurePieceType PIECE_TENT = IStructurePieceType.register(Tent::new,"RoFCT");
+	static final IStructurePieceType PIECE_CAPTAIN = IStructurePieceType.register(CaptainsTent::new,"RoFCTC");
+	static final IStructurePieceType PIECE_UTILITY = IStructurePieceType.register(UtilitiesTent::new,"RoFCTU");
+	static final IStructurePieceType PIECE_STORE = IStructurePieceType.register(StoreTent::new,"RoFCTS");
+	static final IStructurePieceType PIECE_PLAN = IStructurePieceType.register(PlanningTent::new,"RoFCTP");
+	static final IStructurePieceType PIECE_KITCHEN = IStructurePieceType.register(KitchenTent::new,"RoFCTK");
+	static final IStructurePieceType PIECE_MEDIC = IStructurePieceType.register(Infirmary::new,"RoFCTM");
+
 	public static abstract class AbstractTent extends ModStructurePiece{
-    	public AbstractTent(IStructurePieceType type, BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
+		public AbstractTent(IStructurePieceType type, BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
 			super(type, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			setCoordBaseMode(_dir);
-        	boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 7, 7, 7);
+			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 7, 7, 7);
 		}
-    	public AbstractTent(IStructurePieceType type, CompoundNBT nbt) {
+		public AbstractTent(IStructurePieceType type, CompoundNBT nbt) {
 			super(type, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		/*-------------------------------------------generation----------------------------------------------*/
-        public void buildTent(IWorld world, MutableBoundingBox box, BlockState wool, Random rand){
-        	BlockState air = Blocks.AIR.getDefaultState();
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState fence= Blocks.OAK_FENCE.getDefaultState();
-        	for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
-        	fillWithAir(world, box, 2, 1, 2, 4, 2, 4);
-        	//wool walls
-        	fillWithBlocks(world, box, 1, 1, 2, 1, 2, 4, wool, wool, false);
-        	setBlockState(world, wool, 1, 3, 3, box);
-        	fillWithBlocks(world, box, 5, 1, 2, 5, 2, 4, wool, wool, false);
-        	setBlockState(world, wool, 5, 3, 3, box);
-        	fillWithBlocks(world, box, 2, 1, 5, 4, 2, 5, wool, wool, false);
-        	setBlockState(world, wool, 3, 3, 5, box);
-        	//door bit
-        	setBlockState(world, air, 3, 1, 1, box);
-        	setBlockState(world, air, 3, 2, 1, box);
-        	setBlockState(world, wool, 2, 1, 1, box);
-        	setBlockState(world, wool, 2, 2, 1, box);
-        	setBlockState(world, wool, 4, 1, 1, box);
-        	setBlockState(world, wool, 4, 2, 1, box);
-        	setBlockState(world, wool, 3, 3, 1, box);
-        	//top bit
-        	setBlockState(world, wool, 2, 3, 2, box);//layer 1
-        	setBlockState(world, wool, 2, 3, 4, box);
-        	setBlockState(world, wool, 4, 3, 2, box);
-        	setBlockState(world, wool, 4, 3, 4, box);
-        	setBlockState(world, wool, 2, 4, 2, box);
-        	setBlockState(world, wool, 2, 4, 4, box);
-        	setBlockState(world, wool, 4, 4, 2, box);
-        	setBlockState(world, wool, 4, 4, 4, box);//layer 2
-        	setBlockState(world, wool, 2, 4, 3, box);
-        	setBlockState(world, wool, 4, 4, 3, box);
-        	setBlockState(world, wool, 3, 4, 2, box);
-        	setBlockState(world, wool, 3, 4, 4, box);
-        	setBlockState(world, wool, 2, 5, 3, box);
-        	setBlockState(world, wool, 4, 5, 3, box);
-        	setBlockState(world, wool, 3, 5, 2, box);
-        	setBlockState(world, wool, 3, 5, 4, box);
-        	//main pole
-        	fillWithBlocks(world, box, 3, 1, 3, 3, 4, 3, fence,fence, false);
-        	setBlockState(world, wool, 3, 5, 3, box);
-        	setBlockState(world, wool, 3, 6, 3, box);
-        	setBlockState(world, fence, 3, 7, 3, box);
-        	setBlockState(world, fence, 6, 1, 3, box);//guide ropes
-        	setBlockState(world, fence, 0, 1, 3, box);
-        	setBlockState(world, fence, 3, 1, 6, box);
-        }
-        public void buildUtilTent(IWorld world, MutableBoundingBox box, BlockState wool, BlockState cross, Random rand) {
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState fence= Blocks.OAK_FENCE.getDefaultState();
-        	for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
-        	fillWithAir(world, box, 2, 1, 2, 4, 6, 4);
-        	//wool walls
-        	fillWithBlocks(world, box, 1, 1, 1, 1, 2, 4, wool, wool, false);//left wall
-        	setBlockState(world, wool, 1, 3, 2, box);
-        	setBlockState(world, cross,1, 3, 3, box);
-        	setBlockState(world, wool, 1, 3, 4, box);
-        	fillWithBlocks(world, box, 5, 1, 1, 5, 2, 4, wool, wool, false);//right wall
-        	setBlockState(world, wool, 5, 3, 2, box);
-        	setBlockState(world, cross,5, 3, 3, box);
-        	setBlockState(world, wool, 5, 3, 4, box);
-        	setBlockState(world, wool, 2, 1, 5, box);//backwall
-        	setBlockState(world, wool, 2, 2, 5, box);
-        	setBlockState(world, wool, 2, 3, 5, box);
-        	setBlockState(world, cross,3, 1, 6, box);
-        	setBlockState(world, cross,3, 2, 6, box);
-        	setBlockState(world, cross,3, 3, 6, box);
-        	setBlockState(world, wool, 4, 1, 5, box);
-        	setBlockState(world, wool, 4, 2, 5, box);
-        	setBlockState(world, wool, 4, 3, 5, box);
-        	//door
-        	setBlockState(world, wool, 2, 3, 1, box);
-        	setBlockState(world, wool, 4, 3, 1, box);
-        	//top bit
-        	setBlockState(world, cross,1, 4, 3, box);//layer 1
-        	setBlockState(world, cross,5, 4, 3, box);
-        	setBlockState(world, cross,3, 4, 5, box);
-        	setBlockState(world, cross,3, 4, 1, box);
-        	setBlockState(world, wool, 2, 4, 2, box);
-        	setBlockState(world, wool, 2, 4, 4, box);
-        	setBlockState(world, wool, 4, 4, 2, box);
-        	setBlockState(world, wool, 4, 4, 4, box);
-        	setBlockState(world, cross,2, 5, 3, box);//layer 2
-        	setBlockState(world, cross,3, 5, 2, box);
-        	setBlockState(world, cross,3, 5, 3, box);
-        	setBlockState(world, cross,3, 5, 4, box);
-        	setBlockState(world, cross,4, 5, 3, box);
-        	//main pole
-        	setBlockState(world, fence, 3, 1, 1, box);//door
-        	setBlockState(world, fence, 3, 2, 1, box);
-        	setBlockState(world, fence, 3, 3, 1, box);
-        	setBlockState(world, fence, 3, 3, 5, box);//top frame
-        	setBlockState(world, fence, 2, 4, 3, box);
-        	setBlockState(world, fence, 3, 4, 2, box);
-        	setBlockState(world, fence, 3, 4, 3, box);
-        	setBlockState(world, fence, 3, 4, 4, box);
-        	setBlockState(world, fence, 4, 4, 3, box);
-        	setBlockState(world, fence, 6, 1, 3, box);//guide ropes
-        	setBlockState(world, fence, 6, 2, 3, box);
-        	setBlockState(world, fence, 0, 1, 3, box);
-        	setBlockState(world, fence, 0, 2, 3, box);
-        	setBlockState(world, fence, 2, 1, 6, box);
-        	setBlockState(world, fence, 2, 2, 6, box);
-        	setBlockState(world, fence, 4, 1, 6, box);
-        	setBlockState(world, fence, 4, 2, 6, box);
-        }
+		public void buildTent(IWorld world, MutableBoundingBox box, BlockState wool, Random rand){
+			BlockState fence= Blocks.OAK_FENCE.getDefaultState();
+			for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
+			fillWithAir(world, box, 2, 1, 2, 4, 2, 4);
+			//wool walls
+			fillWithBlocks(world, box, 1, 1, 2, 1, 2, 4, wool, wool, false);
+			setBlockState(world, wool, 1, 3, 3, box);
+			fillWithBlocks(world, box, 5, 1, 2, 5, 2, 4, wool, wool, false);
+			setBlockState(world, wool, 5, 3, 3, box);
+			fillWithBlocks(world, box, 2, 1, 5, 4, 2, 5, wool, wool, false);
+			setBlockState(world, wool, 3, 3, 5, box);
+			//door bit
+			setBlockState(world, AIR, 3, 1, 1, box);
+			setBlockState(world, AIR, 3, 2, 1, box);
+			setBlockState(world, wool, 2, 1, 1, box);
+			setBlockState(world, wool, 2, 2, 1, box);
+			setBlockState(world, wool, 4, 1, 1, box);
+			setBlockState(world, wool, 4, 2, 1, box);
+			setBlockState(world, wool, 3, 3, 1, box);
+			//top bit
+			setBlockState(world, wool, 2, 3, 2, box);//layer 1
+			setBlockState(world, wool, 2, 3, 4, box);
+			setBlockState(world, wool, 4, 3, 2, box);
+			setBlockState(world, wool, 4, 3, 4, box);
+			setBlockState(world, wool, 2, 4, 2, box);
+			setBlockState(world, wool, 2, 4, 4, box);
+			setBlockState(world, wool, 4, 4, 2, box);
+			setBlockState(world, wool, 4, 4, 4, box);//layer 2
+			setBlockState(world, wool, 2, 4, 3, box);
+			setBlockState(world, wool, 4, 4, 3, box);
+			setBlockState(world, wool, 3, 4, 2, box);
+			setBlockState(world, wool, 3, 4, 4, box);
+			setBlockState(world, wool, 2, 5, 3, box);
+			setBlockState(world, wool, 4, 5, 3, box);
+			setBlockState(world, wool, 3, 5, 2, box);
+			setBlockState(world, wool, 3, 5, 4, box);
+			//main pole
+			fillWithBlocks(world, box, 3, 1, 3, 3, 4, 3, fence,fence, false);
+			setBlockState(world, wool, 3, 5, 3, box);
+			setBlockState(world, wool, 3, 6, 3, box);
+			setBlockState(world, fence, 3, 7, 3, box);
+			setBlockState(world, fence, 6, 1, 3, box);//guide ropes
+			setBlockState(world, fence, 0, 1, 3, box);
+			setBlockState(world, fence, 3, 1, 6, box);
+		}
+		public void buildUtilTent(IWorld world, MutableBoundingBox box, BlockState wool, BlockState cross, Random rand) {
+			
+			BlockState fence= Blocks.OAK_FENCE.getDefaultState();
+			for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
+			fillWithAir(world, box, 2, 1, 2, 4, 6, 4);
+			//wool walls
+			fillWithBlocks(world, box, 1, 1, 1, 1, 2, 4, wool, wool, false);//left wall
+			setBlockState(world, wool, 1, 3, 2, box);
+			setBlockState(world, cross,1, 3, 3, box);
+			setBlockState(world, wool, 1, 3, 4, box);
+			fillWithBlocks(world, box, 5, 1, 1, 5, 2, 4, wool, wool, false);//right wall
+			setBlockState(world, wool, 5, 3, 2, box);
+			setBlockState(world, cross,5, 3, 3, box);
+			setBlockState(world, wool, 5, 3, 4, box);
+			setBlockState(world, wool, 2, 1, 5, box);//backwall
+			setBlockState(world, wool, 2, 2, 5, box);
+			setBlockState(world, wool, 2, 3, 5, box);
+			setBlockState(world, cross,3, 1, 6, box);
+			setBlockState(world, cross,3, 2, 6, box);
+			setBlockState(world, cross,3, 3, 6, box);
+			setBlockState(world, wool, 4, 1, 5, box);
+			setBlockState(world, wool, 4, 2, 5, box);
+			setBlockState(world, wool, 4, 3, 5, box);
+			//door
+			setBlockState(world, wool, 2, 3, 1, box);
+			setBlockState(world, wool, 4, 3, 1, box);
+			//top bit
+			setBlockState(world, cross,1, 4, 3, box);//layer 1
+			setBlockState(world, cross,5, 4, 3, box);
+			setBlockState(world, cross,3, 4, 5, box);
+			setBlockState(world, cross,3, 4, 1, box);
+			setBlockState(world, wool, 2, 4, 2, box);
+			setBlockState(world, wool, 2, 4, 4, box);
+			setBlockState(world, wool, 4, 4, 2, box);
+			setBlockState(world, wool, 4, 4, 4, box);
+			setBlockState(world, cross,2, 5, 3, box);//layer 2
+			setBlockState(world, cross,3, 5, 2, box);
+			setBlockState(world, cross,3, 5, 3, box);
+			setBlockState(world, cross,3, 5, 4, box);
+			setBlockState(world, cross,4, 5, 3, box);
+			//main pole
+			setBlockState(world, fence, 3, 1, 1, box);//door
+			setBlockState(world, fence, 3, 2, 1, box);
+			setBlockState(world, fence, 3, 3, 1, box);
+			setBlockState(world, fence, 3, 3, 5, box);//top frame
+			setBlockState(world, fence, 2, 4, 3, box);
+			setBlockState(world, fence, 3, 4, 2, box);
+			setBlockState(world, fence, 3, 4, 3, box);
+			setBlockState(world, fence, 3, 4, 4, box);
+			setBlockState(world, fence, 4, 4, 3, box);
+			setBlockState(world, fence, 6, 1, 3, box);//guide ropes
+			setBlockState(world, fence, 6, 2, 3, box);
+			setBlockState(world, fence, 0, 1, 3, box);
+			setBlockState(world, fence, 0, 2, 3, box);
+			setBlockState(world, fence, 2, 1, 6, box);
+			setBlockState(world, fence, 2, 2, 6, box);
+			setBlockState(world, fence, 4, 1, 6, box);
+			setBlockState(world, fence, 4, 2, 6, box);
+		}
 	}
-	static final IStructurePieceType TENT 			= IStructurePieceType.register(Tent::new,"RoFCT");
+
 	public static class Tent extends AbstractTent{
     	public Tent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(TENT,pos,_dir,_gen);
+			super(PIECE_TENT,pos,_dir,_gen);
 		}
     	public Tent(TemplateManager manager, CompoundNBT nbt) {
-			super(TENT, nbt);
+			super(PIECE_TENT, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -708,13 +702,12 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType CAPTAIN 		= IStructurePieceType.register(CaptainsTent::new,"RoFCTC");
 	public static class CaptainsTent extends AbstractTent{
 		public CaptainsTent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(CAPTAIN,pos,_dir,_gen);
+			super(PIECE_CAPTAIN,pos,_dir,_gen);
 		}
     	public CaptainsTent(TemplateManager manager, CompoundNBT nbt) {
-			super(CAPTAIN, nbt);
+			super(PIECE_CAPTAIN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -723,18 +716,17 @@ public class RohanFortCampPieces {
         	setBlockState(world, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.HEAD), 2, 1, 4, box);
         	setBlockState(world, Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.SOUTH), 4, 1, 3, box);
         	setBlockState(world, Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP), 4, 1, 4, box);
-        	setBlockState(world, Blocks.LANTERN.getDefaultState(), 4, 2, 4, box);
+        	setBlockState(world, LANTERN, 4, 2, 4, box);
         	generateChest(world, box, rand, 3, 1, 4, LootTables.CHESTS_PILLAGER_OUTPOST);
         	return true;
         }
 	}
-	static final IStructurePieceType UTILITY		= IStructurePieceType.register(UtilitiesTent::new,"RoFCTU");
 	public static class UtilitiesTent extends AbstractTent{
 		public UtilitiesTent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(UTILITY,pos,_dir,_gen);
+			super(PIECE_UTILITY,pos,_dir,_gen);
 		}
     	public UtilitiesTent(TemplateManager manager, CompoundNBT nbt) {
-			super(UTILITY, nbt);
+			super(PIECE_UTILITY, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -750,45 +742,67 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType STORE 			= IStructurePieceType.register(StoreTent::new,"RoFCTS");
 	public static class StoreTent extends AbstractTent{
 		public StoreTent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(STORE,pos,_dir,_gen);
+			super(PIECE_STORE,pos,_dir,_gen);
 		}
     	public StoreTent(TemplateManager manager, CompoundNBT nbt) {
-			super(STORE, nbt);
+			super(PIECE_STORE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+		private ResourceLocation randTable(Random rand){
+			switch (rand.nextInt(5)){
+				case 0: return LootTables.CHESTS_VILLAGE_VILLAGE_FLETCHER;
+				case 1: return LootTables.CHESTS_VILLAGE_VILLAGE_FISHER;
+				case 2: return LootTables.CHESTS_VILLAGE_VILLAGE_PLAINS_HOUSE;
+				case 3: return LootTables.CHESTS_VILLAGE_VILLAGE_TEMPLE;
+				default: return LootTables.CHESTS_VILLAGE_VILLAGE_CARTOGRAPHER;
+			}
+		}
+		private void generateRandomChest(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, int x, int y, int z){
+			for (int i =1;i<=3;i++){
+				switch(rand.nextInt(4)){
+					case 0:
+					case 1: generateBarrel(world,box,rand,2,1,4,randTable(rand),Direction.random(rand)); break;
+					case 2: generateChest(world, box, rand, 3, 1, 4, LootTables.CHESTS_IGLOO_CHEST);
+					default: return;
+				}
+			}
+		}
+        @Override public boolean create(IWorld world, ChunkGenerator<?> gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildUtilTent(world,box,Blocks.LIGHT_GRAY_WOOL.getDefaultState(),Blocks.LIGHT_GRAY_WOOL.getDefaultState(),rand);
+			generateRandomChest(world,gen,rand,box,2,1,2);
+			generateRandomChest(world,gen,rand,box,2,1,3);
+			generateRandomChest(world,gen,rand,box,2,1,4);
+			generateRandomChest(world,gen,rand,box,3,1,5);
+			generateRandomChest(world,gen,rand,box,4,1,4);
+			generateRandomChest(world,gen,rand,box,4,1,3);
         	return true;
         }
 	}
-	static final IStructurePieceType PLAN 			= IStructurePieceType.register(PlanningTent::new,"RoFCTP");
 	public static class PlanningTent extends AbstractTent{
 		public PlanningTent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(PLAN,pos,_dir,_gen);
+			super(PIECE_PLAN,pos,_dir,_gen);
 		}
     	public PlanningTent(TemplateManager manager, CompoundNBT nbt) {
-			super(PLAN, nbt);
+			super(PIECE_PLAN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	buildUtilTent(world,box,Blocks.RED_WOOL.getDefaultState(),Blocks.YELLOW_WOOL.getDefaultState(),rand);
         	setBlockState(world, Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP), 3, 1, 5, box);
-        	setBlockState(world, Blocks.LANTERN.getDefaultState(), 3, 2, 5, box);
+        	setBlockState(world, LANTERN, 3, 2, 5, box);
         	setBlockState(world, Blocks.CARTOGRAPHY_TABLE.getDefaultState(), 3, 1, 3, box);
         	placeWallFactionBanner(world,box,4, 3, 3, Direction.WEST, Faction.ROHAN);
         	return true;
         }
 	}
-	static final IStructurePieceType KITCHEN		= IStructurePieceType.register(KitchenTent::new,"RoFCTK");
 	public static class KitchenTent extends AbstractTent{
 		public KitchenTent(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(KITCHEN,pos,_dir,_gen);
+			super(PIECE_KITCHEN,pos,_dir,_gen);
 		}
     	public KitchenTent(TemplateManager manager, CompoundNBT nbt) {
-			super(KITCHEN, nbt);
+			super(PIECE_KITCHEN, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -799,7 +813,7 @@ public class RohanFortCampPieces {
         	setBlockState(world, stairs, 2, 1, 4, box);
         	placeRandomCake(world, box, rand, 2, 2, 2);
         	setBlockState(world, Blocks.HEAVY_WEIGHTED_PRESSURE_PLATE.getDefaultState(), 2, 2, 3, box);
-        	setBlockState(world, Blocks.LANTERN.getDefaultState(), 2, 2, 4, box);
+        	setBlockState(world, LANTERN, 2, 2, 4, box);
         	setBlockState(world, Blocks.CRAFTING_TABLE.getDefaultState(), 3, 1, 5, box);
         	setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(2)), 4, 1, 4, box);
         	generateChest(world, box, rand, 4, 1, 3, LootTables.CHESTS_SHIPWRECK_SUPPLY);
@@ -807,13 +821,12 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType MEDIC 			= IStructurePieceType.register(Infirmary::new,"RoFCTM");
 	public static class Infirmary extends AbstractTent{
 		public Infirmary(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(MEDIC,pos,_dir,_gen);
+			super(PIECE_MEDIC,pos,_dir,_gen);
 		}
     	public Infirmary(TemplateManager manager, CompoundNBT nbt) {
-			super(MEDIC, nbt);
+			super(PIECE_MEDIC, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
         @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -827,26 +840,32 @@ public class RohanFortCampPieces {
         	setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(1)), 3, 1, 5, box);
         	setBlockState(world, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT), 4, 1, 3, box);
         	setBlockState(world, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.HEAD), 4, 1, 4, box);
-        	setBlockState(world, Blocks.LANTERN.getDefaultState().with(LanternBlock.HANGING, Boolean.valueOf(true)), 3, 3, 3, box);
+        	setBlockState(world, LANTERN.with(LanternBlock.HANGING, Boolean.valueOf(true)), 3, 3, 3, box);
         	generateChest(world, box, rand, 2, 1, 1, LootTables.CHESTS_IGLOO_CHEST);
         	return true;
         }
 	}
 	
 	/*---------------------------------------------SINGLES-------------------------------------------------*/
-	static final IStructurePieceType SMITHY 		= IStructurePieceType.register(Smithy::new,"RoFCSM");
-	public static class Smithy extends AbstractTent{
+	static final IStructurePieceType PIECE_SMITHY = IStructurePieceType.register(Smithy::new,"RoFCSM");
+	static final IStructurePieceType PIECE_MELEE = IStructurePieceType.register(MeleeArena::new,"RoFCAM");
+	static final IStructurePieceType PIECE_PEN = IStructurePieceType.register(AnimalPen::new,"RoFCPN");
+	static final IStructurePieceType PIECE_STABLE = IStructurePieceType.register(Stables::new,"RoFCS");
+	static final IStructurePieceType PIECE_FIRE = IStructurePieceType.register(CampFire::new,"RoFCF");
+
+	public static class Smithy extends AbstractTent {
     	public Smithy(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(SMITHY,pos,_dir,_gen);
+			super(PIECE_SMITHY,pos,_dir,_gen);
 		}
     	public Smithy(TemplateManager manager, CompoundNBT nbt) {
-			super(SMITHY, nbt);
+			super(PIECE_SMITHY, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
+		BlockState COBBLE_WALL = Blocks.COBBLESTONE_WALL.getDefaultState();
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	BlockState anvil =Blocks.ANVIL.getDefaultState().with(AnvilBlock.FACING, Direction.EAST);
-        	for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
+        	for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
+        	for (int x=0;x<6;x++) for (int z=0;z<6;z++) setBlockState(world, AIR, x, 1, z, box);
         	//tools
         	if (rand.nextBoolean()) 
         		setBlockState(world, anvil, 2, 1, 1, box);
@@ -856,64 +875,59 @@ public class RohanFortCampPieces {
         	setBlockState(world, Blocks.BIRCH_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.HALF, Half.TOP), 6, 1, 2, box);
         	setBlockState(world, Blocks.FLETCHING_TABLE.getDefaultState(),6, 1, 1, box);
         	//furnace
-        	setBlockState(world, Blocks.COBBLESTONE_SLAB.getDefaultState(), 1, 2, 4, box);
-        	setBlockState(world, Blocks.COBBLESTONE_WALL.getDefaultState(), 1, 1, 3, box);
-        	setBlockState(world, Blocks.COBBLESTONE_WALL.getDefaultState(), 1, 1, 5, box);
-        	setBlockState(world, Blocks.COBBLESTONE_WALL.getDefaultState(), 0, 1, 4, box);
+        	setBlockState(world, COBBLE_SLAB, 1, 2, 4, box);
+        	setBlockState(world, COBBLE_WALL, 1, 1, 3, box);
+        	setBlockState(world, COBBLE_WALL, 1, 1, 5, box);
+        	setBlockState(world, COBBLE_WALL, 0, 1, 4, box);
         	setBlockState(world, Blocks.BLAST_FURNACE.getDefaultState().with(BlastFurnaceBlock.FACING, Direction.EAST), 1, 1, 4, box);
         	//table
         	setBlockState(world, Blocks.SMITHING_TABLE.getDefaultState(), 2, 1, 6, box);
         	setBlockState(world, Blocks.CRAFTING_TABLE.getDefaultState(), 3, 1, 6, box);
         	setBlockState(world, ModBlocks.ROHAN_WORKBENCH.get().getDefaultState(), 4, 1, 6, box);
         	setBlockState(world, Blocks.BRICKS.getDefaultState(), 5, 1, 6, box);
-        	setBlockState(world, Blocks.LANTERN.getDefaultState(), 5, 2, 6, box);
+        	setBlockState(world, LANTERN, 5, 2, 6, box);
         	setBlockState(world, Blocks.GRINDSTONE.getDefaultState().with(GrindstoneBlock.HORIZONTAL_FACING, Direction.SOUTH).with(GrindstoneBlock.FACE, AttachFace.WALL), 5, 1, 5, box);
         	return true;
         }
 	}
-	static final IStructurePieceType MELEE 			= IStructurePieceType.register(MeleeArena::new,"RoFCAM");
 	public static class MeleeArena extends AbstractTent{
     	public MeleeArena(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(MELEE,pos,_dir,_gen);
+			super(PIECE_MELEE,pos,_dir,_gen);
 		}
     	public MeleeArena(TemplateManager manager, CompoundNBT nbt) {
-			super(MELEE, nbt);
+			super(PIECE_MELEE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
-        	BlockState air = Blocks.AIR.getDefaultState();
-        	for (int x=1;x<=5;x++) for (int z=3;z<=6;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	for (int x=1;x<=5;x++) for (int z=3;z<=6;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
         	generateArmourStand(world,0,getDepthAt(_gen,0,2),2);
         	generateArmourStand(world,1,getDepthAt(_gen,1,1),1);
         	generateChest(world, box, rand, 5, getDepthAt(_gen,5,2), 2, LootTables.CHESTS_VILLAGE_VILLAGE_WEAPONSMITH);
         	setBlockState(world, Blocks.OAK_FENCE_GATE.getDefaultState(), 3, 1, 3, box);
-        	fillWithBlocks(world,air, 1,0,4, 5,0,5, box);
+        	fillWithBlocks(world,AIR, 1,0,4, 5,0,5, box);
 			//fence
-        	setBlockState(world, fence, 2, 1, 3, box);
-        	setBlockState(world, fence, 1, 1, 3, box);
-        	setBlockState(world, fence, 1, 1, 4, box);
-        	setBlockState(world, fence, 1, 1, 5, box);
-        	setBlockState(world, fence, 1, 1, 6, box);
-        	setBlockState(world, fence, 2, 1, 6, box);
-        	setBlockState(world, fence, 3, 1, 6, box);
-        	setBlockState(world, fence, 4, 1, 6, box);
-        	setBlockState(world, fence, 5, 1, 6, box);
-        	setBlockState(world, fence, 5, 1, 5, box);
-        	setBlockState(world, fence, 5, 1, 4, box);
-        	setBlockState(world, fence, 5, 1, 3, box);
-        	setBlockState(world, fence, 4, 1, 3, box);
+        	setBlockState(world, FENCE, 2, 1, 3, box);
+        	setBlockState(world, FENCE, 1, 1, 3, box);
+        	setBlockState(world, FENCE, 1, 1, 4, box);
+        	setBlockState(world, FENCE, 1, 1, 5, box);
+        	setBlockState(world, FENCE, 1, 1, 6, box);
+        	setBlockState(world, FENCE, 2, 1, 6, box);
+        	setBlockState(world, FENCE, 3, 1, 6, box);
+        	setBlockState(world, FENCE, 4, 1, 6, box);
+        	setBlockState(world, FENCE, 5, 1, 6, box);
+        	setBlockState(world, FENCE, 5, 1, 5, box);
+        	setBlockState(world, FENCE, 5, 1, 4, box);
+        	setBlockState(world, FENCE, 5, 1, 3, box);
+        	setBlockState(world, FENCE, 4, 1, 3, box);
         	return true;
         }
 	}
-	static final IStructurePieceType PEN			= IStructurePieceType.register(AnimalPen::new,"RoFCPN");
 	public static class AnimalPen extends AbstractTent{
     	public AnimalPen(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(PEN,pos,_dir,_gen);
+			super(PIECE_PEN,pos,_dir,_gen);
 		}
     	public AnimalPen(TemplateManager manager, CompoundNBT nbt) {
-			super(PEN, nbt);
+			super(PIECE_PEN, nbt);
 		}
     	static EntityType<? extends AnimalEntity> getRandomAnimalType(Random rand) {
     		switch(rand.nextInt(3)) {
@@ -928,335 +942,329 @@ public class RohanFortCampPieces {
     		}
     	}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState air = Blocks.AIR.getDefaultState();
-        	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
-        	setBlockState(world, Blocks.OAK_FENCE_GATE.getDefaultState(), 3, 1, 0, box);
-			fillWithBlocks(world,air, 1,1,1, 5,1,5, box);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	
+        	setBlockState(world, GATE, 3, 1, 0, box);
+			fillWithBlocks(world,AIR, 1,1,1, 5,1,5, box);
 			
-        	setBlockState(world, fence, 2, 1, 0, box);
-			setBlockState(world, fence, 1, 1, 0, box);
-			setBlockState(world, fence, 0, 1, 0, box);// post1
-			setBlockState(world, fence, 0, 1, 1, box);
-			setBlockState(world, fence, 0, 1, 2, box);
-			setBlockState(world, fence, 0, 1, 3, box);
-			setBlockState(world, fence, 0, 1, 4, box);
-			setBlockState(world, fence, 0, 1, 5, box);
-			setBlockState(world, fence, 0, 1, 6, box);// post2
-			setBlockState(world, fence, 1, 1, 6, box);
-			setBlockState(world, fence, 2, 1, 6, box);
-			setBlockState(world, fence, 3, 1, 6, box);
-			setBlockState(world, fence, 4, 1, 6, box);
-			setBlockState(world, fence, 5, 1, 6, box);
-			setBlockState(world, fence, 6, 1, 6, box);// post3
-			setBlockState(world, fence, 6, 1, 5, box);
-			setBlockState(world, fence, 6, 1, 4, box);
-			setBlockState(world, fence, 6, 1, 3, box);
-			setBlockState(world, fence, 6, 1, 2, box);
-			setBlockState(world, fence, 6, 1, 1, box);
-			setBlockState(world, fence, 6, 1, 0, box);// post4
-			setBlockState(world, fence, 5, 1, 0, box);
-			setBlockState(world, fence, 4, 1, 0, box);
+        	setBlockState(world, FENCE, 2, 1, 0, box);
+			setBlockState(world, FENCE, 1, 1, 0, box);
+			setBlockState(world, FENCE, 0, 1, 0, box);// post1
+			setBlockState(world, FENCE, 0, 1, 1, box);
+			setBlockState(world, FENCE, 0, 1, 2, box);
+			setBlockState(world, FENCE, 0, 1, 3, box);
+			setBlockState(world, FENCE, 0, 1, 4, box);
+			setBlockState(world, FENCE, 0, 1, 5, box);
+			setBlockState(world, FENCE, 0, 1, 6, box);// post2
+			setBlockState(world, FENCE, 1, 1, 6, box);
+			setBlockState(world, FENCE, 2, 1, 6, box);
+			setBlockState(world, FENCE, 3, 1, 6, box);
+			setBlockState(world, FENCE, 4, 1, 6, box);
+			setBlockState(world, FENCE, 5, 1, 6, box);
+			setBlockState(world, FENCE, 6, 1, 6, box);// post3
+			setBlockState(world, FENCE, 6, 1, 5, box);
+			setBlockState(world, FENCE, 6, 1, 4, box);
+			setBlockState(world, FENCE, 6, 1, 3, box);
+			setBlockState(world, FENCE, 6, 1, 2, box);
+			setBlockState(world, FENCE, 6, 1, 1, box);
+			setBlockState(world, FENCE, 6, 1, 0, box);// post4
+			setBlockState(world, FENCE, 5, 1, 0, box);
+			setBlockState(world, FENCE, 4, 1, 0, box);
         	spawnEntity(world,box,getRandomAnimalType(rand),2,1,2);
         	return true;
         }
 	}
-	static final IStructurePieceType STABLE 		= IStructurePieceType.register(Stables::new,"RoFCS");
 	public static class Stables extends AbstractTent{
     	public Stables(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(STABLE,pos,_dir,_gen);
+			super(PIECE_STABLE,pos,_dir,_gen);
 		}
     	public Stables(TemplateManager manager, CompoundNBT nbt) {
-			super(STABLE, nbt);
+			super(PIECE_STABLE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState air = Blocks.AIR.getDefaultState();
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState gate = Blocks.OAK_FENCE_GATE.getDefaultState();
-        	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
-        	BlockState roofslabb = Blocks.SPRUCE_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.BOTTOM);
-        	BlockState roofslabt = Blocks.SPRUCE_SLAB.getDefaultState().with(SlabBlock.TYPE, SlabType.TOP);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	//build
-        	for (int x=1;x<=5;x++) for (int z=1;z<=6;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
+        	for (int x=1;x<=5;x++) for (int z=1;z<=6;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
         	setBlockState(world, Blocks.HAY_BLOCK.getDefaultState().with(HayBlock.AXIS, Direction.Axis.random(rand)), 1, 1, 4, box);
         	setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(rand.nextInt(2)+1)), 2, 1, 4, box);
         	setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(rand.nextInt(2)+1)), 4, 1, 4, box);
         	setBlockState(world, Blocks.HAY_BLOCK.getDefaultState().with(HayBlock.AXIS, Direction.Axis.random(rand)), 5, 1, 4, box);
-        	setBlockState(world, gate, 1, 1, 1, box);
-        	setBlockState(world, gate, 2, 1, 1, box);
-        	setBlockState(world, gate, 4, 1, 1, box);
-        	setBlockState(world, gate, 5, 1, 1, box);
+        	setBlockState(world, GATE, 1, 1, 1, box);
+        	setBlockState(world, GATE, 2, 1, 1, box);
+        	setBlockState(world, GATE, 4, 1, 1, box);
+        	setBlockState(world, GATE, 5, 1, 1, box);
         	//air
-        	setBlockState(world, air, 1, 1, 0, box);
-        	setBlockState(world, air, 2, 1, 0, box);
-        	setBlockState(world, air, 4, 1, 0, box);
-        	setBlockState(world, air, 5, 1, 0, box);
-        	setBlockState(world, air, 1, 1, 2, box);
-        	setBlockState(world, air, 2, 1, 2, box);
-        	setBlockState(world, air, 1, 1, 3, box);
-        	setBlockState(world, air, 2, 1, 3, box);
-        	setBlockState(world, air, 4, 1, 2, box);
-        	setBlockState(world, air, 5, 1, 2, box);
-        	setBlockState(world, air, 4, 1, 3, box);
-        	setBlockState(world, air, 5, 1, 3, box);
-        	setBlockState(world, air, 1, 2, 2, box);
-        	setBlockState(world, air, 2, 2, 2, box);
-        	setBlockState(world, air, 1, 2, 3, box);
-        	setBlockState(world, air, 2, 2, 3, box);
-        	setBlockState(world, air, 4, 2, 2, box);
-        	setBlockState(world, air, 5, 2, 2, box);
-        	setBlockState(world, air, 4, 2, 3, box);
-        	setBlockState(world, air, 5, 2, 3, box);
+        	setBlockState(world, AIR, 1, 1, 0, box);
+        	setBlockState(world, AIR, 2, 1, 0, box);
+        	setBlockState(world, AIR, 4, 1, 0, box);
+        	setBlockState(world, AIR, 5, 1, 0, box);
+        	setBlockState(world, AIR, 1, 1, 2, box);
+        	setBlockState(world, AIR, 2, 1, 2, box);
+        	setBlockState(world, AIR, 1, 1, 3, box);
+        	setBlockState(world, AIR, 2, 1, 3, box);
+        	setBlockState(world, AIR, 4, 1, 2, box);
+        	setBlockState(world, AIR, 5, 1, 2, box);
+        	setBlockState(world, AIR, 4, 1, 3, box);
+        	setBlockState(world, AIR, 5, 1, 3, box);
+        	setBlockState(world, AIR, 1, 2, 2, box);
+        	setBlockState(world, AIR, 2, 2, 2, box);
+        	setBlockState(world, AIR, 1, 2, 3, box);
+        	setBlockState(world, AIR, 2, 2, 3, box);
+        	setBlockState(world, AIR, 4, 2, 2, box);
+        	setBlockState(world, AIR, 5, 2, 2, box);
+        	setBlockState(world, AIR, 4, 2, 3, box);
+        	setBlockState(world, AIR, 5, 2, 3, box);
         	//wall
-        	setBlockState(world, fence, 0, 1, 2, box);//side
-        	setBlockState(world, fence, 0, 1, 3, box);
-        	setBlockState(world, fence, 0, 1, 4, box);
-        	setBlockState(world, fence, 3, 1, 2, box);
-        	setBlockState(world, fence, 3, 1, 3, box);
-        	setBlockState(world, fence, 3, 1, 4, box);
-        	setBlockState(world, fence, 6, 1, 2, box);
-        	setBlockState(world, fence, 6, 1, 3, box);
-        	setBlockState(world, fence, 6, 1, 4, box);
-        	setBlockState(world, fence, 1, 1, 5, box);//back
-        	setBlockState(world, fence, 2, 1, 5, box);
-        	setBlockState(world, fence, 4, 1, 5, box);
-        	setBlockState(world, fence, 5, 1, 5, box);
+        	setBlockState(world, FENCE, 0, 1, 2, box);//side
+        	setBlockState(world, FENCE, 0, 1, 3, box);
+        	setBlockState(world, FENCE, 0, 1, 4, box);
+        	setBlockState(world, FENCE, 3, 1, 2, box);
+        	setBlockState(world, FENCE, 3, 1, 3, box);
+        	setBlockState(world, FENCE, 3, 1, 4, box);
+        	setBlockState(world, FENCE, 6, 1, 2, box);
+        	setBlockState(world, FENCE, 6, 1, 3, box);
+        	setBlockState(world, FENCE, 6, 1, 4, box);
+        	setBlockState(world, FENCE, 1, 1, 5, box);//back
+        	setBlockState(world, FENCE, 2, 1, 5, box);
+        	setBlockState(world, FENCE, 4, 1, 5, box);
+        	setBlockState(world, FENCE, 5, 1, 5, box);
         	//posts
-        	setBlockState(world, fence, 0, 1, 1, box);//front
-        	setBlockState(world, fence, 0, 2, 1, box);
-        	setBlockState(world, fence, 0, 3, 1, box);
-        	setBlockState(world, fence, 3, 1, 1, box);
-        	setBlockState(world, fence, 3, 2, 1, box);
-        	setBlockState(world, fence, 3, 3, 1, box);
-        	setBlockState(world, fence, 6, 1, 1, box);
-        	setBlockState(world, fence, 6, 2, 1, box);
-        	setBlockState(world, fence, 6, 3, 1, box);
-        	setBlockState(world, fence, 0, 1, 5, box);//back
-        	setBlockState(world, fence, 0, 2, 5, box);
-        	setBlockState(world, fence, 0, 3, 5, box);
-        	setBlockState(world, fence, 3, 1, 5, box);
-        	setBlockState(world, fence, 3, 2, 5, box);
-        	setBlockState(world, fence, 3, 3, 5, box);
-        	setBlockState(world, fence, 6, 1, 5, box);
-        	setBlockState(world, fence, 6, 2, 5, box);
-        	setBlockState(world, fence, 6, 3, 5, box);
+        	setBlockState(world, FENCE, 0, 1, 1, box);//front
+        	setBlockState(world, FENCE, 0, 2, 1, box);
+        	setBlockState(world, FENCE, 0, 3, 1, box);
+        	setBlockState(world, FENCE, 3, 1, 1, box);
+        	setBlockState(world, FENCE, 3, 2, 1, box);
+        	setBlockState(world, FENCE, 3, 3, 1, box);
+        	setBlockState(world, FENCE, 6, 1, 1, box);
+        	setBlockState(world, FENCE, 6, 2, 1, box);
+        	setBlockState(world, FENCE, 6, 3, 1, box);
+        	setBlockState(world, FENCE, 0, 1, 5, box);//back
+        	setBlockState(world, FENCE, 0, 2, 5, box);
+        	setBlockState(world, FENCE, 0, 3, 5, box);
+        	setBlockState(world, FENCE, 3, 1, 5, box);
+        	setBlockState(world, FENCE, 3, 2, 5, box);
+        	setBlockState(world, FENCE, 3, 3, 5, box);
+        	setBlockState(world, FENCE, 6, 1, 5, box);
+        	setBlockState(world, FENCE, 6, 2, 5, box);
+        	setBlockState(world, FENCE, 6, 3, 5, box);
 			//roof
-        	setBlockState(world, roofslabb, 0, 4, 1, box);
-        	setBlockState(world, roofslabt, 1, 3, 1, box);
-        	setBlockState(world, roofslabt, 2, 3, 1, box);
-        	setBlockState(world, roofslabb, 3, 4, 1, box);
-        	setBlockState(world, roofslabt, 4, 3, 1, box);
-        	setBlockState(world, roofslabt, 5, 3, 1, box);
-        	setBlockState(world, roofslabb, 6, 4, 1, box);
-        	setBlockState(world, roofslabt, 0, 3, 2, box);
-        	setBlockState(world, roofslabb, 1, 4, 2, box);
-        	setBlockState(world, roofslabb, 2, 4, 2, box);
-        	setBlockState(world, roofslabt, 3, 4, 2, box);
-        	setBlockState(world, roofslabb, 4, 4, 2, box);
-        	setBlockState(world, roofslabb, 5, 4, 2, box);
-        	setBlockState(world, roofslabt, 6, 3, 2, box);
-        	setBlockState(world, roofslabt, 0, 3, 3, box);
-        	setBlockState(world, roofslabb, 1, 4, 3, box);
-        	setBlockState(world, roofslabt, 2, 4, 3, box);
-        	setBlockState(world, roofslabt, 3, 4, 3, box);
-        	setBlockState(world, roofslabt, 4, 4, 3, box);
-        	setBlockState(world, roofslabb, 5, 4, 3, box);
-        	setBlockState(world, roofslabt, 6, 3, 3, box);
-        	setBlockState(world, roofslabt, 0, 3, 4, box);
-        	setBlockState(world, roofslabb, 1, 4, 4, box);
-        	setBlockState(world, roofslabb, 2, 4, 4, box);
-        	setBlockState(world, roofslabt, 3, 4, 4, box);
-        	setBlockState(world, roofslabb, 4, 4, 4, box);
-        	setBlockState(world, roofslabb, 5, 4, 4, box);
-        	setBlockState(world, roofslabt, 6, 3, 4, box);
-        	setBlockState(world, roofslabb, 0, 4, 5, box);
-        	setBlockState(world, roofslabt, 1, 3, 5, box);
-        	setBlockState(world, roofslabt, 2, 3, 5, box);
-        	setBlockState(world, roofslabb, 3, 4, 5, box);
-        	setBlockState(world, roofslabt, 4, 3, 5, box);
-        	setBlockState(world, roofslabt, 5, 3, 5, box);
-        	setBlockState(world, roofslabb, 6, 4, 5, box);
+        	setBlockState(world, ROOF_SLAB, 0, 4, 1, box);
+        	setBlockState(world, ROOF_STOP, 1, 3, 1, box);
+        	setBlockState(world, ROOF_STOP, 2, 3, 1, box);
+        	setBlockState(world, ROOF_SLAB, 3, 4, 1, box);
+        	setBlockState(world, ROOF_STOP, 4, 3, 1, box);
+        	setBlockState(world, ROOF_STOP, 5, 3, 1, box);
+        	setBlockState(world, ROOF_SLAB, 6, 4, 1, box);
+        	setBlockState(world, ROOF_STOP, 0, 3, 2, box);
+        	setBlockState(world, ROOF_SLAB, 1, 4, 2, box);
+        	setBlockState(world, ROOF_SLAB, 2, 4, 2, box);
+        	setBlockState(world, ROOF_STOP, 3, 4, 2, box);
+        	setBlockState(world, ROOF_SLAB, 4, 4, 2, box);
+        	setBlockState(world, ROOF_SLAB, 5, 4, 2, box);
+        	setBlockState(world, ROOF_STOP, 6, 3, 2, box);
+        	setBlockState(world, ROOF_STOP, 0, 3, 3, box);
+        	setBlockState(world, ROOF_SLAB, 1, 4, 3, box);
+        	setBlockState(world, ROOF_STOP, 2, 4, 3, box);
+        	setBlockState(world, ROOF_STOP, 3, 4, 3, box);
+        	setBlockState(world, ROOF_STOP, 4, 4, 3, box);
+        	setBlockState(world, ROOF_SLAB, 5, 4, 3, box);
+        	setBlockState(world, ROOF_STOP, 6, 3, 3, box);
+        	setBlockState(world, ROOF_STOP, 0, 3, 4, box);
+        	setBlockState(world, ROOF_SLAB, 1, 4, 4, box);
+        	setBlockState(world, ROOF_SLAB, 2, 4, 4, box);
+        	setBlockState(world, ROOF_STOP, 3, 4, 4, box);
+        	setBlockState(world, ROOF_SLAB, 4, 4, 4, box);
+        	setBlockState(world, ROOF_SLAB, 5, 4, 4, box);
+        	setBlockState(world, ROOF_STOP, 6, 3, 4, box);
+        	setBlockState(world, ROOF_SLAB, 0, 4, 5, box);
+        	setBlockState(world, ROOF_STOP, 1, 3, 5, box);
+        	setBlockState(world, ROOF_STOP, 2, 3, 5, box);
+        	setBlockState(world, ROOF_SLAB, 3, 4, 5, box);
+        	setBlockState(world, ROOF_STOP, 4, 3, 5, box);
+        	setBlockState(world, ROOF_STOP, 5, 3, 5, box);
+        	setBlockState(world, ROOF_SLAB, 6, 4, 5, box);
         	//two horseys
         	return true;
         }
 	}
-	static final IStructurePieceType FIRE	 		= IStructurePieceType.register(CampFire::new,"RoFCF");
 	public static class CampFire extends AbstractTent{
     	public CampFire(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(FIRE,pos,_dir,_gen);
+			super(PIECE_FIRE,pos,_dir,_gen);
 		}
     	public CampFire(TemplateManager manager, CompoundNBT nbt) {
-			super(FIRE, nbt);
+			super(PIECE_FIRE, nbt);
 		}
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState path = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState log = Blocks.OAK_LOG.getDefaultState();
-        	BlockState logside = log.with(LogBlock.AXIS, Direction.Axis.X);
-        	BlockState logforth= log.with(LogBlock.AXIS, Direction.Axis.Z);
-        	BlockState cobble = Blocks.COBBLESTONE_SLAB.getDefaultState();
-        	BlockState iron = Blocks.IRON_BARS.getDefaultState();
-        	BlockState fire = Blocks.CAMPFIRE.getDefaultState();
-        	BlockState sticks = ModBlocks.STICK_BLOCK.get().getDefaultState();
-        	
+		BlockState BARS = Blocks.IRON_BARS.getDefaultState();
+		BlockState FIRE = Blocks.CAMPFIRE.getDefaultState();
+		BlockState STICKS = ModBlocks.STICK_BLOCK.get().getDefaultState();
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	if(rand.nextBoolean()) {
-        		for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, path, x, 0, z, box);
-            	setBlockState(world, sticks.with(LogBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 6, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 7, 1, 6, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 7, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 2, 6, box);
+        		for (int x=1;x<=5;x++) for (int z=1;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
+            	setBlockState(world, STICKS.with(LogBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 6, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 7, 1, 6, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 7, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 2, 6, box);
         		//fire
         		setBlockState(world, Blocks.COBBLESTONE_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST), 2, 1, 3, box);
         		setBlockState(world, Blocks.COBBLESTONE_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST), 4, 1, 3, box);
-        		setBlockState(world, fire, 3, 1, 3, box);
-        		setBlockState(world, cobble, 3, 1, 2, box);
-        		setBlockState(world, cobble, 3, 1, 4, box);
+        		setBlockState(world, FIRE, 3, 1, 3, box);
+        		setBlockState(world, COBBLE_SLAB, 3, 1, 2, box);
+        		setBlockState(world, COBBLE_SLAB, 3, 1, 4, box);
         		setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(rand.nextInt(3))), 3, 2, 3, box);
-        		setBlockState(world, iron, 2, 2, 3, box);
-        		setBlockState(world, iron, 4, 2, 3, box);
+        		setBlockState(world, BARS, 2, 2, 3, box);
+        		setBlockState(world, BARS, 4, 2, 3, box);
         		//logs
-        		setBlockState(world, logforth, 0, 1, 2, box);
-            	setBlockState(world, logforth, 0, 1, 3, box);
-            	setBlockState(world, logforth, 0, 1, 4, box);
-        		setBlockState(world, logforth, 6, 1, 2, box);
-            	setBlockState(world, logforth, 6, 1, 3, box);
-            	setBlockState(world, logforth, 6, 1, 4, box);
-        		setBlockState(world, logside, 2, 1, 6, box);
-            	setBlockState(world, logside, 3, 1, 6, box);
-            	setBlockState(world, logside, 4, 1, 6, box);
+				WALL.selectBlocks(rand, 0, 1, 2, false);;
+				BlockState log0 = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
+				WALL.selectBlocks(rand, 6, 1, 2, false);;
+				BlockState log1 = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
+				WALL.selectBlocks(rand, 2, 1, 6, false);;
+				BlockState log2 = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.X);
+        		setBlockState(world, log0, 0, 1, 2, box);
+            	setBlockState(world, log0, 0, 1, 3, box);
+            	setBlockState(world, log0, 0, 1, 4, box);
+        		setBlockState(world, log1, 6, 1, 2, box);
+            	setBlockState(world, log1, 6, 1, 3, box);
+            	setBlockState(world, log1, 6, 1, 4, box);
+        		setBlockState(world, log2, 2, 1, 6, box);
+            	setBlockState(world, log2, 3, 1, 6, box);
+            	setBlockState(world, log2, 4, 1, 6, box);
         	}else {
-        		fillWithBlocks(world, box, 0, 0, 0, 5, 0, 5, path,path, false);
-            	setBlockState(world, sticks.with(LogBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 6, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 7, 1, 6, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 7, box);
-            	if (rand.nextBoolean())setBlockState(world, sticks.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 2, 6, box);
+        		fillWithBlocks(world, box, 0, 0, 0, 5, 0, 5, DIRT,DIRT, false);
+            	setBlockState(world, STICKS.with(LogBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 6, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 7, 1, 6, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 1, 7, box);
+            	if (rand.nextBoolean())setBlockState(world, STICKS.with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand)), 6, 2, 6, box);
         		//fire
         		setBlockState(world, Blocks.COBBLESTONE_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.WEST), 1, 1, 3, box);
         		setBlockState(world, Blocks.COBBLESTONE_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.EAST), 4, 1, 3, box);
-        		setBlockState(world, cobble, 1, 1, 2, box);
-        		setBlockState(world, cobble, 4, 1, 2, box);
-        		setBlockState(world, fire, 2, 1, 2, box);
-        		setBlockState(world, fire, 3, 1, 2, box);
-        		setBlockState(world, fire, 2, 1, 3, box);
-        		setBlockState(world, fire, 3, 1, 3, box);
-        		setBlockState(world, cobble, 2, 1, 1, box);
-        		setBlockState(world, cobble, 3, 1, 1, box);
-        		setBlockState(world, cobble, 2, 1, 4, box);
-        		setBlockState(world, cobble, 3, 1, 4, box);
+        		setBlockState(world, COBBLE_SLAB, 1, 1, 2, box);
+        		setBlockState(world, COBBLE_SLAB, 4, 1, 2, box);
+        		setBlockState(world, FIRE, 2, 1, 2, box);
+        		setBlockState(world, FIRE, 3, 1, 2, box);
+        		setBlockState(world, FIRE, 2, 1, 3, box);
+        		setBlockState(world, FIRE, 3, 1, 3, box);
+        		setBlockState(world, COBBLE_SLAB, 2, 1, 1, box);
+        		setBlockState(world, COBBLE_SLAB, 3, 1, 1, box);
+        		setBlockState(world, COBBLE_SLAB, 2, 1, 4, box);
+        		setBlockState(world, COBBLE_SLAB, 3, 1, 4, box);
         		setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL, Integer.valueOf(rand.nextInt(3))), 2, 2, 3, box);
-        		setBlockState(world, iron, 1, 2, 3, box);
-        		setBlockState(world, iron, 3, 2, 3, box);
-        		setBlockState(world, iron, 4, 2, 3, box);
+        		setBlockState(world, BARS, 1, 2, 3, box);
+        		setBlockState(world, BARS, 3, 2, 3, box);
+        		setBlockState(world, BARS, 4, 2, 3, box);
         		//logs
-        		setBlockState(world, logforth, 6, 1, 1, box);
-        		setBlockState(world, logforth, 6, 1, 2, box);
-            	setBlockState(world, logforth, 6, 1, 3, box);
-            	setBlockState(world, logforth, 6, 1, 4, box);
-        		setBlockState(world, logside, 1, 1, 6, box);
-        		setBlockState(world, logside, 2, 1, 6, box);
-            	setBlockState(world, logside, 3, 1, 6, box);
-            	setBlockState(world, logside, 4, 1, 6, box);
-        		setBlockState(world, log, -1, 1, 2, box);
-            	setBlockState(world, log, -1, 1, 4, box);
+				WALL.selectBlocks(rand, 0, 1, 2, false);;
+				BlockState log0 = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
+				WALL.selectBlocks(rand, 6, 1, 2, false);;
+				BlockState log1 = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
+        		setBlockState(world, log0, 6, 1, 1, box);
+        		setBlockState(world, log0, 6, 1, 2, box);
+            	setBlockState(world, log0, 6, 1, 3, box);
+            	setBlockState(world, log0, 6, 1, 4, box);
+        		setBlockState(world, log1, 1, 1, 6, box);
+        		setBlockState(world, log1, 2, 1, 6, box);
+            	setBlockState(world, log1, 3, 1, 6, box);
+            	setBlockState(world, log1, 4, 1, 6, box);
+				WALL.selectBlocks(rand, -1, 1, 2, false);
+        		setBlockState(world, WALL.getBlockState(), -1, 1, 2, box);
+				WALL.selectBlocks(rand, -1, 1, 2, false);
+            	setBlockState(world, WALL.getBlockState(), -1, 1, 4, box);
         	}return true;
         }
 	}
 	
 	/*---------------------------------------------DOUBLES-------------------------------------------------*/
-	static final IStructurePieceType CAVALLARY 		= IStructurePieceType.register(CavallaryArena::new,"RoFCAC");
+	static final IStructurePieceType PIECE_CAVALLARY = IStructurePieceType.register(CavallaryArena::new,"RoFCAC");
+	static final IStructurePieceType PIECE_ARCHERY = IStructurePieceType.register(ArcheryRange::new,"RoFCAA");
+	static final IStructurePieceType PIECE_MESS_AREA = IStructurePieceType.register(EatingArea::new,"RoFCEA");
+
 	public static class CavallaryArena extends ModStructurePiece{
     	public CavallaryArena(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(CAVALLARY, 0);
+			super(PIECE_CAVALLARY, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 15, 7, 7);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public CavallaryArena(TemplateManager manager, CompoundNBT nbt) {
-			super(CAVALLARY, nbt);
+			super(PIECE_CAVALLARY, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
-        	for (int x=1;x<=5;x++) for (int z=14;z<=5;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
-        	for (int i = 4;i<=11;i++) setBlockState(world, fence, i, 1, 3, box);
-        	for (int i = 1;i<=14;i++) setBlockState(world, fence, i, 1, 6, box);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	for (int x=1;x<=5;x++) for (int z=14;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
+        	for (int i = 4;i<=11;i++) setBlockState(world, FENCE, i, 1, 3, box);
+        	for (int i = 1;i<=14;i++) setBlockState(world, FENCE, i, 1, 6, box);
         	for (int i = 1;i<=5 ;i++) { 
-        		setBlockState(world, fence, 0, 1, i, box);
-        		setBlockState(world, fence, 15,1, i, box);
-        		setBlockState(world, fence, i, 1, 0, box);
-        		setBlockState(world, fence,i+9,1, 0, box);
+        		setBlockState(world, FENCE, 0, 1, i, box);
+        		setBlockState(world, FENCE, 15,1, i, box);
+        		setBlockState(world, FENCE, i, 1, 0, box);
+        		setBlockState(world, FENCE,i+9,1, 0, box);
         	}
-    		setBlockState(world, fence, 1, 1, 1, box);
-    		setBlockState(world, fence, 1, 1, 5, box);
-    		setBlockState(world, fence, 14,1, 1, box);
-    		setBlockState(world, fence, 14,1, 5, box);
+    		setBlockState(world, FENCE, 1, 1, 1, box);
+    		setBlockState(world, FENCE, 1, 1, 5, box);
+    		setBlockState(world, FENCE, 14,1, 1, box);
+    		setBlockState(world, FENCE, 14,1, 5, box);
         	return true;
         }
 	}
-	static final IStructurePieceType ARCHERY		= IStructurePieceType.register(ArcheryRange::new,"RoFCAA");
 	public static class ArcheryRange extends ModStructurePiece{
     	public ArcheryRange(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(ARCHERY, 0);
+			super(PIECE_ARCHERY, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 15, 7, 7);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public ArcheryRange(TemplateManager manager, CompoundNBT nbt) {
-			super(ARCHERY, nbt);
+			super(PIECE_ARCHERY, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	//blocks
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState fence = Blocks.OAK_FENCE.getDefaultState();
-        	BlockState air = Blocks.AIR.getDefaultState();
-        	BlockState wool = Blocks.WHITE_WOOL.getDefaultState();
-        	BlockState mark = Blocks.WHITE_CARPET.getDefaultState();
-        	
-        	for (int x=0;x<=15;x++) for (int z=0;z<=7;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
+		BlockState TARGET = Blocks.WHITE_WOOL.getDefaultState();
+		BlockState MARK = Blocks.WHITE_CARPET.getDefaultState();
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	for (int x=0;x<=15;x++) for (int z=0;z<=7;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
         	//fences
-        	for (int i = 0;i<=13;i++) setBlockState(world, fence, i, 1, 6, box);
-        	for (int i = 1;i<=5 ;i++) setBlockState(world, fence, 0, 1, i, box);
+        	for (int i = 0;i<=13;i++) setBlockState(world, FENCE, i, 1, 6, box);
+        	for (int i = 1;i<=5 ;i++) setBlockState(world, FENCE, 0, 1, i, box);
         	for (int i = 3;i<=13;i++) { 
-        		setBlockState(world, fence, i, 1, 2, box);
-        		setBlockState(world, fence, i, 1, 4, box);
-        		setBlockState(world, air, i, 1, 1, box);
-        		setBlockState(world, air, i, 1, 3, box);
-        		setBlockState(world, air, i, 1, 5, box);
-        		setBlockState(world, air, i, 2, 1, box);
-        		setBlockState(world, air, i, 2, 3, box);
-        		setBlockState(world, air, i, 2, 5, box);
+        		setBlockState(world, FENCE, i, 1, 2, box);
+        		setBlockState(world, FENCE, i, 1, 4, box);
+        		setBlockState(world, AIR, i, 1, 1, box);
+        		setBlockState(world, AIR, i, 1, 3, box);
+        		setBlockState(world, AIR, i, 1, 5, box);
+        		setBlockState(world, AIR, i, 2, 1, box);
+        		setBlockState(world, AIR, i, 2, 3, box);
+        		setBlockState(world, AIR, i, 2, 5, box);
         	}
-        	setBlockState(world, fence, 1, 1, 0, box);
-        	setBlockState(world, fence, 1, 1, 1, box);
+        	setBlockState(world, FENCE, 1, 1, 0, box);
+        	setBlockState(world, FENCE, 1, 1, 1, box);
         	//posts
-        	setBlockState(world, mark, 2, 1, 1, box);
-        	setBlockState(world, mark, 2, 1, 3, box);
-        	setBlockState(world, mark, 2, 1, 5, box);
-        	setBlockState(world, fence,14, 1, 1, box);
-        	setBlockState(world, fence,14, 1, 3, box);
-        	setBlockState(world, fence,14, 1, 5, box);
-        	setBlockState(world, wool, 14, 2, 1, box);
-        	setBlockState(world, wool, 14, 2, 3, box);
-        	setBlockState(world, wool, 14, 2, 5, box);
+        	setBlockState(world, MARK, 2, 1, 1, box);
+        	setBlockState(world, MARK, 2, 1, 3, box);
+        	setBlockState(world, MARK, 2, 1, 5, box);
+        	setBlockState(world, FENCE,14, 1, 1, box);
+        	setBlockState(world, FENCE,14, 1, 3, box);
+        	setBlockState(world, FENCE,14, 1, 5, box);
+        	setBlockState(world, TARGET, 14, 2, 1, box);
+        	setBlockState(world, TARGET, 14, 2, 3, box);
+        	setBlockState(world, TARGET, 14, 2, 5, box);
         	//wall
         	for (int i = 3;i<=14;i++) {
-        		B_LOGW.selectBlocks(rand, i,0,0, false);
-        		BlockState log =  B_LOGW.getBlockState();
+        		WALL.selectBlocks(rand, i,0,0, false);
+        		BlockState log =  WALL.getBlockState();
+				setBlockState(world, log, i, 0, 0, box);
 				setBlockState(world, log, i, 1, 0, box);
             	setBlockState(world, log, i, 2, 0, box);
             	if (i%2==1) setBlockState(world, log, i, 3, 0, box);
         	}; for (int i = 0;i<=6 ;i++) {
-        		B_LOGW.selectBlocks(rand, i,0,0, false);
-        		BlockState log =  B_LOGW.getBlockState();
+        		WALL.selectBlocks(rand, i,0,0, false);
+        		BlockState log =  WALL.getBlockState();
+				setBlockState(world, log, 15, 0, i, box);
 				setBlockState(world, log, 15, 1, i, box);
             	setBlockState(world, log, 15, 2, i, box);
             	setBlockState(world, log, 15, 3, i, box);
@@ -1265,17 +1273,16 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType MESS	 		= IStructurePieceType.register(EatingArea::new,"RoFCEA");
 	public static class EatingArea extends ModStructurePiece{
-    	public EatingArea(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(MESS, 0);
+		public EatingArea(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
+			super(PIECE_MESS_AREA, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 15, 7, 7);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public EatingArea(TemplateManager manager, CompoundNBT nbt) {
-			super(MESS, nbt);
+			super(PIECE_MESS_AREA, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
@@ -1304,188 +1311,195 @@ public class RohanFortCampPieces {
 	    	}
 	    	setBlockState(world, cake.getDefaultState().with(CakeBlock.BITES, rand.nextInt(6)),x, y, z, box);
         }
+
+        static final BlockState CHAIRN = Blocks.OAK_STAIRS.getDefaultState();
+		static final BlockState CHAIRS = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.SOUTH);
+		static final BlockState TABLEN = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP);
+		static final BlockState TABLES = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.SOUTH);
+		static final BlockState TABLE_END1 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT);
+		static final BlockState TABLE_END2 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT);
+		static final BlockState TABLE_END3 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT);
+		static final BlockState TABLE_END4 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT);
+		static final BlockState MUG = Blocks.FLOWER_POT.getDefaultState();
+		static final BlockState PLATE = Blocks.SPRUCE_PRESSURE_PLATE.getDefaultState();
+		static final BlockState TAP = Blocks.TRIPWIRE_HOOK.getDefaultState().with(TripWireHookBlock.FACING, Direction.SOUTH);
 		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState chair2 = Blocks.OAK_STAIRS.getDefaultState();
-        	BlockState chair1 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.FACING, Direction.SOUTH);
-        	BlockState table1 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP);
-        	BlockState table2 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.SOUTH);
-        	BlockState tableend1 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT);
-        	BlockState tableend2 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.WEST).with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT);
-        	BlockState tableend3 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.SHAPE, StairsShape.OUTER_LEFT);
-        	BlockState tableend4 = Blocks.OAK_STAIRS.getDefaultState().with(StairsBlock.HALF, Half.TOP).with(StairsBlock.FACING, Direction.EAST).with(StairsBlock.SHAPE, StairsShape.OUTER_RIGHT);
-        	BlockState mug 	= Blocks.FLOWER_POT.getDefaultState();
-        	BlockState plate = Blocks.SPRUCE_PRESSURE_PLATE.getDefaultState();
-        	BlockState lantern = Blocks.LANTERN.getDefaultState();
-        	BlockState tap = Blocks.TRIPWIRE_HOOK.getDefaultState().with(TripWireHookBlock.FACING, Direction.SOUTH);
-        	for (int x=1;x<=15;x++) for (int z=1;z<=7;z++) replaceAirAndLiquidDownwards(world, dirt, x, 0, z, box);
+        	for (int x=1;x<=15;x++) for (int z=1;z<=7;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
         	//main table
-    		setBlockState(world, tableend1, 2, 1, 1, box);
-    		setBlockState(world, tableend2, 2, 1, 2, box);
-    		setBlockState(world, table1, 3, 1, 1, box);
-    		setBlockState(world, table1, 4, 1, 1, box);
-    		setBlockState(world, table1, 5, 1, 1, box);
-    		setBlockState(world, table1, 6, 1, 1, box);
-    		setBlockState(world, table1, 7, 1, 1, box);
-    		setBlockState(world, table2, 3, 1, 2, box);
-    		setBlockState(world, table2, 4, 1, 2, box);
-    		setBlockState(world, table2, 5, 1, 2, box);
-    		setBlockState(world, table2, 6, 1, 2, box);
-    		setBlockState(world, table2, 7, 1, 2, box);
-    		setBlockState(world, table1, 11, 1, 1, box);
-    		setBlockState(world, table1, 12, 1, 1, box);
-    		setBlockState(world, table1, 13, 1, 1, box);
-    		setBlockState(world, table2, 11, 1, 2, box);
-    		setBlockState(world, table2, 12, 1, 2, box);
-    		setBlockState(world, table2, 13, 1, 2, box);
-    		setBlockState(world, tableend3, 14, 1, 2, box);
-    		setBlockState(world, tableend4, 14, 1, 1, box);
+    		setBlockState(world, TABLE_END1, 2, 1, 1, box);
+    		setBlockState(world, TABLE_END2, 2, 1, 2, box);
+    		setBlockState(world, TABLEN, 3, 1, 1, box);
+    		setBlockState(world, TABLEN, 4, 1, 1, box);
+    		setBlockState(world, TABLEN, 5, 1, 1, box);
+    		setBlockState(world, TABLEN, 6, 1, 1, box);
+    		setBlockState(world, TABLEN, 7, 1, 1, box);
+    		setBlockState(world, TABLES, 3, 1, 2, box);
+    		setBlockState(world, TABLES, 4, 1, 2, box);
+    		setBlockState(world, TABLES, 5, 1, 2, box);
+    		setBlockState(world, TABLES, 6, 1, 2, box);
+    		setBlockState(world, TABLES, 7, 1, 2, box);
+    		setBlockState(world, TABLEN, 11, 1, 1, box);
+    		setBlockState(world, TABLEN, 12, 1, 1, box);
+    		setBlockState(world, TABLEN, 13, 1, 1, box);
+    		setBlockState(world, TABLES, 11, 1, 2, box);
+    		setBlockState(world, TABLES, 12, 1, 2, box);
+    		setBlockState(world, TABLES, 13, 1, 2, box);
+    		setBlockState(world, TABLE_END3, 14, 1, 2, box);
+    		setBlockState(world, TABLE_END4, 14, 1, 1, box);
         	//main chairs
-    		setBlockState(world, chair1, 3, 1, 0, box);
-    		setBlockState(world, chair1, 5, 1, 0, box);
-    		setBlockState(world, chair1, 7, 1, 0, box);
-    		setBlockState(world, chair1, 11, 1, 0, box);
-    		setBlockState(world, chair1, 13, 1, 0, box);
-    		setBlockState(world, chair2, 3, 1, 3, box);
-    		setBlockState(world, chair2, 5, 1, 3, box);
-    		setBlockState(world, chair2, 7, 1, 3, box);
-    		setBlockState(world, chair2, 11, 1, 3, box);
-    		setBlockState(world, chair2, 13, 1, 3, box);
+    		setBlockState(world, CHAIRS, 3, 1, 0, box);
+    		setBlockState(world, CHAIRS, 5, 1, 0, box);
+    		setBlockState(world, CHAIRS, 7, 1, 0, box);
+    		setBlockState(world, CHAIRS, 11, 1, 0, box);
+    		setBlockState(world, CHAIRS, 13, 1, 0, box);
+    		setBlockState(world, CHAIRN, 3, 1, 3, box);
+    		setBlockState(world, CHAIRN, 5, 1, 3, box);
+    		setBlockState(world, CHAIRN, 7, 1, 3, box);
+    		setBlockState(world, CHAIRN, 11, 1, 3, box);
+    		setBlockState(world, CHAIRN, 13, 1, 3, box);
     		//table top
-    		setBlockState(world, mug	, 2, 2, 2, box);
-    		setBlockState(world, plate	, 3, 2, 1, box);
-    		setBlockState(world, plate	, 3, 2, 2, box);
-    		setBlockState(world, mug	, 4, 2, 1, box);
-    		setBlockState(world, lantern, 4, 2, 2, box);
-    		setBlockState(world, plate	, 5, 2, 1, box);
-    		setBlockState(world, plate	, 5, 2, 2, box);
-    		setBlockState(world, mug	, 6, 2, 2, box);
-    		setBlockState(world, plate	, 7, 2, 1, box);
-    		setBlockState(world, plate	, 7, 2, 2, box);
-    		setBlockState(world, plate	, 11, 2, 1, box);
-    		setBlockState(world, plate	, 11, 2, 2, box);
-    		setBlockState(world, mug	, 12, 2, 1, box);
-    		setBlockState(world, mug	, 12, 2, 2, box);
-    		setBlockState(world, plate	, 13, 2, 1, box);
-    		setBlockState(world, plate	, 13, 2, 2, box);
-    		setBlockState(world, mug	, 14, 2, 1, box);
+    		setBlockState(world, MUG, 2, 2, 2, box);
+    		setBlockState(world, PLATE, 3, 2, 1, box);
+    		setBlockState(world, PLATE, 3, 2, 2, box);
+    		setBlockState(world, MUG, 4, 2, 1, box);
+    		setBlockState(world, LANTERN, 4, 2, 2, box);
+    		setBlockState(world, PLATE, 5, 2, 1, box);
+    		setBlockState(world, PLATE, 5, 2, 2, box);
+    		setBlockState(world, MUG, 6, 2, 2, box);
+    		setBlockState(world, PLATE, 7, 2, 1, box);
+    		setBlockState(world, PLATE, 7, 2, 2, box);
+    		setBlockState(world, PLATE, 11, 2, 1, box);
+    		setBlockState(world, PLATE, 11, 2, 2, box);
+    		setBlockState(world, MUG, 12, 2, 1, box);
+    		setBlockState(world, MUG, 12, 2, 2, box);
+    		setBlockState(world, PLATE, 13, 2, 1, box);
+    		setBlockState(world, PLATE, 13, 2, 2, box);
+    		setBlockState(world, MUG, 14, 2, 1, box);
         	//main gap
     		if (rand.nextBoolean()) {
-        		setBlockState(world, table1, 8, 1, 1, box);
-        		setBlockState(world, table1, 9, 1, 1, box);
-        		setBlockState(world, table1, 10,1, 1, box);
-        		setBlockState(world, table2, 8, 1, 2, box);
-        		setBlockState(world, table2, 9, 1, 2, box);
-        		setBlockState(world, table2, 10,1, 2, box);
-        		setBlockState(world, chair1, 9, 1, 0, box);
-        		setBlockState(world, chair2, 9, 1, 3, box);
-        		setBlockState(world, mug, 	8, 2, 1, box);
-        		setBlockState(world, mug, 	8, 2, 2, box);
-        		setBlockState(world, plate, 9, 2, 1, box);
-        		setBlockState(world, plate, 9, 2, 2, box);
-        		setBlockState(world,lantern,10,2, 1, box);
-        		setBlockState(world, mug, 	10,2, 2, box);
+        		setBlockState(world, TABLEN, 8, 1, 1, box);
+        		setBlockState(world, TABLEN, 9, 1, 1, box);
+        		setBlockState(world, TABLEN, 10,1, 1, box);
+        		setBlockState(world, TABLES, 8, 1, 2, box);
+        		setBlockState(world, TABLES, 9, 1, 2, box);
+        		setBlockState(world, TABLES, 10,1, 2, box);
+        		setBlockState(world, CHAIRS, 9, 1, 0, box);
+        		setBlockState(world, CHAIRN, 9, 1, 3, box);
+        		setBlockState(world, MUG, 	8, 2, 1, box);
+        		setBlockState(world, MUG, 	8, 2, 2, box);
+        		setBlockState(world, PLATE, 9, 2, 1, box);
+        		setBlockState(world, PLATE, 9, 2, 2, box);
+        		setBlockState(world, LANTERN,10,2, 1, box);
+        		setBlockState(world, MUG, 	10,2, 2, box);
     		}else {
-        		setBlockState(world, tableend1, 8, 1, 1, box);
-        		setBlockState(world, tableend2, 8, 1, 2, box);
-        		setBlockState(world, tableend3, 10,1, 2, box);
-        		setBlockState(world, tableend4, 10,1, 1, box);
-        		setBlockState(world, mug, 	8 ,2, 2, box);
-        		setBlockState(world,lantern,10,2, 1, box);
+        		setBlockState(world, TABLE_END1, 8, 1, 1, box);
+        		setBlockState(world, TABLE_END2, 8, 1, 2, box);
+        		setBlockState(world, TABLE_END3, 10,1, 2, box);
+        		setBlockState(world, TABLE_END4, 10,1, 1, box);
+        		setBlockState(world, MUG, 	8 ,2, 2, box);
+        		setBlockState(world, LANTERN,10,2, 1, box);
     		}
         	//second table
     		setBlockState(world, Blocks.CAULDRON.getDefaultState().with(CauldronBlock.LEVEL,Integer.valueOf(3)), 2, 1, 7, box);
-    		setBlockState(world, tableend1, 3, 1, 6, box);
-    		setBlockState(world, tableend2, 3, 1, 7, box);
-    		setBlockState(world, table1, 4, 1, 6, box);
-    		setBlockState(world, table1, 5, 1, 6, box);
-    		setBlockState(world, table1, 6, 1, 6, box);
-    		setBlockState(world, table2, 4, 1, 7, box);
-    		setBlockState(world, table2, 5, 1, 7, box);
-    		setBlockState(world, table2, 6, 1, 7, box);
-    		setBlockState(world, table1, 10, 1, 6, box);
-    		setBlockState(world, table1, 11, 1, 6, box);
-    		setBlockState(world, table1, 12, 1, 6, box);
-    		setBlockState(world, table1, 13, 1, 6, box);
-    		setBlockState(world, table2, 10, 1, 7, box);
-    		setBlockState(world, table2, 11, 1, 7, box);
-    		setBlockState(world, table2, 12, 1, 7, box);
-    		setBlockState(world, table2, 13, 1, 7, box);
-    		setBlockState(world, tableend3, 14, 1, 7, box);
-    		setBlockState(world, tableend4, 14, 1, 6, box);
+    		setBlockState(world, TABLE_END1, 3, 1, 6, box);
+    		setBlockState(world, TABLE_END2, 3, 1, 7, box);
+    		setBlockState(world, TABLEN, 4, 1, 6, box);
+    		setBlockState(world, TABLEN, 5, 1, 6, box);
+    		setBlockState(world, TABLEN, 6, 1, 6, box);
+    		setBlockState(world, TABLES, 4, 1, 7, box);
+    		setBlockState(world, TABLES, 5, 1, 7, box);
+    		setBlockState(world, TABLES, 6, 1, 7, box);
+    		setBlockState(world, TABLEN, 10, 1, 6, box);
+    		setBlockState(world, TABLEN, 11, 1, 6, box);
+    		setBlockState(world, TABLEN, 12, 1, 6, box);
+    		setBlockState(world, TABLEN, 13, 1, 6, box);
+    		setBlockState(world, TABLES, 10, 1, 7, box);
+    		setBlockState(world, TABLES, 11, 1, 7, box);
+    		setBlockState(world, TABLES, 12, 1, 7, box);
+    		setBlockState(world, TABLES, 13, 1, 7, box);
+    		setBlockState(world, TABLE_END3, 14, 1, 7, box);
+    		setBlockState(world, TABLE_END4, 14, 1, 6, box);
         	//second chairs
     		if (rand.nextInt(3)==1) {
-    			setBlockState(world, chair1	, 4, 1, 5, box);
-    			setBlockState(world, plate	, 4, 2, 6, box);
+    			setBlockState(world, CHAIRS, 4, 1, 5, box);
+    			setBlockState(world, PLATE, 4, 2, 6, box);
     		}
     		if (rand.nextInt(3)==1) {
-    			setBlockState(world, chair1	, 6, 1, 5, box);
-    			setBlockState(world, plate	, 6, 2, 6, box);
+    			setBlockState(world, CHAIRS, 6, 1, 5, box);
+    			setBlockState(world, PLATE, 6, 2, 6, box);
     		}else
-    			setBlockState(world, mug	, 6, 2, 6, box);
+    			setBlockState(world, MUG, 6, 2, 6, box);
     		if (rand.nextInt(3)==1) {
-    			setBlockState(world, chair1	, 12, 1, 5, box);
+    			setBlockState(world, CHAIRS, 12, 1, 5, box);
     		}
     		if (rand.nextInt(5)==1) {
-    			setBlockState(world, chair1	, 14, 1, 5, box);
-    			setBlockState(world, plate	, 14, 2, 6, box);
+    			setBlockState(world, CHAIRS, 14, 1, 5, box);
+    			setBlockState(world, PLATE, 14, 2, 6, box);
     		}
     		//second top
-    		setBlockState(world, mug	, 3, 2, 6, box);
+    		setBlockState(world, MUG, 3, 2, 6, box);
     		placeRandomCake(world,box,rand,4, 2, 7);
-    		setBlockState(world, tap	, 5, 2, 6, box);
+    		setBlockState(world, TAP, 5, 2, 6, box);
     		generateBarrel(world,box,rand,5, 2, 7,LootTables.CHESTS_VILLAGE_VILLAGE_TANNERY,Direction.SOUTH);
-    		setBlockState(world, mug	, 6, 2, 6, box);
+    		setBlockState(world, MUG, 6, 2, 6, box);
     		placeRandomCake(world,box,rand,6, 2, 7);
-    		setBlockState(world, tap	, 10, 2, 6, box);
+    		setBlockState(world, TAP, 10, 2, 6, box);
     		generateBarrel(world,box,rand,10, 2, 7,LootTables.CHESTS_VILLAGE_VILLAGE_TANNERY,Direction.SOUTH);
-    		setBlockState(world, tap	, 11, 2, 6, box);
+    		setBlockState(world, TAP, 11, 2, 6, box);
     		generateBarrel(world,box,rand,11, 2, 7,LootTables.CHESTS_VILLAGE_VILLAGE_TANNERY,Direction.SOUTH);
     		placeRandomCake(world,box,rand,12, 2, 7);
-			setBlockState(world, plate	, 12, 2, 6, box);
-    		setBlockState(world, mug	, 13, 2, 6, box);
+			setBlockState(world, PLATE, 12, 2, 6, box);
+    		setBlockState(world, MUG, 13, 2, 6, box);
     		placeRandomCake(world,box,rand, 13, 2, 7);
-    		setBlockState(world, mug	, 14, 2, 7, box);
+    		setBlockState(world, MUG, 14, 2, 7, box);
         	//second gap
     		if (rand.nextBoolean()) {
-    			setBlockState(world, table1, 7, 1, 6, box);
-    			setBlockState(world, table1, 8, 1, 6, box);
-    			setBlockState(world, table1, 9, 1, 6, box);
-    			setBlockState(world, table2, 7, 1, 7, box);
-    			setBlockState(world, table2, 8, 1, 7, box);
-    			setBlockState(world, table2, 9, 1, 7, box);
-    			setBlockState(world, lantern,7, 2, 6, box);
+    			setBlockState(world, TABLEN, 7, 1, 6, box);
+    			setBlockState(world, TABLEN, 8, 1, 6, box);
+    			setBlockState(world, TABLEN, 9, 1, 6, box);
+    			setBlockState(world, TABLES, 7, 1, 7, box);
+    			setBlockState(world, TABLES, 8, 1, 7, box);
+    			setBlockState(world, TABLES, 9, 1, 7, box);
+    			setBlockState(world, LANTERN,7, 2, 6, box);
         		generateBarrel(world,box,rand,8, 2, 7,LootTables.CHESTS_VILLAGE_VILLAGE_TANNERY,Direction.SOUTH);
-    			setBlockState(world, tap,	 8, 2, 6, box);
+    			setBlockState(world, TAP,	 8, 2, 6, box);
     			placeRandomCake(world,box,rand,9, 2, 6);
     			placeRandomCake(world,box,rand,7, 2, 7);
     			placeRandomCake(world,box,rand,9, 2, 7);
     		}else{
-    			setBlockState(world, tableend1, 7, 1, 6, box);
-    			setBlockState(world, tableend2, 7, 1, 7, box);
-    			setBlockState(world, tableend4, 9, 1, 6, box);
-    			setBlockState(world, tableend3, 9, 1, 7, box);
-    			setBlockState(world, lantern,	7, 2, 7, box);
-    			setBlockState(world, mug,	 	9, 2, 6, box);
+    			setBlockState(world, TABLE_END1, 7, 1, 6, box);
+    			setBlockState(world, TABLE_END2, 7, 1, 7, box);
+    			setBlockState(world, TABLE_END4, 9, 1, 6, box);
+    			setBlockState(world, TABLE_END3, 9, 1, 7, box);
+    			setBlockState(world, LANTERN,	7, 2, 7, box);
+    			setBlockState(world, MUG,	 	9, 2, 6, box);
     			placeRandomCake(world,box,rand,9, 2, 7);
     		}return true;
         }
 	}
 	
 	/*---------------------------------------------SMALL-------------------------------------------------*/
-	static final IStructurePieceType WATCH	 		= IStructurePieceType.register(WatchTower::new,"RoFCWT");
+	static final IStructurePieceType PIECE_TOWER = IStructurePieceType.register(WatchTower::new,"RoFCWT");
+	static final IStructurePieceType PIECE_WELL = IStructurePieceType.register(Well::new,"RoFCWL");
+	static final IStructurePieceType PIECE_HAYBALE = IStructurePieceType.register(HayBale::new,"RoFCHB");
+	static final IStructurePieceType PIECE_CRATE = IStructurePieceType.register(Crates::new,"RoFCCR");
+	static final IStructurePieceType PIECE_FARM = IStructurePieceType.register(Farm::new,"RoFCFR");
+	static final IStructurePieceType PIECE_LOGS = IStructurePieceType.register(LogPile::new,"RoFCLS");
+
 	public static class WatchTower extends ModStructurePiece {
 		int height;
+
 		public WatchTower(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen, Random rand) {
-			super(WATCH, 0);
+			super(PIECE_TOWER, 0);
 			height = rand.nextInt(4)+7;
 			setCoordBaseMode(_dir);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, height+3, 6);
 		}
+
 		/*---------------------------------------------data-------------------------------------------------*/
 		public WatchTower(TemplateManager manager, CompoundNBT nbt) {
-			super(WATCH, nbt);
+			super(PIECE_TOWER, nbt);
 			height=nbt.getInt("Hte");
 		}
 		@Override protected void readAdditional(CompoundNBT nbt) {
@@ -1493,165 +1507,167 @@ public class RohanFortCampPieces {
 		}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	//blocks
-        	BlockState path = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState log = Blocks.STRIPPED_OAK_LOG.getDefaultState();
-        	BlockState logs = log.with(LogBlock.AXIS, Direction.Axis.X);
-        	BlockState logz = log.with(LogBlock.AXIS, Direction.Axis.Z);
-        	BlockState flor = Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE,SlabType.TOP);
-        	BlockState roof = Blocks.SPRUCE_PLANKS.getDefaultState();
-        	BlockState rofb = Blocks.SPRUCE_SLAB.getDefaultState();
-        	BlockState roft = rofb.with(SlabBlock.TYPE,SlabType.TOP);
-        	BlockState post = Blocks.OAK_FENCE.getDefaultState();
-        	BlockState ladder = Blocks.LADDER.getDefaultState().with(LadderBlock.FACING, Direction.SOUTH);
-        	for (int x=0;x<=2;x++) for (int z=2;z<=5;z++) replaceAirAndLiquidDownwards(world, path, x, 0, z, box);
+		static final BlockState OAK_SLAB = Blocks.OAK_SLAB.getDefaultState().with(SlabBlock.TYPE,SlabType.TOP);
+		static final BlockState LADDER = Blocks.LADDER.getDefaultState().with(LadderBlock.FACING, Direction.SOUTH);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+			setBlockState(world, AIR, 1, 1, 0, box);
+			setBlockState(world, AIR, 1, 1, 1, box);
+			setBlockState(world, AIR, 1, 1, 2, box);
+			setBlockState(world, AIR, 1, 1, 3, box);
+			setBlockState(world, AIR, 1, 2, 0, box);
+			setBlockState(world, AIR, 1, 2, 1, box);
+			setBlockState(world, AIR, 1, 2, 2, box);
+			setBlockState(world, AIR, 1, 2, 3, box);
+			//blocks
+        	for (int x=0;x<=2;x++) for (int z=2;z<=5;z++) replaceAirAndLiquidDownwards(world, DIRT, x, 0, z, box);
         	int y  = height-1;
     		int y0 = height+1;
     		int y1 = height+2;
     		int y2 = height+3;
         	//pole
+			setBlockState(world, LOG,1, 0, 5, box);
+			setBlockState(world, LOG,1, -1, 5, box);
+			setBlockState(world, LOG,1, -2, 5, box);
         	for (int i = 1; i <= height; i++) {
-        		setBlockState(world, log,	 1, i, 5, box);
-        		setBlockState(world, ladder, 1, i, 4, box);
+        		setBlockState(world, LOG,	 1, i, 5, box);
+        		setBlockState(world, LADDER, 1, i, 4, box);
         	}
-    		setBlockState(world, log, 1, y0, 5, box);
-    		setBlockState(world, log, 1, y1, 5, box);
-    		setBlockState(world, logz, 1, y1, 4, box);
-    		setBlockState(world, logs, 0, y1, 5, box);
-    		setBlockState(world, logs, 2, y1, 5, box);
+    		setBlockState(world, LOG, 1, y0, 5, box);
+    		setBlockState(world, LOG, 1, y1, 5, box);
+    		setBlockState(world, LOGZ, 1, y1, 4, box);
+    		setBlockState(world, LOGX, 0, y1, 5, box);
+    		setBlockState(world, LOGX, 2, y1, 5, box);
         	//cabin
-    		setBlockState(world, logz, 1, y, 6, box);
-    		setBlockState(world, logs, 0, y, 5, box);
-    		setBlockState(world, logs, 2, y, 5, box);
-    		setBlockState(world, flor, 0, y, 4, box);
-    		setBlockState(world, flor, 2, y, 4, box);
-    		setBlockState(world, flor, 0, y, 6, box);
-    		setBlockState(world, flor, 2, y, 6, box);
-    		setBlockState(world, post,-1, y0, 5, box);//posts
-    		setBlockState(world, post, 3, y0, 5, box);
-    		setBlockState(world, post, 1, y0, 3, box);
-    		setBlockState(world, post,-1, y, 5, box);
-    		setBlockState(world, post, 3, y, 5, box);
-    		setBlockState(world, post, 1, y, 7, box);
+    		setBlockState(world, LOGZ, 1, y, 6, box);
+    		setBlockState(world, LOGX, 0, y, 5, box);
+    		setBlockState(world, LOGX, 2, y, 5, box);
+    		setBlockState(world, OAK_SLAB, 0, y, 4, box);
+    		setBlockState(world, OAK_SLAB, 2, y, 4, box);
+    		setBlockState(world, OAK_SLAB, 0, y, 6, box);
+    		setBlockState(world, OAK_SLAB, 2, y, 6, box);
+    		setBlockState(world, FENCE,-1, y0, 5, box);//posts
+    		setBlockState(world, FENCE, 3, y0, 5, box);
+    		setBlockState(world, FENCE, 1, y0, 3, box);
+    		setBlockState(world, FENCE,-1, y, 5, box);
+    		setBlockState(world, FENCE, 3, y, 5, box);
+    		setBlockState(world, FENCE, 1, y, 7, box);
         	//roof
-    		setBlockState(world, rofb,-1, y1, 4, box);
-    		setBlockState(world, roof,-1, y1, 5, box);
-    		setBlockState(world, rofb,-1, y1, 6, box);
-    		setBlockState(world, rofb, 0, y1, 3, box);
-    		setBlockState(world, roft, 0, y1, 4, box);
-    		setBlockState(world, rofb, 0, y2, 5, box);
-    		setBlockState(world, roft, 0, y1, 6, box);
-    		setBlockState(world, rofb, 0, y1, 7, box);
-    		setBlockState(world, roof, 1, y1, 3, box);
-    		setBlockState(world, rofb, 1, y2, 4, box);
-    		setBlockState(world, rofb, 1, y2, 5, box);
-    		setBlockState(world, rofb, 1, y2, 6, box);
-    		setBlockState(world, roft, 1, y1, 7, box);
-    		setBlockState(world, rofb, 2, y1, 3, box);
-    		setBlockState(world, roft, 2, y1, 4, box);
-    		setBlockState(world, rofb, 2, y2, 5, box);
-    		setBlockState(world, roft, 2, y1, 6, box);
-    		setBlockState(world, rofb, 2, y1, 7, box);
-    		setBlockState(world, rofb, 3, y1, 4, box);
-    		setBlockState(world, roof, 3, y1, 5, box);
-    		setBlockState(world, rofb, 3, y1, 6, box);
+    		setBlockState(world, ROOF_SLAB,-1, y1, 4, box);
+    		setBlockState(world, ROOF,-1, y1, 5, box);
+    		setBlockState(world, ROOF_SLAB,-1, y1, 6, box);
+    		setBlockState(world, ROOF_SLAB, 0, y1, 3, box);
+    		setBlockState(world, ROOF_STOP, 0, y1, 4, box);
+    		setBlockState(world, ROOF_SLAB, 0, y2, 5, box);
+    		setBlockState(world, ROOF_STOP, 0, y1, 6, box);
+    		setBlockState(world, ROOF_SLAB, 0, y1, 7, box);
+    		setBlockState(world, ROOF, 1, y1, 3, box);
+    		setBlockState(world, ROOF_SLAB, 1, y2, 4, box);
+    		setBlockState(world, ROOF_SLAB, 1, y2, 5, box);
+    		setBlockState(world, ROOF_SLAB, 1, y2, 6, box);
+    		setBlockState(world, ROOF_STOP, 1, y1, 7, box);
+    		setBlockState(world, ROOF_SLAB, 2, y1, 3, box);
+    		setBlockState(world, ROOF_STOP, 2, y1, 4, box);
+    		setBlockState(world, ROOF_SLAB, 2, y2, 5, box);
+    		setBlockState(world, ROOF_STOP, 2, y1, 6, box);
+    		setBlockState(world, ROOF_SLAB, 2, y1, 7, box);
+    		setBlockState(world, ROOF_SLAB, 3, y1, 4, box);
+    		setBlockState(world, ROOF, 3, y1, 5, box);
+    		setBlockState(world, ROOF_SLAB, 3, y1, 6, box);
         	//wall
-    		setBlockState(world, post,-1, height, 3, box);//p
-    		setBlockState(world, post, 0, height, 3, box);
-    		setBlockState(world, post, 1, height, 3, box);
-    		setBlockState(world, post, 2, height, 3, box);
-    		setBlockState(world, post, 3, height, 3, box);//p
-    		setBlockState(world, post, 3, height, 4, box);
-    		setBlockState(world, post, 3, height, 5, box);
-    		setBlockState(world, post, 3, height, 6, box);
-    		setBlockState(world, post, 3, height, 7, box);//p
-    		setBlockState(world, post, 2, height, 7, box);
-    		setBlockState(world, post, 1, height, 7, box);
-    		setBlockState(world, post, 0, height, 7, box);
-    		setBlockState(world, post,-1, height, 7, box);//p
-    		setBlockState(world, post,-1, height, 6, box);
-    		setBlockState(world, post,-1, height, 5, box);
-    		setBlockState(world, post,-1, height, 4, box);
+    		setBlockState(world, FENCE,-1, height, 3, box);//p
+    		setBlockState(world, FENCE, 0, height, 3, box);
+    		setBlockState(world, FENCE, 1, height, 3, box);
+    		setBlockState(world, FENCE, 2, height, 3, box);
+    		setBlockState(world, FENCE, 3, height, 3, box);//p
+    		setBlockState(world, FENCE, 3, height, 4, box);
+    		setBlockState(world, FENCE, 3, height, 5, box);
+    		setBlockState(world, FENCE, 3, height, 6, box);
+    		setBlockState(world, FENCE, 3, height, 7, box);//p
+    		setBlockState(world, FENCE, 2, height, 7, box);
+    		setBlockState(world, FENCE, 1, height, 7, box);
+    		setBlockState(world, FENCE, 0, height, 7, box);
+    		setBlockState(world, FENCE,-1, height, 7, box);//p
+    		setBlockState(world, FENCE,-1, height, 6, box);
+    		setBlockState(world, FENCE,-1, height, 5, box);
+    		setBlockState(world, FENCE,-1, height, 4, box);
         	//misc
-    		setBlockState(world, post, 0, 1, 5, box);
-    		setBlockState(world, post, 2, 1, 5, box);
-    		setBlockState(world, post, 1, 1, 6, box);
+    		setBlockState(world, FENCE, 0, 1, 5, box);
+    		setBlockState(world, FENCE, 2, 1, 5, box);
+    		setBlockState(world, FENCE, 1, 1, 6, box);
     		setBlockState(world, Blocks.WALL_TORCH.getDefaultState(), 1, y0, 6, box);
     		setBlockState(world, Blocks.OAK_FENCE_GATE.getDefaultState().with(FenceGateBlock.OPEN, true), 1, y1, 6, box);
     		generateBarrel(world,box,rand,2,1,4,LootTables.CHESTS_VILLAGE_VILLAGE_FLETCHER,Direction.random(rand));
         	return true;
         }
 	}
-	static final IStructurePieceType WELL	 		= IStructurePieceType.register(Well::new,"RoFCWL");
 	public static class Well extends ModStructurePiece {
 		public Well(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(WELL, 0);
+			super(PIECE_WELL, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, 7, 6);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Well(TemplateManager manager, CompoundNBT nbt) {
-			super(WELL, nbt);
+			super(PIECE_WELL, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.COARSE_DIRT.getDefaultState();
-        	BlockState cobl = Blocks.COBBLESTONE.getDefaultState();
-        	BlockState slab = Blocks.COBBLESTONE_SLAB.getDefaultState();
-        	BlockState post = Blocks.OAK_FENCE.getDefaultState();
-        	BlockState roof = Blocks.SPRUCE_SLAB.getDefaultState();
+		static final BlockState COBBLE = Blocks.COBBLESTONE.getDefaultState();
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
         	//base
-        	setBlockState(world, dirt, 0, 0, 2, box);
-        	setBlockState(world, cobl, 1, 0, 2, box);
-        	setBlockState(world, dirt, 2, 0, 2, box);
-        	setBlockState(world, cobl, 0, 0, 3, box);
-        	setBlockState(world, cobl, 2, 0, 3, box);
-        	setBlockState(world, dirt, 0, 0, 4, box);
-        	setBlockState(world, cobl, 1, 0, 4, box);
-        	setBlockState(world, dirt, 2, 0, 4, box);
-        	setBlockState(world, slab, 1, 1, 2, box);
-        	setBlockState(world, slab, 0, 1, 3, box);
-        	setBlockState(world, slab, 2, 1, 3, box);
-        	setBlockState(world, slab, 1, 1, 4, box);
+        	setBlockState(world, DIRT, 0, 0, 2, box);
+        	setBlockState(world, COBBLE, 1, 0, 2, box);
+        	setBlockState(world, DIRT, 2, 0, 2, box);
+        	setBlockState(world, COBBLE, 0, 0, 3, box);
+        	setBlockState(world, COBBLE, 2, 0, 3, box);
+        	setBlockState(world, DIRT, 0, 0, 4, box);
+        	setBlockState(world, COBBLE, 1, 0, 4, box);
+        	setBlockState(world, DIRT, 2, 0, 4, box);
+        	setBlockState(world, COBBLE_SLAB, 1, 1, 2, box);
+        	setBlockState(world, COBBLE_SLAB, 0, 1, 3, box);
+        	setBlockState(world, COBBLE_SLAB, 2, 1, 3, box);
+        	setBlockState(world, COBBLE_SLAB, 1, 1, 4, box);
         	//posts
-        	setBlockState(world, post, 0, 1, 2, box);
-        	setBlockState(world, post, 0, 2, 2, box);
-        	setBlockState(world, post, 2, 1, 2, box);
-        	setBlockState(world, post, 2, 2, 2, box);
-        	setBlockState(world, post, 0, 1, 4, box);
-        	setBlockState(world, post, 0, 2, 4, box);
-        	setBlockState(world, post, 2, 1, 4, box);
-        	setBlockState(world, post, 2, 2, 4, box);
+        	setBlockState(world, FENCE, 0, 1, 2, box);
+        	setBlockState(world, FENCE, 0, 2, 2, box);
+        	setBlockState(world, FENCE, 2, 1, 2, box);
+        	setBlockState(world, FENCE, 2, 2, 2, box);
+        	setBlockState(world, FENCE, 0, 1, 4, box);
+        	setBlockState(world, FENCE, 0, 2, 4, box);
+        	setBlockState(world, FENCE, 2, 1, 4, box);
+        	setBlockState(world, FENCE, 2, 2, 4, box);
         	//roof
-        	setBlockState(world, roof, 0, 3, 2, box);
-        	setBlockState(world, roof, 1, 3, 2, box);
-        	setBlockState(world, roof, 2, 3, 2, box);
-        	setBlockState(world, roof, 0, 3, 3, box);
-        	setBlockState(world, roof.with(SlabBlock.TYPE, SlabType.TOP), 1, 3, 3, box);
-        	setBlockState(world, roof, 2, 3, 3, box);
-        	setBlockState(world, roof, 0, 3, 4, box);
-        	setBlockState(world, roof, 1, 3, 4, box);
-        	setBlockState(world, roof, 2, 3, 4, box);
-        	for (int i=1;i>=-5;i--)
-            	setBlockState(world, Blocks.WATER.getDefaultState(), 1, i, 3, box);
+        	setBlockState(world, ROOF_SLAB, 0, 3, 2, box);
+        	setBlockState(world, ROOF_SLAB, 1, 3, 2, box);
+        	setBlockState(world, ROOF_SLAB, 2, 3, 2, box);
+        	setBlockState(world, ROOF_SLAB, 0, 3, 3, box);
+        	setBlockState(world, ROOF_SLAB.with(SlabBlock.TYPE, SlabType.TOP), 1, 3, 3, box);
+        	setBlockState(world, ROOF_SLAB, 2, 3, 3, box);
+        	setBlockState(world, ROOF_SLAB, 0, 3, 4, box);
+        	setBlockState(world, ROOF_SLAB, 1, 3, 4, box);
+        	setBlockState(world, ROOF_SLAB, 2, 3, 4, box);
+        	for (int i=0;i>=-5;i--){
+            	setBlockState(world, WATER, 1, i, 3, box);
+				setBlockState(world, COBBLE, 1, i, 3, box);
+				setBlockState(world, COBBLE, 1, i, 3, box);
+				setBlockState(world, COBBLE, 1, i, 3, box);
+				setBlockState(world, COBBLE, 1, i, 3, box);
+        	}
         	return true;
         }
 	}
-	static final IStructurePieceType HAYB	 		= IStructurePieceType.register(HayBale::new,"RoFCHB");
 	public static class HayBale extends ModStructurePiece {
 		public HayBale(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(HAYB, 0);
+			super(PIECE_HAYBALE, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, 7, 6);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public HayBale(TemplateManager manager, CompoundNBT nbt) {
-			super(HAYB, nbt);
+			super(PIECE_HAYBALE, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
@@ -1661,10 +1677,9 @@ public class RohanFortCampPieces {
 			if (rand.nextInt(4)!=0)
         	setBlockState(world, bale,x, y, z, box);
         }
-		@SuppressWarnings("deprecation")
 		public void placeHayBale(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z, int chance) {
 			BlockState bale = (rand.nextInt(3)!=0?Blocks.HAY_BLOCK:ModBlocks.STICK_BLOCK.get()).getDefaultState().with(RotatedPillarBlock.AXIS, Direction.Axis.random(rand));
-			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x,y-1,z, box).isAir())
+			if (rand.nextInt(chance)!= 0 && !getBlockStateFromPos(world, x, y - 1, z, box).isAir())
 	        	setBlockState(world, bale,x, y, z, box);
         }
 		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
@@ -1713,17 +1728,16 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType CRATE	 		= IStructurePieceType.register(Crates::new,"RoFCCR");
 	public static class Crates extends ModStructurePiece {
 		public Crates(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(CRATE, 0);
+			super(PIECE_CRATE, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, 7, 6);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Crates(TemplateManager manager, CompoundNBT nbt) {
-			super(CRATE, nbt);
+			super(PIECE_CRATE, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
@@ -1745,56 +1759,55 @@ public class RohanFortCampPieces {
         	return true;
         }
 	}
-	static final IStructurePieceType FARM	 		= IStructurePieceType.register(Farm::new,"RoFCFR");
 	public static class Farm extends ModStructurePiece {
 		public Farm(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(FARM, 0);
+			super(PIECE_FARM, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, 7, 6);
 			setCoordBaseMode(_dir);
 		}
+
 		/*---------------------------------------------data-------------------------------------------------*/
 		public Farm(TemplateManager manager, CompoundNBT nbt) {
-			super(FARM, nbt);
+			super(PIECE_FARM, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	BlockState dirt = Blocks.FARMLAND.getDefaultState().with(FarmlandBlock.MOISTURE, 7);
-        	B_CROP.selectBlocks(rand, 0, 0, 0, false);
-        	BlockState crop = B_CROP.getBlockState().with(CropsBlock.AGE, 7);
-        	for (int x=0;x<=0;x++) 
+		static final BlockState FARMLAND = Blocks.FARMLAND.getDefaultState().with(FarmlandBlock.MOISTURE, 7);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> _gen, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	CROP.selectBlocks(rand, 0, 0, 0, false);
+        	BlockState crop = CROP.getBlockState();
+        	for (int x=0;x<=2;x++)
         		for (int z=2;z<=6;z++) {
-        			setBlockState(world, dirt, x, 0, z, box);
+        			setBlockState(world, FARMLAND, x, 0, z, box);
         			setBlockState(world, crop, x, 1, z, box);
         		}
-        	setBlockState(world, Blocks.WATER.getDefaultState(), 1, 0, 3, box);
-        	setBlockState(world, Blocks.AIR.getDefaultState(), 1, 1, 3, box);
+        	setBlockState(world, WATER, 1, 0, 3, box);
+        	setBlockState(world, AIR, 1, 1, 3, box);
         	return true;
         }
 	}
-	static final IStructurePieceType LOGS	 		= IStructurePieceType.register(LogPile::new,"RoFCLS");
 	public static class LogPile extends ModStructurePiece {
 		public LogPile(BlockPos pos, Direction _dir, ChunkGenerator<?> _gen) {
-			super(LOGS, 0);
+			super(PIECE_LOGS, 0);
 			int depth = _gen.func_222529_a(pos.getX()+1, pos.getZ()+1, Heightmap.Type.OCEAN_FLOOR_WG)-1;
 			boundingBox = ModMathFunctions.getDirectedBox(pos.getX(), depth, pos.getZ(), _dir, 2, 7, 6);
 			setCoordBaseMode(_dir);
 		}
 		/*---------------------------------------------data-------------------------------------------------*/
 		public LogPile(TemplateManager manager, CompoundNBT nbt) {
-			super(LOGS, nbt);
+			super(PIECE_LOGS, nbt);
 		}
 		@Override protected void readAdditional(CompoundNBT compound) {}
 		
 		/*-------------------------------------------generation----------------------------------------------*/
-        @Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
-        	B_LOGW.selectBlocks(rand, 0, 0, 0, false);;
-        	BlockState log = B_LOGW.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
-        	BlockState railt = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.EAST_WEST);
-        	BlockState raill = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.ASCENDING_EAST);
-        	BlockState railr = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.ASCENDING_WEST);
+		static final BlockState RAIL = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.EAST_WEST);
+		static final BlockState RAILL = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.ASCENDING_EAST);
+		static final BlockState RAILR = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.ASCENDING_WEST);
+		@Override public boolean create(IWorld world, ChunkGenerator<?> generator, Random rand, MutableBoundingBox box, ChunkPos chunkPos){
+        	WALL.selectBlocks(rand, 0, 0, 0, false);
+        	BlockState log = WALL.getBlockState().with(LogBlock.AXIS, Direction.Axis.Z);
         	//build
         	setBlockState(world, log, 1, 1, 0, box);
         	setBlockState(world, log, 1, 1, 6, box);
@@ -1804,16 +1817,16 @@ public class RohanFortCampPieces {
             	setBlockState(world, log, 1, 2, i, box);
             	setBlockState(world, log, 2, 1, i, box);
         	}
-        	setBlockState(world, raill,-1, 1, 2, box);
-        	setBlockState(world, raill, 0, 2, 2, box);
-        	setBlockState(world, railt, 1, 3, 2, box);
-        	setBlockState(world, railr, 2, 2, 2, box);
-        	setBlockState(world, railr, 3, 1, 2, box);
-        	setBlockState(world, raill,-1, 1, 4, box);
-        	setBlockState(world, raill, 0, 2, 4, box);
-        	setBlockState(world, railt, 1, 3, 4, box);
-        	setBlockState(world, railr, 2, 2, 4, box);
-        	setBlockState(world, railr, 3, 1, 4, box);
+        	setBlockState(world, RAILL,-1, 1, 2, box);
+        	setBlockState(world, RAILL, 0, 2, 2, box);
+        	setBlockState(world, RAIL, 1, 3, 2, box);
+        	setBlockState(world, RAILR, 2, 2, 2, box);
+        	setBlockState(world, RAILR, 3, 1, 2, box);
+        	setBlockState(world, RAILL,-1, 1, 4, box);
+        	setBlockState(world, RAILL, 0, 2, 4, box);
+        	setBlockState(world, RAIL, 1, 3, 4, box);
+        	setBlockState(world, RAILR, 2, 2, 4, box);
+        	setBlockState(world, RAILR, 3, 1, 4, box);
         	return true;
         }
 	}

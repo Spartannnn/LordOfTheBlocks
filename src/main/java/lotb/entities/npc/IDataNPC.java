@@ -19,6 +19,4 @@ public interface IDataNPC {
             return (AbstractNPCEntity) world.getEntityByID(this.entityId);
         }
     }
-
-
 }

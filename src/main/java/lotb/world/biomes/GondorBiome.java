@@ -11,7 +11,6 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 public class GondorBiome extends Biome {
-
 	static final SurfaceBuilderConfig surface = new SurfaceBuilderConfig(Blocks.GRASS_BLOCK.getDefaultState(),
 			 															 Blocks.DIRT.getDefaultState(),
 			 															 Blocks.SAND.getDefaultState());
@@ -35,7 +34,6 @@ public class GondorBiome extends Biome {
 		DefaultBiomeFeatures.addBirchTrees(this);
 		DefaultBiomeFeatures.addExtraReedsAndPumpkins(this);
 		ModOreGen.addModOres(this);
-		
 		
 		this.addSpawn(EntityClassification.CREATURE, new SpawnListEntry(ModEntities.BADGER,100,1,5));
 	}

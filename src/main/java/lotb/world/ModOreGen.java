@@ -15,9 +15,9 @@ public class ModOreGen {
         OreFeatureConfig prismarineOreFeature = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.PRISMARINE_ORE.get().getDefaultState(), 12);
         OreFeatureConfig quartzOreFeature = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.QUARTZ_ORE.get().getDefaultState(), 8);
         OreFeatureConfig glowstoneOreFeature = new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ModBlocks.GLOWSTONE_ORE.get().getDefaultState(), 7);
-        ConfiguredPlacement prismarinePlacement = Placement.COUNT_RANGE.configure(new CountRangeConfig(4, 0, 0, 43));
+        ConfiguredPlacement prismarinePlacement = Placement.COUNT_RANGE.configure(new CountRangeConfig(3, 0, 0, 43));
         ConfiguredPlacement quartzPlacement = Placement.COUNT_RANGE.configure(new CountRangeConfig(8, 0, 0, 54));
-        ConfiguredPlacement glowstonePlacement = Placement.COUNT_RANGE.configure(new CountRangeConfig(9, 0, 0, 31));
+        ConfiguredPlacement glowstonePlacement = Placement.COUNT_RANGE.configure(new CountRangeConfig(4, 0, 0, 31));
         biome.addFeature(Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(prismarineOreFeature).withPlacement(prismarinePlacement));
         biome.addFeature(Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(quartzOreFeature).withPlacement(quartzPlacement));
         biome.addFeature(Decoration.UNDERGROUND_ORES, Feature.ORE.withConfiguration(glowstoneOreFeature).withPlacement(glowstonePlacement));

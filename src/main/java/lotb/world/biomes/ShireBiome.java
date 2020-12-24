@@ -1,5 +1,6 @@
 package lotb.world.biomes;
 
+import lotb.registries.ModStructures;
 import lotb.world.ModOreGen;
 import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.Biome;
@@ -35,6 +36,7 @@ public class ShireBiome extends Biome {
 		DefaultBiomeFeatures.addOakTreesFlowersGrass(this);
 		DefaultBiomeFeatures.addBerryBushes(this);
 		ModOreGen.addModOres(this);
+		ModStructures.addStructure(this,ModStructures.HOBBIT_HOLE);
 		
 		
 		//this.addSpawn(EntityClassification.CREATURE, new SpawnListEntry(ModEntities.BADGER,100,1,5));

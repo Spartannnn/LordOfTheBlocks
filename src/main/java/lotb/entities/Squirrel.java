@@ -29,14 +29,12 @@ public class Squirrel extends AnimalEntity {
 	public AgeableEntity createChild(AgeableEntity ageable) {
 		return ModEntities.SQUIRREL.create(this.world);
 	}
-	@Override
-	protected void registerAttributes() {
+	@Override protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.235F);
 	}
-	@Override
-	protected void registerGoals() {
+	@Override protected void registerGoals() {
 		super.registerGoals();
 		this.goalSelector.addGoal(1, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new PanicGoal(this, 2.2D));

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 
+import com.mojang.brigadier.StringReader;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.datafixers.util.Pair;
 
 import lotb.entities.npc.AbstractNPCEntity;
@@ -12,6 +14,7 @@ import lotb.lore.Faction;
 import lotb.registries.ModBlocks;
 import lotb.world.structures.pieces.RohanFortCampPieces.Path;
 import net.minecraft.block.*;
+import net.minecraft.command.arguments.BlockStateParser;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.MobEntity;
@@ -21,30 +24,55 @@ import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.properties.StructureMode;
 import net.minecraft.tileentity.BarrelTileEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.ShipwreckPieces;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
+
+import javax.annotation.Nullable;
 
 public abstract class ModStructurePiece extends StructurePiece{
-	static final IStructurePieceType PIECE_TYPE 	= getRegistry();
-	protected static IStructurePieceType getRegistry() {
-		return IStructurePieceType.register(Path::new,"RFCP");
-	}
-	public ModStructurePiece(IStructurePieceType structurePierceTypeIn, int type) {
+	public ModStructurePiece(IStructurePieceType structurePierceTypeIn,int type) {
 		super(structurePierceTypeIn, type);
 	}
-	public ModStructurePiece(IStructurePieceType structurePierceTypeIn, CompoundNBT nbt) {
+	public ModStructurePiece(IStructurePieceType structurePierceTypeIn,CompoundNBT nbt) {
 		super(structurePierceTypeIn, nbt);
 	}
+
+	/*---------------------------------------------TEMPLATES-------------------------------------------------*/
+	public void placeTemplate(IWorld world, MutableBoundingBox box, Random rand, Template template, BlockPos templatePosition, PlacementSettings placeSettings) {
+		placeSettings.setBoundingBox(box);
+		template.getMutableBoundingBox(placeSettings, templatePosition);
+		if (template.addBlocksToWorld(world, templatePosition, placeSettings, 2))
+			for(Template.BlockInfo template$blockinfo : template.func_215381_a(templatePosition, placeSettings, Blocks.STRUCTURE_BLOCK))
+				if (template$blockinfo.nbt != null) {
+					StructureMode structuremode = StructureMode.valueOf(template$blockinfo.nbt.getString("mode"));
+					if (structuremode == StructureMode.DATA)
+						handleDataMarker(template$blockinfo.nbt.getString("metadata"), template$blockinfo.pos, world, rand, box);
+				}
+	}
+	public void placeTemplate(IWorld world, MutableBoundingBox box, Random rand, Template template, int x, int y, int z, PlacementSettings placeSettings) {
+		placeTemplate(world,box,rand,template,new BlockPos(x,y,z),placeSettings);
+	}
+	public void handleDataMarker(String function, BlockPos pos, IWorld worldIn, Random rand, MutableBoundingBox sbb){}
+
+
 	/*---------------------------------------------GENERATION-------------------------------------------------*/
 	public int getDepthAt(ChunkGenerator<?> _gen, int x, int z) {
 		return ( _gen.func_222529_a(getXWithOffset(x,z), getZWithOffset(x,z), Heightmap.Type.OCEAN_FLOOR_WG))-boundingBox.minY;
@@ -73,7 +101,8 @@ public abstract class ModStructurePiece extends StructurePiece{
 				for (int z = minz;z<=maxz;z++)
 					setBlockState(_world,block,x,y,z,box);
 	}
-	
+
+
 	/*---------------------------------------------PLACEMENTS-------------------------------------------------*/
 	public void placeRandomCake(IWorld world, MutableBoundingBox box, Random rand, int x, int y, int z) {
     	Block cake;
@@ -139,7 +168,8 @@ public abstract class ModStructurePiece extends StructurePiece{
 		ArmorStandEntity armourstand = new ArmorStandEntity(_world.getWorld(), getXWithOffset(x,z),getYWithOffset(y),getZWithOffset(x,z));
         _world.addEntity(armourstand);	
 	}
-	
+
+
 	/*----------------------------------------------ENTITIES--------------------------------------------------*/
 	protected void spawnEntity(IWorld _world, MutableBoundingBox box, EntityType<? extends MobEntity> entityType, int x1, int y1, int z1) {
 		int x = this.getXWithOffset(x1, z1);
@@ -161,10 +191,11 @@ public abstract class ModStructurePiece extends StructurePiece{
 		entity.onInitialSpawn(_world, _world.getDifficultyForLocation(new BlockPos(entity)), SpawnReason.STRUCTURE, (ILivingEntityData)null, (CompoundNBT)null);
 		_world.addEntity(entity);
 	}
-	
+
+
 	/*-------------------------------------------BLOCK-SELECTOR-------------------------------------------------*/
 	public static class RandomSelector extends StructurePiece.BlockSelector {
-		BlockState[] pallate;
+		protected BlockState[] pallate;
 		@SafeVarargs
 		public RandomSelector(Pair<Integer,BlockState>... blocks) {
 			List<BlockState> pallateList = new ArrayList<BlockState>();
@@ -177,6 +208,14 @@ public abstract class ModStructurePiece extends StructurePiece{
 		@Override
 		public void selectBlocks(Random rand, int x, int y, int z, boolean wall) {
 			this.blockstate = pallate[rand.nextInt(pallate.length)];
+		}
+	}
+	public static class NoisySelector extends RandomSelector {
+		int zoom;
+		@SafeVarargs
+		public NoisySelector(int _zoom, Pair<Integer,BlockState>... blocks) {
+			super(blocks);
+			zoom=_zoom;
 		}
 	}
 }

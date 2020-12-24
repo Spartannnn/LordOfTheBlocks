@@ -27,8 +27,7 @@ public class Deer extends AnimalEntity {
 		super(type, worldIn);
 	}
 
-	@Override
-	protected void registerGoals() {
+	@Override protected void registerGoals() {
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new HerdPanicGoal(this, 2.0D));
 		this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
@@ -41,16 +40,13 @@ public class Deer extends AnimalEntity {
 		this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0F));
 		this.goalSelector.addGoal(7, new LookRandomlyGoal(this));
-		//think about adding some panicky goals (run if nearby is hit, run from player)
 	}
 
-	@Override
-	public AgeableEntity createChild(AgeableEntity ageable) {
+	@Override public AgeableEntity createChild(AgeableEntity ageable) {
 		return ModEntities.DEER.create(this.world);
 	}
 
-	@Override
-	protected void registerAttributes() {
+	@Override protected void registerAttributes() {
 		super.registerAttributes();
 		this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
 		this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.235F);

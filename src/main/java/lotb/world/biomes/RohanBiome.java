@@ -36,7 +36,9 @@ public class RohanBiome extends Biome {
 		DefaultBiomeFeatures.addReedsAndPumpkins(this);
 		DefaultBiomeFeatures.addScatteredOakTrees(this);
 		ModOreGen.addModOres(this);
-		ModStructures.addStructure(this,ModStructures.ROHAN_FORT_CAMP);
+		ModStructures.addStructure(this, ModStructures.ROHAN_FORT_CAMP);
+		ModStructures.addStructure(this, ModStructures.ROHAN_BASTEON);
+		ModStructures.addStructure(this, ModStructures.ROHAN_VILLAGE);
 		
 		//addSpawn(EntityClassification.CREATURE, new SpawnListEntry(ModEntities.BADGER,100,1,5));
 	}
