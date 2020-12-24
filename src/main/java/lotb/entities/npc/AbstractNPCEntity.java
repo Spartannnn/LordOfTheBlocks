@@ -1,10 +1,7 @@
 package lotb.entities.npc;
 
-import com.google.common.collect.ImmutableList;
-import com.mojang.datafixers.Dynamic;
 import lotb.LotbMod;
-import lotb.entities.ai.ModMemories;
-import lotb.entities.ai.ModSensors;
+import lotb.entities.npc.message.NPCommunicationManager;
 import lotb.entities.npc.profesion.IProfession;
 import lotb.entities.npc.relationship.NPCRelationShipManager;
 import lotb.entities.npc.relationship.RelationShip;
@@ -18,9 +15,9 @@ import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.PanicGoal;
+import net.minecraft.entity.ai.goal.RandomWalkingGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -64,6 +61,10 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
     public boolean weildingOffHand;
     private NPCFoodManager foodManager;
     private NPCRelationShipManager npcRelationShipManager;
+
+    //ALPHA_VERSION NOT TESTED
+    private NPCommunicationManager npcCommunicationManager;
+
     private final String realName;
     private IProfession profession;
 
@@ -82,13 +83,10 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         Arrays.fill(this.inventoryHandsDropChances, this.equipmentDropChance);
         this.foodManager = new NPCFoodManager();
         this.npcRelationShipManager = new NPCRelationShipManager();
+        this.npcCommunicationManager = new NPCommunicationManager(this);
         this.realName = realName;
         //if (!worldIn.isRemote)
-          //  this.resetBrain((ServerWorld) worldIn);
-        //TODO removing later
-        this.npcInventory.clearInventory();
-        boolean b = this.npcInventory.addItem(new ItemStack(Items.WHITE_BED));
-        LotbMod.LOGGER.debug("Bed added? {}", b);
+        //  this.resetBrain((ServerWorld) worldIn);
         this.setCustomNameVisible(true);
     }
 
@@ -120,6 +118,9 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
 
     @Override
     protected void registerGoals() {
+        this.goalSelector.addGoal(0, new LookAtGoal(this, PlayerEntity.class, 10.0F));
+        this.goalSelector.addGoal(1, new RandomWalkingGoal(this, getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue()));
+        this.goalSelector.addGoal(2, new PanicGoal(this, getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getBaseValue()));
     }
 
     /*@Override
@@ -134,6 +135,10 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
 
     public NPCInventory getNpcInventory() {
         return npcInventory;
+    }
+
+    public NPCommunicationManager getNpcCommunicationManager() {
+        return npcCommunicationManager;
     }
 
     /*public void resetBrain(ServerWorld serverWorldIn) {
@@ -152,6 +157,10 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
         return profession.onRightClick(this, player.getHeldItem(hand), player, world) || super.processInteract(player, hand);
+    }
+
+    public NPCRelationShipManager getNpcRelationShipManager() {
+        return npcRelationShipManager;
     }
 
     @Override
@@ -231,6 +240,7 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         compound.putInt("NPCRelListType", list.getTagType());
         compound.putInt("Faction", this.faction.ordinal());
         this.foodManager.write(compound);
+        compound.put("CommunicationManager", this.npcCommunicationManager.write());
     }
 
     @Override
@@ -241,6 +251,7 @@ public class AbstractNPCEntity extends CreatureEntity implements INPC, IRangedAt
         this.npcRelationShipManager.setRelationShips(NPCRelationShipManager.read(compound.getList("NPCRelationShipToNPC", compound.getInt("NPCRelListType"))));
         this.faction = Faction.VALUES[compound.getInt("Faction")];
         this.foodManager.read(compound);
+        this.npcCommunicationManager.read(compound.getCompound("CommunicationManager"));
     }
 
     @Override

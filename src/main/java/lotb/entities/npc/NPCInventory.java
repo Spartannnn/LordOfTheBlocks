@@ -5,6 +5,7 @@ import lotb.util.Valid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.Tag;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.items.ItemStackHandler;
 
@@ -73,6 +74,10 @@ public class NPCInventory extends ItemStackHandler {
             return found.get();
         });
         return found.get();
+    }
+
+    public boolean contains(IItemProvider item) {
+        return this.contains(item.asItem().getDefaultInstance());
     }
 
     public boolean contains(ItemStack stack) {

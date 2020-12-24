@@ -6,6 +6,7 @@ import lotb.entities.npc.AbstractNPCEntity;
 import lotb.entities.npc.NPCFoodManager;
 import lotb.entities.npc.NPCInventory;
 import lotb.util.IndexedQueue;
+import net.minecraft.block.BedBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.GoalSelector;
@@ -13,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.state.properties.BedPart;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -36,8 +38,8 @@ public class KnightProfession extends AbstractProfession {
     private BlockPos currentPatrollingPos;
     @Nullable
     public BlockPos bedPos;
+    public BlockPos bedSecPos;
     public boolean needsBed = false;
-    public boolean needsFood = false;
     public boolean needsWeapon = false;
 
     public KnightProfession() {
@@ -84,13 +86,12 @@ public class KnightProfession extends AbstractProfession {
 
     @Override
     public void _tick(AbstractNPCEntity npc, World world) {
-        NPCFoodManager foodManager = npc.getFoodManager();
-        this.needsFood = foodManager.needFood();
         if (this.currentActivity == Activity.ACTION) {
             //this.patrol(npc);
-            this.placeBed(npc, world);
+            //this.placeBed(npc, world);
         }
     }
+
 
     private boolean hasBed(AbstractNPCEntity npc) {
         return npc.getNpcInventory().contains(ItemTags.BEDS);
@@ -106,24 +107,34 @@ public class KnightProfession extends AbstractProfession {
         bedStack.shrink(1);
         BlockPos.getAllInBox(npc.getPosition().add(-10, -10, -10), npc.getPosition().add(10, 10, 10))
                 .forEach(blockPos -> {
-                    if (world.isAirBlock(blockPos) && bedPos == null) {
-                        if (lookAroundForAir(world, blockPos)) {
-                            bedPos = blockPos;
+                    if (world.isAirBlock(blockPos) && bedPos == null && bedSecPos == null) {
+                        BlockPos bp0 = this.lookAroundForAir(world, blockPos);
+                        if(bp0 != null) {
+                            bedSecPos = bp0;
                         }
                     }
                 });
-        if (bedPos != null) {
-            world.setBlockState(bedPos, Blocks.WHITE_BED.getDefaultState(), 1);
+        if (bedPos != null && bedSecPos != null) {
+            world.setBlockState(bedPos, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT), 1);
+            world.setBlockState(bedSecPos, Blocks.WHITE_BED.getDefaultState().with(BedBlock.PART, BedPart.FOOT), 1);
         } else {
             LotbMod.LOGGER.debug("Tried to place bed, but no valid position found");
         }
 
     }
 
-    private boolean lookAroundForAir(World world, BlockPos pos) {
-        return world.isAirBlock(pos.add(1, 0, 0)) || world.isAirBlock(pos.add(-1, 0, 0))
-                || world.isAirBlock(pos.add(0, 0, 1)) || world.isAirBlock(pos.add(0, 0, -1));
+    private BlockPos lookAroundForAir(World world, BlockPos pos) {
+        if(world.isAirBlock(pos.add(1, 0, 0)))
+            return pos.add(1, 0, 0);
+        if(world.isAirBlock(pos.add(-1, 0, 0)))
+            return pos.add(-1, 0, 0);
+        if(world.isAirBlock(pos.add(0, 0, 1)))
+            return pos.add(0, 0, 1);
+        if(world.isAirBlock(pos.add(0, 0, -1)))
+            return pos.add(0, 0, -1);
+        return null;
     }
+
 
     private void patrol(AbstractNPCEntity npc) {
         if (this.prevPatrollingPos != this.currentPatrollingPos && this.currentPatrollingPos != null) {

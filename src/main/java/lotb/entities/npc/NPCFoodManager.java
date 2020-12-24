@@ -1,6 +1,5 @@
 package lotb.entities.npc;
 
-import net.minecraft.item.Food;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -27,12 +26,8 @@ public class NPCFoodManager {
         this.foodSaturationLevel = Math.min(this.foodSaturationLevel + (float) foodLevelIn * foodSaturationModifier * 2.0F, (float) this.foodLevel);
     }
 
-    public void consume(Item maybeFood, ItemStack stack) {
-        if (maybeFood.isFood()) {
-            Food food = maybeFood.getFood();
-            this.addStats(food.getHealing(), food.getSaturation());
-        }
-
+    public void consume(ItemStack food) {
+        this.foodLevel += food.getItem().getFood().getHealing();
     }
 
     public void tick(AbstractNPCEntity npc) {
