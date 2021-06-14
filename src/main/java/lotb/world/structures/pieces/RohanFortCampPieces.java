@@ -34,6 +34,7 @@ import net.minecraft.world.gen.feature.structure.IStructurePieceType;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.storage.loot.LootTables;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class RohanFortCampPieces {
 	public static final BlockState AIR = Blocks.AIR.getDefaultState();

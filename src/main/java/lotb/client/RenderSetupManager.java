@@ -59,5 +59,4 @@ public class RenderSetupManager {
     public static void initGuis() {
         ScreenManager.registerFactory(ModContainers.ROHAN_WORKBENCH, WorkBenchScreen::new);
     }
-
 }
